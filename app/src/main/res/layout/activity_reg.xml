@@ -36,6 +36,7 @@
                 android:textStyle="bold"
                 android:letterSpacing="0.18" />
 
+            <!-- TITLE -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -46,15 +47,17 @@
                 android:textStyle="bold"
                 android:gravity="center" />
 
+            <!-- SUBTITLE -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Let's get to know you."
+                android:text="Let's get to know you who you are and found what you need!"
                 android:textColor="#69758C"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 android:gravity="center" />
 
+            <!-- USER INTERFACE -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -88,6 +91,7 @@
                     android:textColorHint="#8792A8"
                     android:textSize="16sp" />
 
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -113,6 +117,7 @@
                     android:textColorHint="#8792A8"
                     android:textSize="16sp" />
 
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -137,6 +142,7 @@
                     android:textColor="#17213B"
                     android:textColorHint="#8792A8"
                     android:textSize="16sp" />
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -164,6 +170,7 @@
                     android:textColorHint="#8792A8"
                     android:textSize="16sp" />
 
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -188,6 +195,7 @@
                     android:textColor="#17213B"
                     android:textColorHint="#8792A8"
                     android:textSize="16sp" />
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -214,12 +222,41 @@
                     android:textColorHint="#8792A8"
                     android:textSize="16sp" />
 
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:labelFor="@+id/editPassword"
+                    android:text="Enter password"
+                    android:textColor="#17213B"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    />
+
+                <EditText
+                    android:id="@+id/editPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="6dp"
+                    android:autofillHints="password"
+                    android:backgroundTint="#CBD3E5"
+                    android:hint="Enter password here"
+                    android:inputType="textPassword"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
+                    android:textColor="#17213B"
+                    android:textColorHint="#8792A8"
+                    android:textSize="16sp" />
+
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="24dp"
                     android:background="#E8ECF4" />
+
 
                 <TextView
                     android:layout_width="wrap_content"

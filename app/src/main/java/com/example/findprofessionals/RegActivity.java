@@ -54,24 +54,27 @@ public class RegActivity extends AppCompatActivity {
     private Button btnRegister;
     private ProgressDialog progressDialog;
 
+    private Button btnBackToLogin;
+
     public void init() {
         editPassword = findViewById(R.id.editPassword);
         editPhone = findViewById(R.id.editPhone);
-        editAddress = findViewById(R.id.editEmail);
+        editAddress = findViewById(R.id.editAddress);
         editEmail = findViewById(R.id.editEmail);
         editLastName = findViewById(R.id.editLastName);
         editFirstName = findViewById(R.id.editFirstName);
         editBirthday = findViewById(R.id.editBirthday);
         radioGroupRole = findViewById(R.id.radioGroupRole);
         btnRegister = findViewById(R.id.btnRegister);
+        btnBackToLogin = findViewById(R.id.btnBackToLogin);
 
 
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH) + 1;
-        day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        editBirthday.setText(String.format("%d/%d/%d", day, month, year));
+//        calendar = Calendar.getInstance();
+//        year = calendar.get(Calendar.YEAR);
+//        month = calendar.get(Calendar.MONTH) + 1;
+//        day = calendar.get(Calendar.DAY_OF_MONTH);
+//
+//        editBirthday.setText(String.format("%d/%d/%d", day, month, year));
 
         isProfessional = false;
         imgDecodableString = "img.png";
@@ -122,7 +125,7 @@ public class RegActivity extends AppCompatActivity {
             return insets;
         });
 
-        init();
+        init(); // initial
 
 
 //todo        btnBirth.setOnClickListener(new View.OnClickListener() {
@@ -159,6 +162,7 @@ public class RegActivity extends AppCompatActivity {
         });
 
 
+//      Save the user's data
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -181,9 +185,19 @@ public class RegActivity extends AppCompatActivity {
                 });
 
             }
+
         });
 
 
+        // Navigate to login
+        btnBackToLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(RegActivity.this, LoginActivity.class));
+
+                finish();
+            }
+        });
 
         // ToDo: Add user img, change birth to dialog with selected data
     }

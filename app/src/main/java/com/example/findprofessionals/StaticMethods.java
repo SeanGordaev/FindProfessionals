@@ -6,6 +6,17 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class StaticMethods {
+    private static User user;
+
+    public static User getUser() {
+        return user;
+    }
+
+    public static void setUser(User user) {
+        StaticMethods.user = user;
+    }
+
+
     private static DatabaseReference get_db_reference(String tableName) {
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         return db.getReference(tableName);

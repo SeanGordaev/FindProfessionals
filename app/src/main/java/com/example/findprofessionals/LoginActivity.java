@@ -71,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         init();
+        StaticMethods.setUser(null);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F7FC"
+    tools:context=".SetImageActivity">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="28dp"
+            android:gravity="center_horizontal">
+
+            <!-- TITLE -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="ONE LAST STEP"
+                android:textColor="#536DFE"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.15" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Complete your profile"
+                android:textColor="#17213B"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Add a photo and tell us about yourself."
+                android:textColor="#69758C"
+                android:textSize="14sp"
+                android:gravity="center" />
+
+            <!-- PROFILE IMAGE -->
+
+            <ImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="36dp"
+                android:background="@drawable/bg_profile"
+                android:padding="28dp"
+                android:src="@android:drawable/ic_menu_myplaces"
+                android:scaleType="centerCrop"
+                android:contentDescription="Profile image"
+                app:tint="#8792A8" />
+
+            <!-- IMAGE BUTTON -->
+
+            <Button
+                android:id="@+id/btnChooseImage"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="#536DFE"
+                android:text="Choose profile picture"
+                android:textColor="#FFFFFF"
+                android:textAllCaps="false"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <!-- GENDER TITLE -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:text="Your gender"
+                android:textColor="#17213B"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- GENDER SELECTION -->
+
+            <RadioGroup
+                android:id="@+id/radioGroupGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/radioMale"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@drawable/bg_gender"
+                    android:buttonTint="#536DFE"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="Male"
+                    android:textColor="#17213B"
+                    android:textSize="15sp" />
+
+                <RadioButton
+                    android:id="@+id/radioFemale"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_gender"
+                    android:buttonTint="#536DFE"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="Female"
+                    android:textColor="#17213B"
+                    android:textSize="15sp" />
+
+            </RadioGroup>
+
+            <!-- CONTINUE -->
+
+            <Button
+                android:id="@+id/btnFinisReg"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="36dp"
+                android:backgroundTint="#536DFE"
+                android:text="Done"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

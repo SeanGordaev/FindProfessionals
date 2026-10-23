@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
@@ -25,13 +26,18 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Firebase;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.time.Year;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class RegActivity extends AppCompatActivity {
 
@@ -68,43 +74,35 @@ public class RegActivity extends AppCompatActivity {
         btnRegister = findViewById(R.id.btnRegister);
         btnBackToLogin = findViewById(R.id.btnBackToLogin);
 
-
-//        calendar = Calendar.getInstance();
-//        year = calendar.get(Calendar.YEAR);
-//        month = calendar.get(Calendar.MONTH) + 1;
-//        day = calendar.get(Calendar.DAY_OF_MONTH);
-//
-//        editBirthday.setText(String.format("%d/%d/%d", day, month, year));
-
         isProfessional = false;
         imgDecodableString = "img.png";
 
 
         // for user-image
-        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-        result ->
-        {
-            if (result.getResultCode() == RESULT_OK)
-            {
-                selectedImageUri = result.getData().getData();
-                imgProf.setImageURI(selectedImageUri);
-
-                String[] filePathColumn={ MediaStore.Images.Media.DATA };
-
-                // Get the cursor
-                Cursor cursor = getContentResolver().query(selectedImageUri, filePathColumn, null, null, null);
-
-                // Move to first row
-                cursor.moveToFirst();
-
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-
-                // String imgDecodableString contains the path of selected Image
-                imgDecodableString = cursor.getString(columnIndex).substring(cursor.getString(columnIndex).lastIndexOf("/")+1);
-
-                cursor.close();
-            }
-        });
+//        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+//        result ->
+//        {
+//            if (result.getResultCode() == RESULT_OK)
+//            {
+//                selectedImageUri = result.getData().getData();
+//                imgProf.setImageURI(selectedImageUri);
+//
+//                String[] filePathColumn={ MediaStore.Images.Media.DATA };
+//
+//                // Get the cursor
+//                Cursor cursor = getContentResolver().query(selectedImageUri, filePathColumn, null, null, null);
+//
+//                // Move to first row
+//                cursor.moveToFirst();
+//
+//                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//
+//                // String imgDecodableString contains the path of selected Image
+//                imgDecodableString = cursor.getString(columnIndex).substring(cursor.getString(columnIndex).lastIndexOf("/")+1);
+//
+//                cursor.close();
+//            }
+//        });
 
 
 
@@ -128,16 +126,32 @@ public class RegActivity extends AppCompatActivity {
         init(); // initial
 
 
-//todo        btnBirth.setOnClickListener(new View.OnClickListener() {
-//           public void OnClick(View view) {
-//               DatePickerDialog datePickerDialog = new DatePickerDialog(RegActivity.this,
-//                       (view1, year, month, dayOfMonth) ->
-//                       {
-//                           btnBirth.setText(String.format("%d/%d/%d", dayOfMonth, month + 1, year));
-//                       }, year, month, day);
-//               datePickerDialog.show();
-//           }
-//        });
+        editBirthday.setOnClickListener(v -> {
+            Calendar today = Calendar.getInstance();
+
+            DatePickerDialog dialog = new DatePickerDialog(
+                    this,
+                    (view, year, month, dayOfMonth) -> {
+                        String date = String.format(
+                                Locale.getDefault(),
+                                "%02d/%02d/%04d",
+                                dayOfMonth,
+                                month + 1,
+                                year
+                        );
+                        editBirthday.setText(date);
+                    },
+                    today.get(Calendar.YEAR) - 18,
+                    today.get(Calendar.MONTH + 1),
+                    today.get(Calendar.DAY_OF_MONTH)
+            );
+
+            dialog.getDatePicker().setMaxDate(
+                    System.currentTimeMillis()
+            );
+
+            dialog.show();
+        });
 
 
         radioGroupRole.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -153,13 +167,13 @@ public class RegActivity extends AppCompatActivity {
         });
 
 
-        imgProf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                launcher.launch(intent);
-            }
-        });
+//        imgProf.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                launcher.launch(intent);
+//            }
+//        });
 
 
 //      Save the user's data
@@ -172,9 +186,17 @@ public class RegActivity extends AppCompatActivity {
                 String firstName = editFirstName.getText().toString();
                 String lastName = editLastName.getText().toString();
                 String email = editEmail.getText().toString();
-                String adress = editAddress.getText().toString();
+                String address = editAddress.getText().toString();
                 String phone = editPhone.getText().toString();
                 String password = editPassword.getText().toString();
+
+                User user = new User();
+                user.setName(firstName);
+                user.setLastName(lastName);
+                user.setEmail(email);
+                user.setAddress(address);
+                user.setPhone(phone);
+                // there is passowrd
 
                 FirebaseAuth auth = FirebaseAuth.getInstance();
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -186,6 +208,61 @@ public class RegActivity extends AppCompatActivity {
 
             }
 
+        });
+
+
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialog.show();
+
+                String firstName = editFirstName.getText().toString();
+                String lastName = editLastName.getText().toString();
+                String email = editEmail.getText().toString();
+                String address = editAddress.getText().toString();
+                String phone = editPhone.getText().toString();
+                String password = editPassword.getText().toString();
+                String birthday = editBirthday.getText().toString();
+
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.dismiss();
+                        if(task.isSuccessful())
+                        {
+                            String uid = auth.getCurrentUser().getUid();
+                            User user = new User(email, firstName, lastName, address, isProfessional, phone, birthday, uid);
+                            StaticMethods.setUser(user);
+
+                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+                            ref.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    progressDialog.dismiss();
+                                    if(task.isSuccessful())
+                                    {
+                                        Toast.makeText(RegActivity.this, "Your data has been saved!!", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(RegActivity.this,SetImageActivity.class));
+                                        finish();
+                                    }
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    progressDialog.dismiss();
+
+                                    Toast.makeText(RegActivity.this, "Something goes wrong: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
+
+                        }
+                    }
+                });
+            }
         });
 
 

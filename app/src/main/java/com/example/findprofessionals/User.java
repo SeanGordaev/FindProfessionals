@@ -1,16 +1,28 @@
 package com.example.findprofessionals;
 
+import android.media.Image;
+
 public class User {
     private String email;
     private String name;
     private String lastName;
     private String address;
     private String picture;
-    private String status;
-    private String gender;
+    private boolean status;
+    private boolean gender;
     private String phone;
     private String birthday;
-    private String code;
+    private String UID;
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    private Image image;
 
     public String getAddress() {
         return address;
@@ -28,12 +40,12 @@ public class User {
         this.birthday = birthday;
     }
 
-    public String getCode() {
-        return code;
+    public String getUID() {
+        return UID;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setUID(String uid) {
+        this.UID = uid;
     }
 
     public String getEmail() {
@@ -44,17 +56,15 @@ public class User {
         this.email = email;
     }
 
-    public String getGender() {
+    public boolean getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(boolean gender) {
         this.gender = gender;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
+    public String getLastName() { return lastName; }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
@@ -85,11 +95,11 @@ public class User {
         this.picture = picture;
     }
 
-    public String getStatus() {
+    public boolean getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 
@@ -98,16 +108,14 @@ public class User {
 
     }
 
-    public User(String email, String name, String lastName, String address, String picture, String status, String gender, String phone, String birthday, String code) {
+    public User(String email, String name, String lastName, String address, boolean status, String phone, String birthday, String UID) {
         this.email = email;
         this.name = name;
         this.lastName = lastName;
         this.address = address;
-        this.picture = picture;
         this.status = status;
-        this.gender = gender;
         this.phone = phone;
         this.birthday = birthday;
-        this.code = code;
+        this.UID = UID;
     }
 }

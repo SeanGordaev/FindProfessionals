@@ -43,21 +43,14 @@ public class RegActivity extends AppCompatActivity {
 
     private EditText editFirstName, editLastName, editEmail, editAddress, editPhone, editPassword;
 
-    private Calendar calendar;
     private EditText editBirthday;
-    private int year, month, day;
 
     private boolean isProfessional;
-
-    private ImageButton imgProf;
-    private ActivityResultLauncher<Intent> launcher;
-    private Uri selectedImageUri;
-    private String imgDecodableString;
 
 
     private RadioGroup radioGroupRole;
 
-    private Button btnRegister;
+    private Button btnContinue;
     private ProgressDialog progressDialog;
 
     private Button btnBackToLogin;
@@ -71,40 +64,10 @@ public class RegActivity extends AppCompatActivity {
         editFirstName = findViewById(R.id.editFirstName);
         editBirthday = findViewById(R.id.editBirthday);
         radioGroupRole = findViewById(R.id.radioGroupRole);
-        btnRegister = findViewById(R.id.btnRegister);
+        btnContinue = findViewById(R.id.btnContinue);
         btnBackToLogin = findViewById(R.id.btnBackToLogin);
 
         isProfessional = false;
-        imgDecodableString = "img.png";
-
-
-        // for user-image
-//        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-//        result ->
-//        {
-//            if (result.getResultCode() == RESULT_OK)
-//            {
-//                selectedImageUri = result.getData().getData();
-//                imgProf.setImageURI(selectedImageUri);
-//
-//                String[] filePathColumn={ MediaStore.Images.Media.DATA };
-//
-//                // Get the cursor
-//                Cursor cursor = getContentResolver().query(selectedImageUri, filePathColumn, null, null, null);
-//
-//                // Move to first row
-//                cursor.moveToFirst();
-//
-//                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//
-//                // String imgDecodableString contains the path of selected Image
-//                imgDecodableString = cursor.getString(columnIndex).substring(cursor.getString(columnIndex).lastIndexOf("/")+1);
-//
-//                cursor.close();
-//            }
-//        });
-
-
 
         //Create ProgressDialog
         progressDialog = new ProgressDialog(RegActivity.this);
@@ -125,7 +88,7 @@ public class RegActivity extends AppCompatActivity {
 
         init(); // initial
 
-
+        // Selected user's birthday
         editBirthday.setOnClickListener(v -> {
             Calendar today = Calendar.getInstance();
 
@@ -153,7 +116,7 @@ public class RegActivity extends AppCompatActivity {
             dialog.show();
         });
 
-
+        // Selected if user is professional or client
         radioGroupRole.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(@NonNull RadioGroup radioGroup, int i) {
@@ -166,52 +129,8 @@ public class RegActivity extends AppCompatActivity {
             }
         });
 
-
-//        imgProf.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                launcher.launch(intent);
-//            }
-//        });
-
-
-//      Save the user's data
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                progressDialog.show();
-
-
-                String firstName = editFirstName.getText().toString();
-                String lastName = editLastName.getText().toString();
-                String email = editEmail.getText().toString();
-                String address = editAddress.getText().toString();
-                String phone = editPhone.getText().toString();
-                String password = editPassword.getText().toString();
-
-                User user = new User();
-                user.setName(firstName);
-                user.setLastName(lastName);
-                user.setEmail(email);
-                user.setAddress(address);
-                user.setPhone(phone);
-                // there is passowrd
-
-                FirebaseAuth auth = FirebaseAuth.getInstance();
-                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressDialog.dismiss();
-                    }
-                });
-
-            }
-
-        });
-
-
-        btnRegister.setOnClickListener(new View.OnClickListener() {
+        // Save the user's data
+        btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 progressDialog.show();
@@ -253,7 +172,7 @@ public class RegActivity extends AppCompatActivity {
                                 public void onFailure(@NonNull Exception e) {
                                     progressDialog.dismiss();
 
-                                    Toast.makeText(RegActivity.this, "Something goes wrong: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegActivity.this, "Something goes wrong: " + e.getMessage(), Toast.LENGTH_LONG).show();
                                 }
                             });
 
@@ -276,6 +195,5 @@ public class RegActivity extends AppCompatActivity {
             }
         });
 
-        // ToDo: Add user img, change birth to dialog with selected data
     }
 }

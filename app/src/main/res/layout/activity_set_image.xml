@@ -58,17 +58,25 @@
 
             <!-- PROFILE IMAGE -->
 
-            <ImageView
+<!--            <ImageView-->
+<!--                android:id="@+id/imgProfile"-->
+<!--                android:layout_width="120dp"-->
+<!--                android:layout_height="120dp"-->
+<!--                android:layout_marginTop="36dp"-->
+<!--                android:background="@drawable/bg_profile"-->
+<!--                android:padding="28dp"-->
+<!--                android:src="@android:drawable/base_img"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                android:contentDescription="Profile image"-->
+<!--                app:tint="#8792A8" />-->
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgProfile"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginTop="36dp"
-                android:background="@drawable/bg_profile"
-                android:padding="28dp"
-                android:src="@android:drawable/ic_menu_myplaces"
-                android:scaleType="centerCrop"
-                android:contentDescription="Profile image"
-                app:tint="#8792A8" />
+                android:layout_width="126dp"
+                android:layout_height="126dp"
+                android:padding="1dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="12dp"
+                android:src="@drawable/base_img"/>
 
             <!-- IMAGE BUTTON -->
 

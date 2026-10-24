@@ -1,6 +1,7 @@
 package com.example.findprofessionals;
 
 import android.media.Image;
+import android.net.Uri;
 
 public class User {
     private String email;
@@ -14,15 +15,15 @@ public class User {
     private String birthday;
     private String UID;
 
-    public Image getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Image image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
-    private Image image;
+    private String image;
 
     public String getAddress() {
         return address;

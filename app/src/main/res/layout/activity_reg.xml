@@ -175,7 +175,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:labelFor="@id/editBirthday"
                     android:text="Date of birth"
                     android:textColor="#17213B"
                     android:textSize="14sp"

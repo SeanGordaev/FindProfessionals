@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void SaveClientData(String uid) {
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        FirebaseDatabase db = DbHelper.get();
         DatabaseReference ref = db.getReference("Users");
         ref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

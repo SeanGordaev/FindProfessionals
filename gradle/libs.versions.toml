@@ -20,6 +20,7 @@ firebaseStorage = "22.0.2"
 
 circleimageview = "3.1.0"
 gridlayout = "1.1.0"
+materialVersion = "1.11.0"
 
 [libraries]
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
@@ -40,6 +41,7 @@ firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
 gridlayout = { group = "androidx.gridlayout", name = "gridlayout", version.ref = "gridlayout" }
+material-v1110 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

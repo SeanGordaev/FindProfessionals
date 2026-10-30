@@ -42,6 +42,7 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.firebase.storage)
     implementation(libs.googleid)
+    implementation(libs.gridlayout)
     implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.espresso.core)
@@ -53,4 +54,6 @@ dependencies {
     //Show Images
     implementation (libs.glide)
     annotationProcessor (libs.compiler)
+
+    implementation(libs.material.v1110)
 }

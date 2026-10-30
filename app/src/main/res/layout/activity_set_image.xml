@@ -13,6 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
+        android:clipToPadding="false"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,15 +23,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="28dp"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:padding="24dp">
 
-            <!-- TITLE -->
+            <!-- HEADER -->
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="20dp"
                 android:text="ONE LAST STEP"
                 android:textColor="#536DFE"
                 android:textSize="12sp"
@@ -40,7 +41,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="10dp"
                 android:text="Complete your profile"
                 android:textColor="#17213B"
                 android:textSize="28sp"
@@ -51,106 +52,224 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Add a photo and tell us about yourself."
+                android:text="Add a photo and tell us a little about yourself."
                 android:textColor="#69758C"
                 android:textSize="14sp"
                 android:gravity="center" />
 
-            <!-- PROFILE IMAGE -->
+            <!-- PROFILE PHOTO CARD -->
 
-<!--            <ImageView-->
-<!--                android:id="@+id/imgProfile"-->
-<!--                android:layout_width="120dp"-->
-<!--                android:layout_height="120dp"-->
-<!--                android:layout_marginTop="36dp"-->
-<!--                android:background="@drawable/bg_profile"-->
-<!--                android:padding="28dp"-->
-<!--                android:src="@android:drawable/base_img"-->
-<!--                android:scaleType="centerCrop"-->
-<!--                android:contentDescription="Profile image"-->
-<!--                app:tint="#8792A8" />-->
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imgProfile"
-                android:layout_width="126dp"
-                android:layout_height="126dp"
-                android:padding="1dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:layout_marginBottom="12dp"
-                android:src="@drawable/base_img"/>
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:background="#FFFFFF"
+                android:elevation="3dp"
+                android:padding="24dp">
 
-            <!-- IMAGE BUTTON -->
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imgProfile"
+                    android:layout_width="126dp"
+                    android:layout_height="126dp"
+                    android:src="@drawable/base_img"
+                    android:scaleType="centerCrop" />
 
-            <Button
-                android:id="@+id/btnChooseImage"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="Profile picture"
+                    android:textColor="#17213B"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Choose a photo that represents you."
+                    android:textColor="#8792A8"
+                    android:textSize="13sp" />
+
+                <Button
+                    android:id="@+id/btnChooseImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="18dp"
+                    android:backgroundTint="#536DFE"
+                    android:text="Choose profile picture"
+                    android:textColor="#FFFFFF"
+                    android:textAllCaps="false"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- GENDER SECTION -->
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:backgroundTint="#536DFE"
-                android:text="Choose profile picture"
-                android:textColor="#FFFFFF"
-                android:textAllCaps="false"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:elevation="3dp"
+                android:padding="20dp">
 
-            <!-- GENDER TITLE -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Your gender"
+                    android:textColor="#17213B"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
 
-            <TextView
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Select your gender."
+                    android:textColor="#8792A8"
+                    android:textSize="13sp" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroupGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/radioMale"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_gender"
+                        android:buttonTint="#536DFE"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:text="Male"
+                        android:textColor="#17213B"
+                        android:textSize="15sp" />
+
+                    <RadioButton
+                        android:id="@+id/radioFemale"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_gender"
+                        android:buttonTint="#536DFE"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:text="Female"
+                        android:textColor="#17213B"
+                        android:textSize="15sp" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <!-- PROFESSIONAL DETAILS -->
+
+            <LinearLayout
+                android:id="@+id/professionalFields"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="36dp"
-                android:text="Your gender"
-                android:textColor="#17213B"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:elevation="3dp"
+                android:padding="20dp"
+                android:visibility="gone">
 
-            <!-- GENDER SELECTION -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Professional details"
+                    android:textColor="#17213B"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
 
-            <RadioGroup
-                android:id="@+id/radioGroupGender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Help potential clients learn more about your work."
+                    android:textColor="#8792A8"
+                    android:textSize="13sp" />
 
-                <RadioButton
-                    android:id="@+id/radioMale"
+                <!-- DESCRIPTION -->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:text="About your work"
+                    android:textColor="#17213B"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/editDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="#CBD3E5"
+                    android:gravity="top|start"
+                    android:hint="Describe your skills, services and experience..."
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:maxLength="1000"
+                    android:maxLines="6"
+                    android:padding="12dp"
+                    android:textColor="#17213B"
+                    android:textColorHint="#8792A8"
+                    android:textSize="14sp" />
+
+                <!-- START DATE -->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:text="Professional experience since"
+                    android:textColor="#17213B"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/editStartDate"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:background="@drawable/bg_gender"
-                    android:buttonTint="#536DFE"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:text="Male"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="#CBD3E5"
+                    android:hint="DD/MM/YYYY"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:drawableEnd="@android:drawable/ic_menu_my_calendar"
+                    android:drawableTint="#536DFE"
+                    android:paddingEnd="12dp"
                     android:textColor="#17213B"
-                    android:textSize="15sp" />
+                    android:textColorHint="#8792A8"
+                    android:textSize="16sp" />
 
-                <RadioButton
-                    android:id="@+id/radioFemale"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/bg_gender"
-                    android:buttonTint="#536DFE"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:text="Female"
-                    android:textColor="#17213B"
-                    android:textSize="15sp" />
+            </LinearLayout>
 
-            </RadioGroup>
-
-            <!-- CONTINUE -->
+            <!-- FINISH BUTTON -->
 
             <Button
                 android:id="@+id/btnFinisReg"
                 android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:layout_marginTop="36dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="24dp"
                 android:backgroundTint="#536DFE"
-                android:text="Done"
+                android:text="Complete registration"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
-                android:textSize="28sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
         </LinearLayout>

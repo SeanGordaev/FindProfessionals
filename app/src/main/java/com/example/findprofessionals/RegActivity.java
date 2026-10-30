@@ -55,7 +55,7 @@ public class RegActivity extends AppCompatActivity {
 
     private Button btnBackToLogin;
 
-    public void init() {
+    public void Init() {
         editPassword = findViewById(R.id.editPassword);
         editPhone = findViewById(R.id.editPhone);
         editAddress = findViewById(R.id.editAddress);
@@ -74,60 +74,18 @@ public class RegActivity extends AppCompatActivity {
         progressDialog.setMessage("Please Wait...");
         progressDialog.setCancelable(false);
     }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_reg);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
-        init(); // initial
-
-        // Selected user's birthday
-        editBirthday.setOnClickListener(v -> {
-            Calendar today = Calendar.getInstance();
-
-            DatePickerDialog dialog = new DatePickerDialog(
-                    this,
-                    (view, year, month, dayOfMonth) -> {
-                        String date = String.format(
-                                Locale.getDefault(),
-                                "%02d/%02d/%04d",
-                                dayOfMonth,
-                                month + 1,
-                                year
-                        );
-                        editBirthday.setText(date);
-                    },
-                    today.get(Calendar.YEAR) - 18,
-                    today.get(Calendar.MONTH + 1),
-                    today.get(Calendar.DAY_OF_MONTH)
-            );
-
-            dialog.getDatePicker().setMaxDate(
-                    System.currentTimeMillis()
-            );
-
-            dialog.show();
-        });
-
-        // Selected if user is professional or client
-        radioGroupRole.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+    private void cameBackToLogin() {
+        // Navigate to login
+        btnBackToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(@NonNull RadioGroup radioGroup, int i) {
-                if (i == R.id.radioCustomer) {
-                    isProfessional = false;
-                }
-                if (i == R.id.radioProfessional) {
-                    isProfessional = true;
-                }
+            public void onClick(View view) {
+                startActivity(new Intent(RegActivity.this, LoginActivity.class));
+
+                finish();
             }
         });
+    }
+    private void nextStep() {
 
         // Save the user's data
         btnContinue.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +112,7 @@ public class RegActivity extends AppCompatActivity {
                             User user = new User(email, firstName, lastName, address, isProfessional, phone, birthday, uid);
                             StaticMethods.setUser(user);
 
-                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+                            DatabaseReference ref = DbHelper.get().getReference("Users");
                             ref.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -183,17 +141,57 @@ public class RegActivity extends AppCompatActivity {
                 });
             }
         });
-
-
-        // Navigate to login
-        btnBackToLogin.setOnClickListener(new View.OnClickListener() {
+    }
+    private void choiceUserType() {
+        // Selected if user is professional or client
+        radioGroupRole.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                startActivity(new Intent(RegActivity.this, LoginActivity.class));
-
-                finish();
+            public void onCheckedChanged(@NonNull RadioGroup radioGroup, int i) {
+                if (i == R.id.radioCustomer) {
+                    isProfessional = false;
+                }
+                if (i == R.id.radioProfessional) {
+                    isProfessional = true;
+                }
             }
         });
+    }
+    private void setBirthday() {
+        // Selected user's birthday
+        editBirthday.setOnClickListener(v -> {
+            Calendar today = Calendar.getInstance();
+            DatePickerDialog dialog = new DatePickerDialog(
+                    RegActivity.this,
+                    android.R.style.Theme_DeviceDefault_Light_Dialog,
+                    (view, year, month, dayOfMonth) -> {
+                        editBirthday.setText(String.format(Locale.getDefault(),
+                                "%02d/%02d/%04d", dayOfMonth, month + 1, year));
+                    },
+                    today.get(Calendar.YEAR) - 18,
+                    today.get(Calendar.MONTH),
+                    today.get(Calendar.DAY_OF_MONTH)
+            );
+            dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+            dialog.show();
+        });
+    }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_reg);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        Init(); // initial
+
+        setBirthday();
+        choiceUserType();
+        nextStep();
+        cameBackToLogin();
     }
 }

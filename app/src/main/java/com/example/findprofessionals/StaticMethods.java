@@ -16,14 +16,4 @@ public class StaticMethods {
         StaticMethods.user = user;
     }
 
-
-    private static DatabaseReference get_db_reference(String tableName) {
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
-        return db.getReference(tableName);
-    }
-
-    public static StorageReference get_storage_reference(String path) {
-        return FirebaseStorage.getInstance().getReference(path);
-    }
-
 }

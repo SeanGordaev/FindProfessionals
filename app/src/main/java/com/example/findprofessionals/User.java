@@ -14,16 +14,44 @@ public class User {
     private String phone;
     private String birthday;
     private String UID;
+    private String description;
+    private int score;
+    private String dataStartOfJob;
 
-    public String getImage() {
-        return image;
+    public String getDataStartOfJob() {
+        return dataStartOfJob;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setDataStartOfJob(String dataStartOfJob) {
+        this.dataStartOfJob = dataStartOfJob;
     }
 
-    private String image;
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+//    public String getImage() {
+//        return image;
+//    }
+
+//    public void setImage(String image) {
+//        this.image = image;
+//    }
+
+//    private String image;
+
 
     public String getAddress() {
         return address;
@@ -61,8 +89,8 @@ public class User {
         return gender;
     }
 
-    public void setGender(boolean gender) {
-        this.gender = gender;
+    public void setGender(boolean isMale) {
+        this.gender = isMale;
     }
 
     public String getLastName() { return lastName; }

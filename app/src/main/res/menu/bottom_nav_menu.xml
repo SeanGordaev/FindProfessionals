@@ -4,5 +4,9 @@
         android:id="@+id/navigation_Logout"
         android:icon="@drawable/ic_logout"
         android:title="Logout" />
+    <item
+        android:id="@+id/navigation_come_back"
+        android:icon="@drawable/ic_come_back"
+        android:title="Come Back" />
 
 </menu>

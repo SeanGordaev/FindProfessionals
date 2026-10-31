@@ -36,7 +36,7 @@
                 android:textColor="#536DFE"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                android:letterSpacing="0.15" />
+                android:letterSpacing="0.15"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -46,7 +46,7 @@
                 android:textColor="#17213B"
                 android:textSize="28sp"
                 android:textStyle="bold"
-                android:gravity="center" />
+                android:gravity="center"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -55,222 +55,324 @@
                 android:text="Add a photo and tell us a little about yourself."
                 android:textColor="#69758C"
                 android:textSize="14sp"
-                android:gravity="center" />
+                android:gravity="center"/>
 
             <!-- PROFILE PHOTO CARD -->
 
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:background="#FFFFFF"
-                android:elevation="3dp"
-                android:padding="24dp">
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="3dp"
+                app:strokeColor="#ECEAF5"
+                app:strokeWidth="1dp">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imgProfile"
-                    android:layout_width="126dp"
-                    android:layout_height="126dp"
-                    android:src="@drawable/base_img"
-                    android:scaleType="centerCrop" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    android:text="Profile picture"
-                    android:textColor="#17213B"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Choose a photo that represents you."
-                    android:textColor="#8792A8"
-                    android:textSize="13sp" />
-
-                <Button
-                    android:id="@+id/btnChooseImage"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:layout_marginTop="18dp"
-                    android:backgroundTint="#536DFE"
-                    android:text="Choose profile picture"
-                    android:textColor="#FFFFFF"
-                    android:textAllCaps="false"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:padding="24dp">
 
-            </LinearLayout>
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/imgProfile"
+                        android:layout_width="126dp"
+                        android:layout_height="126dp"
+                        android:src="@drawable/base_img"
+                        android:scaleType="centerCrop"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="Profile picture"
+                        android:textColor="#17213B"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Choose a photo that represents you."
+                        android:textColor="#8792A8"
+                        android:textSize="13sp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnChooseImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="18dp"
+                        android:text="Choose profile picture"
+                        android:textColor="#FFFFFF"
+                        android:textAllCaps="false"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="#536DFE"
+                        app:cornerRadius="12dp"/>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- GENDER SECTION -->
 
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:orientation="vertical"
-                android:background="#FFFFFF"
-                android:elevation="3dp"
-                android:padding="20dp">
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="3dp"
+                app:strokeColor="#ECEAF5"
+                app:strokeWidth="1dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Your gender"
-                    android:textColor="#17213B"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="Select your gender."
-                    android:textColor="#8792A8"
-                    android:textSize="13sp" />
-
-                <RadioGroup
-                    android:id="@+id/radioGroupGender"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    android:orientation="vertical">
-
-                    <RadioButton
-                        android:id="@+id/radioMale"
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/bg_gender"
-                        android:buttonTint="#536DFE"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:text="Male"
+                        android:layout_height="wrap_content"
+                        android:text="Your gender"
                         android:textColor="#17213B"
-                        android:textSize="15sp" />
+                        android:textSize="17sp"
+                        android:textStyle="bold"/>
 
-                    <RadioButton
-                        android:id="@+id/radioFemale"
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/bg_gender"
-                        android:buttonTint="#536DFE"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:text="Female"
-                        android:textColor="#17213B"
-                        android:textSize="15sp" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Select your gender."
+                        android:textColor="#8792A8"
+                        android:textSize="13sp"/>
 
-                </RadioGroup>
+                    <RadioGroup
+                        android:id="@+id/radioGroupGender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:orientation="vertical">
 
-            </LinearLayout>
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/radioMale"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:background="@drawable/bg_gender"
+                            android:buttonTint="#536DFE"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:text="Male"
+                            android:textColor="#17213B"
+                            android:textSize="15sp"/>
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/radioFemale"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/bg_gender"
+                            android:buttonTint="#536DFE"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:text="Female"
+                            android:textColor="#17213B"
+                            android:textSize="15sp"/>
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- PROFESSIONAL DETAILS -->
 
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/professionalFields"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:orientation="vertical"
-                android:background="#FFFFFF"
-                android:elevation="3dp"
-                android:padding="20dp"
-                android:visibility="gone">
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="3dp"
+                app:strokeColor="#ECEAF5"
+                app:strokeWidth="1dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Professional details"
-                    android:textColor="#17213B"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="Help potential clients learn more about your work."
-                    android:textColor="#8792A8"
-                    android:textSize="13sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Professional details"
+                        android:textColor="#17213B"
+                        android:textSize="17sp"
+                        android:textStyle="bold"/>
 
-                <!-- DESCRIPTION -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Help potential clients learn more about your work."
+                        android:textColor="#8792A8"
+                        android:textSize="13sp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="22dp"
-                    android:text="About your work"
-                    android:textColor="#17213B"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    <!-- PROFESSIONAL TAGS -->
 
-                <EditText
-                    android:id="@+id/editDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="130dp"
-                    android:layout_marginTop="8dp"
-                    android:backgroundTint="#CBD3E5"
-                    android:gravity="top|start"
-                    android:hint="Describe your skills, services and experience..."
-                    android:inputType="textCapSentences|textMultiLine"
-                    android:maxLength="1000"
-                    android:maxLines="6"
-                    android:padding="12dp"
-                    android:textColor="#17213B"
-                    android:textColorHint="#8792A8"
-                    android:textSize="14sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:text="Skills &amp; Tags"
+                        android:textColor="#17213B"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
 
-                <!-- START DATE -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Add keywords that describe your skills and services. Separate them with commas."
+                        android:textColor="#8792A8"
+                        android:textSize="13sp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="22dp"
-                    android:text="Professional experience since"
-                    android:textColor="#17213B"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:boxBackgroundMode="outline"
+                        app:boxBackgroundColor="#FFFFFF"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxStrokeColor="#536DFE"
+                        app:hintEnabled="false">
 
-                <EditText
-                    android:id="@+id/editStartDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="8dp"
-                    android:backgroundTint="#CBD3E5"
-                    android:hint="DD/MM/YYYY"
-                    android:inputType="none"
-                    android:focusable="false"
-                    android:clickable="true"
-                    android:cursorVisible="false"
-                    android:drawableEnd="@android:drawable/ic_menu_my_calendar"
-                    android:drawableTint="#536DFE"
-                    android:paddingEnd="12dp"
-                    android:textColor="#17213B"
-                    android:textColorHint="#8792A8"
-                    android:textSize="16sp" />
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/editTags"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="e.g. Plumbing, Electrical, Installation..."
+                            android:inputType="textCapWords"
+                            android:completionThreshold="0"
+                            android:maxLength="500"
+                            android:padding="12dp"
+                            android:textColor="#17213B"
+                            android:textColorHint="#8792A8"
+                            android:textSize="14sp"/>
 
-            </LinearLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- DESCRIPTION -->
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:text="About your work"
+                        android:textColor="#17213B"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:boxBackgroundMode="outline"
+                        app:boxBackgroundColor="#FFFFFF"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxStrokeColor="#536DFE"
+                        app:hintEnabled="false">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="130dp"
+                            android:gravity="top|start"
+                            android:hint="Describe your skills, services and experience..."
+                            android:inputType="textCapSentences|textMultiLine"
+                            android:maxLength="1000"
+                            android:maxLines="6"
+                            android:padding="12dp"
+                            android:textColor="#17213B"
+                            android:textColorHint="#8792A8"
+                            android:textSize="14sp"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- START DATE -->
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:text="Professional experience since"
+                        android:textColor="#17213B"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:boxBackgroundMode="outline"
+                        app:boxBackgroundColor="#FFFFFF"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxStrokeColor="#536DFE"
+                        app:hintEnabled="false"
+                        app:endIconMode="custom"
+                        app:endIconDrawable="@android:drawable/ic_menu_my_calendar"
+                        app:endIconTint="#536DFE">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editStartDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:hint="DD/MM/YYYY"
+                            android:inputType="none"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:cursorVisible="false"
+                            android:padding="12dp"
+                            android:textColor="#17213B"
+                            android:textColorHint="#8792A8"
+                            android:textSize="16sp"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- FINISH BUTTON -->
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFinisReg"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginTop="28dp"
                 android:layout_marginBottom="24dp"
-                android:backgroundTint="#536DFE"
                 android:text="Complete registration"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:backgroundTint="#536DFE"
+                app:cornerRadius="14dp"/>
 
         </LinearLayout>
 

@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,21 +29,33 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.radiobutton.MaterialRadioButton;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class SetImageActivity extends AppCompatActivity {
 
-    private ImageView imgProfile;
-    private Button btnChooseImage, btnFinisReg;
-    private RadioGroup radioGroupGender;
+    private CircleImageView imgProfile;
 
+    private MaterialButton btnChooseImage, btnFinisReg;
+
+    private RadioGroup radioGroupGender;
+    private MaterialRadioButton radioMale, radioFemale;
+
+    private boolean radioChoiced;
     private boolean isMale;
 
     private ActivityResultLauncher<Intent> launcher;
@@ -50,9 +63,14 @@ public class SetImageActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
 
-    private LinearLayout professionalFields;
-    private EditText editDescription;
-    private EditText editStartDate;
+    private MaterialCardView professionalFields;
+
+    private TextInputEditText editDescription;
+    private TextInputEditText editStartDate;
+    private MaterialAutoCompleteTextView editTags;
+
+
+    private final ArrayList<String> selectedTags = new ArrayList<>();
 
     private void initEditStartDate() {
         if (StaticMethods.getUser().getStatus()) {
@@ -76,7 +94,6 @@ public class SetImageActivity extends AppCompatActivity {
             dialog.show();
         });
     }
-
     public void Init() {
         imgProfile = findViewById(R.id.imgProfile);
         btnChooseImage = findViewById(R.id.btnChooseImage);
@@ -85,12 +102,14 @@ public class SetImageActivity extends AppCompatActivity {
         professionalFields = findViewById(R.id.professionalFields);
         editDescription = findViewById(R.id.editDescription);
         editStartDate = findViewById(R.id.editStartDate);
+        editTags = findViewById(R.id.editTags);
 
         isMale = true;
+        radioChoiced = false;
 
         // Professional place
-        if (StaticMethods.getUser().getStatus()) {
-            professionalFields.setVisibility(View.VISIBLE);
+        if (!StaticMethods.getUser().getStatus()) {
+            professionalFields.setVisibility(View.GONE);
         }
 
         initEditStartDate();
@@ -103,6 +122,36 @@ public class SetImageActivity extends AppCompatActivity {
                 selectedImageUri = result.getData().getData();
                 imgProfile.setImageURI(selectedImageUri);
             }
+        });
+
+        // Set Tags Adapter
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_dropdown_item_1line,
+                StaticMethods.getTags()
+        );
+
+        editTags.setAdapter(adapter);
+
+        // Show dropdown
+        editTags.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                editTags.post(() -> editTags.showDropDown());
+            }
+        });
+
+        // Handle selected tag
+        editTags.setOnItemClickListener((parent, view, position, id) -> {
+
+            String selectedTag = adapter.getItem(position);
+
+            if (selectedTag != null && !selectedTags.contains(selectedTag)) {
+                selectedTags.add(selectedTag);
+            }
+
+            // Display all selected tags
+            editTags.setText(String.join(", ", selectedTags), false);
+
         });
 
         //Create ProgressDialog
@@ -124,6 +173,9 @@ public class SetImageActivity extends AppCompatActivity {
         user.setGender(isMale);
         user.setDescription(editDescription.getText().toString());
         user.setDataStartOfJob(editStartDate.getText().toString());
+        user.setTags(editTags.getText().toString().trim());
+        user.setScore(0);
+        user.setScoreTimes(0);
 
         DbHelper.get().getReference("Users").child(user.getUID()).setValue(user)
                 .addOnSuccessListener(v -> {
@@ -137,7 +189,9 @@ public class SetImageActivity extends AppCompatActivity {
         progressDialog.dismiss();
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
-
+    private boolean areThereEmpty() {
+        return editDescription.getText().toString().isEmpty() || editStartDate.getText().toString().isEmpty() || editTags.getText().toString().isEmpty() || !radioChoiced;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,14 +224,19 @@ public class SetImageActivity extends AppCompatActivity {
                 if (i == R.id.radioFemale) {
                     isMale = false;
                 }
+                radioChoiced = true;
             }
         });
 
         btnFinisReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog.show();
-                UploadImage(StaticMethods.getUser().getUID());
+                if (areThereEmpty()) {
+                    Toast.makeText(SetImageActivity.this, "Please complete all required fields!", Toast.LENGTH_SHORT).show();
+                } else {
+                    progressDialog.show();
+                    UploadImage(StaticMethods.getUser().getUID());
+                }
             }
         });
 

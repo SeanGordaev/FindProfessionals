@@ -16,7 +16,27 @@ public class User {
     private String UID;
     private String description;
     private int score;
+
+    private int scoreTimes;
+
+    public int getScoreTimes() {
+        return scoreTimes;
+    }
+
+    public void setScoreTimes(int scoreTimes) {
+        this.scoreTimes = scoreTimes;
+    }
     private String dataStartOfJob;
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    private String tags;
 
     public String getDataStartOfJob() {
         return dataStartOfJob;
@@ -41,17 +61,6 @@ public class User {
     public void setDescription(String description) {
         this.description = description;
     }
-
-//    public String getImage() {
-//        return image;
-//    }
-
-//    public void setImage(String image) {
-//        this.image = image;
-//    }
-
-//    private String image;
-
 
     public String getAddress() {
         return address;

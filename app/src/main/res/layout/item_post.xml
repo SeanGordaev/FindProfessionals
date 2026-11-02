@@ -103,7 +103,7 @@
             android:textColor="#51566B"
             android:textSize="14sp"
             android:lineSpacingExtra="4dp"
-            android:breakStrategy="highQuality"/>
+            android:breakStrategy="high_quality"/>
 
     </LinearLayout>
 

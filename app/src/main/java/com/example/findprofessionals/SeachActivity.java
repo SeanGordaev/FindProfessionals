@@ -26,6 +26,10 @@ public class SeachActivity extends AppCompatActivity {
     private void Init() {
         professionalCategoryGroup = findViewById(R.id.professionalCategoryGroup);
         subTitle = findViewById(R.id.subTitle);
+
+        if (StaticMethods.isSearchProfessionals()) {
+            subTitle
+        }
     }
 
     private void InitCategories() {

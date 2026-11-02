@@ -1,7 +1,7 @@
 package com.example.findprofessionals;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +21,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.jetbrains.annotations.UnknownNullability;
+
 public class NavActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView profile_imageNav;
@@ -29,7 +31,6 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
     private CardView crd1, crd2, crd3, crd4;
     private BottomNavigationView bottom_navigation;
     private User currentUser;
-
 
     public  void Init() {
         profile_imageNav = findViewById(R.id.profile_imageNav);
@@ -62,6 +63,9 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
         }
 
         setRating();
+
+        userNameNav.setText("Welcome, " + currentUser.getName() + " " + currentUser.getLastName() + "!");
+
     }
     private void setRating() {
 
@@ -103,8 +107,6 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
         });
 
     }
-
-
     private void InitBar() {
         bottom_navigation.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId(); // Получаем ID нажатой иконки
@@ -119,20 +121,21 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
                     String className = intent.getStringExtra("BACK_TO_CLASS");
                     try {
                         Class<?> backClass = Class.forName(className);
-                        Intent backIntent = new Intent(NavActivity.this, backClass);
-                        intent.putExtra("BACK_TO_CLASS", NavActivity.class.getName());
-                        startActivity(backIntent);
-                    } catch (ClassNotFoundException e) {
+                        SavePreviosPageAndToGo((Class<? extends Activity>) backClass);
+                    } catch (ClassNotFoundException ignored) {
                     }
                 }
-                finish();
                 return true;
             }
             return false;
         });
     }
-
-
+    private void SavePreviosPageAndToGo(Class<? extends Activity> nextPage) {
+        Intent intent = new Intent(NavActivity.this, nextPage);
+        intent.putExtra("BACK_TO_CLASS", NavActivity.class.getName());
+        startActivity(intent);
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,37 +150,18 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
 
         Init();
         GetUserDetails();
-        userNameNav.setText("Welcome, " + currentUser.getName() + " " + currentUser.getLastName() + "!");
-
-        bottom_navigation.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId(); // Получаем ID нажатой иконки
-            if (itemId == R.id.navigation_Logout) {
-                startActivity(new Intent(NavActivity.this, LoginActivity.class));
-                finish();
-                return true;
-            }
-            return false;
-        });
+        InitBar();
     }
 
     @Override
     public void onClick(View view) {
         if (view == crd1) {
-            Intent intent = new Intent(NavActivity.this, UserProfileActivity.class);
-            intent.putExtra("BACK_TO_CLASS", NavActivity.class.getName());
-            startActivity(intent);
-            finish();
-        } else if (view == crd2) {
-            StaticMethods.setSearchProfessionals(false);
-
-        } else if (view == crd3) {
-            StaticMethods.setSearchProfessionals(true);
-
+            SavePreviosPageAndToGo(UserProfileActivity.class);
+        } else if (view == crd3 || view == crd2) {
+            StaticMethods.setSearchProfessionals(view == crd3);
+            SavePreviosPageAndToGo(UserProfileActivity.class);
         } else if (view == crd4) {
-            Intent intent = new Intent(NavActivity.this, RequestActivity.class);
-            intent.putExtra("BACK_TO_CLASS", NavActivity.class.getName());
-            startActivity(intent);
-            finish();
+            SavePreviosPageAndToGo(RequestActivity.class);
         }
     }
 }

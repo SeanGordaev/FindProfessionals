@@ -118,9 +118,13 @@ public class RequestActivity extends AppCompatActivity {
                 !requestDescription.getText().toString().isEmpty() &&
                 !requestLocation.getText().toString().isEmpty();
     }
-    private Request CreateRequest() {
+    private Request CreateRequest(String RID) {
         if (allFieldFull()) {
-            return new Request(requestTitle.getText().toString(),
+            return new Request(
+                    RID,
+                    StaticMethods.getUser().getName() + " " + StaticMethods.getUser().getLastName(),
+                    StaticMethods.getUser().getPhone(),
+                    requestTitle.getText().toString(),
                     requestCategory.getText().toString(),
                     requestDescription.getText().toString(),
                     requestLocation.getText().toString()
@@ -146,13 +150,13 @@ public class RequestActivity extends AppCompatActivity {
         btnPublishRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Request request = CreateRequest();
+                String uniqueID = FirebaseDatabase.getInstance().getReference().push().getKey() + ":" + StaticMethods.getUser().getUID();
+                Request request = CreateRequest(uniqueID);
 
                 if (request == null) {
                     Toast.makeText(RequestActivity.this, "Fill All Field!", Toast.LENGTH_SHORT).show();
                 } else {
                     progressDialog.show();
-                    String uniqueID = FirebaseDatabase.getInstance().getReference().push().getKey() + ":" + StaticMethods.getUser().getUID();
 
                     DatabaseReference ref = DbHelper.get().getReference("Requests");
                     ref.child(uniqueID).setValue(request).addOnCompleteListener(new OnCompleteListener<Void>() {

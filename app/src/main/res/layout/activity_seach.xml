@@ -37,13 +37,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="Find professionals and explore requests."
+            android:text="SubTitle"
             android:textColor="#8792A8"
             android:textSize="14sp"/>
 
         <!-- PROFESSIONAL FILTERS -->
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/professionalFilters"
+            android:id="@+id/categoryGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
@@ -86,67 +86,6 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- POST FILTERS -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/postFilters"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:visibility="gone"
-            app:cardBackgroundColor="#FFFFFF"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="1dp"
-            app:strokeColor="#ECEAF5"
-            app:strokeWidth="1dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Post type"
-                    android:textColor="#211B3A"
-                    android:textSize="14sp"
-                    android:textStyle="bold"/>
-
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/postTypeGroup"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:singleSelection="true">
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipRequests"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Requests"
-                        app:checkable="true"/>
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipOffers"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Offers"
-                        app:checkable="true"/>
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipAllPosts"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="All"
-                        app:checkable="true"/>
-
-                </com.google.android.material.chip.ChipGroup>
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
         <!-- RESULTS TITLE -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -177,6 +116,7 @@
 
     </LinearLayout>
 
+
     <!-- SEARCH RESULTS -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchResults"
@@ -191,7 +131,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/item_search_result"/>
+        tools:listitem="@layout/item_post"/>
 
     <!-- EMPTY STATE -->
     <LinearLayout

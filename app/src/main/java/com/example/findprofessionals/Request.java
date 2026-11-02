@@ -1,16 +1,49 @@
 package com.example.findprofessionals;
 
 public class Request {
-    private String title;
-    private String category;
-    private String description;
-    private String location;
+    private String RID;
 
-    public Request(String title, String category, String description, String location) {
+    private String fullName;
+    private String phone;
+
+    private String title;
+
+    private String category;
+
+    private String description;
+
+    private String location;
+    public Request(String RID, String fullName, String phone, String title, String category, String description, String location) {
+        this.RID = RID;
+        this.fullName = fullName;
+        this.phone = phone;
         this.title = title;
         this.category = category;
         this.description = description;
         this.location = location;
+    }
+    public String getPhone() {
+        return phone;
+
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+    public String getRID() {
+        return RID;
+    }
+
+    public void setRID(String RID) {
+        this.RID = RID;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getTitle() {

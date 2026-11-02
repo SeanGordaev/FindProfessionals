@@ -8,6 +8,8 @@ import com.google.firebase.storage.StorageReference;
 public class StaticMethods {
     private static User user;
 
+    private static boolean searchProfessionals;
+
     private static final String[] tags = {
             // Construction & Renovation
             "Construction",
@@ -142,5 +144,13 @@ public class StaticMethods {
 
     public static String[] getTags() {
         return tags;
+    }
+
+    public static boolean isSearchProfessionals() {
+        return searchProfessionals;
+    }
+
+    public static void setSearchProfessionals(boolean searchProfessionals) {
+        StaticMethods.searchProfessionals = searchProfessionals;
     }
 }

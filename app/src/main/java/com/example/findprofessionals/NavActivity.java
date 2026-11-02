@@ -168,8 +168,10 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
             startActivity(intent);
             finish();
         } else if (view == crd2) {
-            
+            StaticMethods.setSearchProfessionals(false);
+
         } else if (view == crd3) {
+            StaticMethods.setSearchProfessionals(true);
 
         } else if (view == crd4) {
             Intent intent = new Intent(NavActivity.this, RequestActivity.class);

@@ -108,11 +108,13 @@ public class RegActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                         if(task.isSuccessful())
                         {
+                            // Create new user
                             String uid = auth.getCurrentUser().getUid();
                             User user = new User(email, firstName, lastName, address, isProfessional, phone, birthday, uid);
                             StaticMethods.setUser(user);
 
-                            DatabaseReference ref = DbHelper.get().getReference("Users");
+                            // Put the new user in firebase
+                            DatabaseReference ref = DbHelper.get().getReference("Users/" + (isProfessional ? "Professionals" : "Clients"));
                             ref.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {

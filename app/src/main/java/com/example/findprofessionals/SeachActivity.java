@@ -1,5 +1,6 @@
 package com.example.findprofessionals;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.database.DataSnapshot;
@@ -28,9 +31,8 @@ import java.util.ArrayList;
 
 public class SeachActivity extends AppCompatActivity {
 
-    private ChipGroup categoryGroup;
-    private ArrayList<String> selected = new ArrayList<>();
-
+    private BottomNavigationView btnNavigation;
+    private ChipGroup categoryCardGroup;
 
     private TextView subTitle;
 
@@ -51,7 +53,7 @@ public class SeachActivity extends AppCompatActivity {
 
 
     private void Init() {
-        categoryGroup = findViewById(R.id.categoryGroup);
+        categoryCardGroup = findViewById(R.id.categoryCardGroup);
         subTitle = findViewById(R.id.subTitle);
 
         isSearchForPro = StaticMethods.isSearchProfessionals();
@@ -61,18 +63,20 @@ public class SeachActivity extends AppCompatActivity {
         emptyState = findViewById(R.id.emptyState);
         searchResults = findViewById(R.id.searchResults);
 
-        professionalsAdapter = new ProfessionalsAdapter(fullList_Pro);
-        postsAdapter = new RequestAdapter(fullList_Req);
+        professionalsAdapter = new ProfessionalsAdapter(new ArrayList<>());
+        postsAdapter = new RequestAdapter(new ArrayList<>());
 
         searchResults.setAdapter(isSearchForPro ? professionalsAdapter : postsAdapter);
 
         searchResults.setLayoutManager(new LinearLayoutManager(this));
 
+        btnNavigation = findViewById(R.id.btnNavigation);
+
     }
 
     private void InitCategories() {
 
-        categoryGroup.removeAllViews();
+        categoryCardGroup.removeAllViews();
 
         String[] categories = StaticMethods.getTags();
 
@@ -98,7 +102,7 @@ public class SeachActivity extends AppCompatActivity {
                 }
             });
 
-            categoryGroup.addView(chip);
+            categoryCardGroup.addView(chip);
         }
     }
 
@@ -106,9 +110,9 @@ public class SeachActivity extends AppCompatActivity {
 
         ArrayList<String> selected = new ArrayList<>();
 
-        for (int i = 0; i < categoryGroup.getChildCount(); i++) {
+        for (int i = 0; i < categoryCardGroup.getChildCount(); i++) {
 
-            Chip chip = (Chip) categoryGroup.getChildAt(i);
+            Chip chip = (Chip) categoryCardGroup.getChildAt(i);
 
             if (chip.isChecked()) {
                 selected.add(chip.getText().toString());
@@ -166,6 +170,12 @@ public class SeachActivity extends AppCompatActivity {
                         }
                     }
 
+                    android.util.Log.d("SEARCH_DEBUG",
+                            "Firebase children: " + snapshot.getChildrenCount());
+
+                    android.util.Log.d("SEARCH_DEBUG",
+                            "Loaded professionals: " + fullList_Req.size());
+
                     UpdateResult();
                 }
 
@@ -176,9 +186,13 @@ public class SeachActivity extends AppCompatActivity {
         }
     }
 
-
     public boolean containsSome(String text, ArrayList<String> subStrings) {
+        if (text == null || subStrings == null) {
+            return false;
+        }
+
         for (String s : subStrings) {
+
             if (text.toLowerCase().contains(s.toLowerCase())) {
                 return true;
             }
@@ -191,48 +205,50 @@ public class SeachActivity extends AppCompatActivity {
 
         ArrayList<String> categories = GetCategoryGroup();
 
-        filltred_Pro.clear();
-        filltred_Req.clear();
-
         if (isSearchForPro) {
 
+            filltred_Pro.clear();
+
             if (categories.isEmpty()) {
-                professionalsAdapter.updateData(fullList_Pro);
+                professionalsAdapter.updateData(new ArrayList<>(fullList_Pro));
             } else {
 
                 for (User user : fullList_Pro) {
 
-                    String tags = user.getTags();
+                    if (user == null) continue;
 
-                    if (containsSome(tags, categories)) {
+                    if (containsSome(user.getTags(), categories)) {
                         filltred_Pro.add(user);
                     }
+
                 }
 
-                professionalsAdapter.updateData(filltred_Pro);
+                professionalsAdapter.updateData(new ArrayList<>(filltred_Pro));
             }
 
-            UpdateEmptyState(categories.isEmpty() ? 1 : 0);
+
+            UpdateEmptyState(categories.isEmpty() ? fullList_Pro.size() : filltred_Pro.size());
 
         } else {
 
-            if (categories.isEmpty()) {
-                postsAdapter.updateData(fullList_Req);
-            } else {
+            filltred_Req.clear();
 
+            if (categories.isEmpty()) {
+                postsAdapter.updateData(new ArrayList<>(fullList_Req));
+            } else {
                 for (Request request : fullList_Req) {
 
-                    String category = request.getCategory();
+                    if (request == null) continue;
 
-                    if (containsSome(category, categories)) {
+                    if (categories.isEmpty() || containsSome(request.getCategory(), categories)) {
+
                         filltred_Req.add(request);
                     }
                 }
-
-                postsAdapter.updateData(filltred_Req);
+                postsAdapter.updateData(new ArrayList<>(filltred_Req));
             }
 
-            UpdateEmptyState(categories.isEmpty() ? 1 : 0);
+            UpdateEmptyState(categories.isEmpty() ? fullList_Req.size() : filltred_Req.size());
         }
     }
 
@@ -245,6 +261,34 @@ public class SeachActivity extends AppCompatActivity {
             emptyState.setVisibility(View.GONE);
             searchResults.setVisibility(View.VISIBLE);
         }
+    }
+
+
+    private void InitBar() {
+        btnNavigation.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId(); // Получаем ID нажатой иконки
+            if (itemId == R.id.navigation_Logout) {
+                startActivity(new Intent(SeachActivity.this, LoginActivity.class));
+                finish();
+                return true;
+            }
+            if (itemId == R.id.navigation_come_back) {
+                Intent intent = getIntent();
+                if (intent != null && intent.hasExtra("BACK_TO_CLASS")) {
+                    String className = intent.getStringExtra("BACK_TO_CLASS");
+                    try {
+                        Class<?> backClass = Class.forName(className);
+                        Intent backIntent = new Intent(SeachActivity.this, backClass);
+                        backIntent.putExtra("BACK_TO_CLASS", SeachActivity.class.getName());
+                        startActivity(backIntent);
+                    } catch (ClassNotFoundException e) {
+                    }
+                }
+                finish();
+                return true;
+            }
+            return false;
+        });
     }
 
     @Override
@@ -260,6 +304,9 @@ public class SeachActivity extends AppCompatActivity {
 
         Init();
         InitCategories();
+
         InitListForFilter();
+
+        InitBar();
     }
 }

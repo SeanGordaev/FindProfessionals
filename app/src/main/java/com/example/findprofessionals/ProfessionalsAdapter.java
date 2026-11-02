@@ -63,7 +63,7 @@ public class ProfessionalsAdapter extends RecyclerView.Adapter<ProfessionalsAdap
 
         holder.getProfessionalCategories().setText(professional.getTags());
         holder.getProfessionalAddress().setText(professional.getAddress());
-        holder.getPostAuthorPhone().setText(professional.getPhone());
+        holder.getProfessionalPhone().setText(professional.getPhone()); // this is 66 line
 
         holder.itemView.setOnClickListener(v -> {
         });
@@ -87,7 +87,7 @@ public class ProfessionalsAdapter extends RecyclerView.Adapter<ProfessionalsAdap
         private TextView professionalCategories;
         private TextView professionalAddress;
 
-        private TextView postAuthorPhone;
+        private TextView professionalPhone;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -97,15 +97,15 @@ public class ProfessionalsAdapter extends RecyclerView.Adapter<ProfessionalsAdap
             professionalRating = itemView.findViewById(R.id.professionalRating);
             professionalCategories = itemView.findViewById(R.id.professionalCategories);
             professionalAddress = itemView.findViewById(R.id.professionalAddress);
-            postAuthorPhone = itemView.findViewById(R.id.postAuthorPhone);
+            professionalPhone = itemView.findViewById(R.id.professionalPhone);
         }
 
-        public TextView getPostAuthorPhone() {
-            return postAuthorPhone;
+        public TextView getProfessionalPhone() {
+            return professionalPhone;
         }
 
-        public void setPostAuthorPhone(TextView postAuthorPhone) {
-            this.postAuthorPhone = postAuthorPhone;
+        public void setProfessionalPhone(TextView professionalPhone) {
+            this.professionalPhone = professionalPhone;
         }
 
         public CircleImageView getProfessionalImage() {

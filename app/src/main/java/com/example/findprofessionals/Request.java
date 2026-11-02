@@ -22,6 +22,9 @@ public class Request {
         this.description = description;
         this.location = location;
     }
+    public Request() {
+
+    }
     public String getPhone() {
         return phone;
 

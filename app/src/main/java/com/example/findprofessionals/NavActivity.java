@@ -159,7 +159,7 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
             SavePreviosPageAndToGo(UserProfileActivity.class);
         } else if (view == crd3 || view == crd2) {
             StaticMethods.setSearchProfessionals(view == crd3);
-            SavePreviosPageAndToGo(UserProfileActivity.class);
+            SavePreviosPageAndToGo(SeachActivity.class);
         } else if (view == crd4) {
             SavePreviosPageAndToGo(RequestActivity.class);
         }

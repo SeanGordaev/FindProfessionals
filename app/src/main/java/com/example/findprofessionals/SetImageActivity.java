@@ -177,7 +177,7 @@ public class SetImageActivity extends AppCompatActivity {
         user.setScore(0);
         user.setScoreTimes(0);
 
-        DbHelper.get().getReference("Users").child(user.getUID()).setValue(user)
+        DbHelper.get().getReference("Users/" + (user.getStatus() ? "Professionals" : "Clients")).child(user.getUID()).setValue(user)
                 .addOnSuccessListener(v -> {
                     progressDialog.dismiss();
                     startActivity(new Intent(this, NavActivity.class));
@@ -190,7 +190,12 @@ public class SetImageActivity extends AppCompatActivity {
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
     private boolean areThereEmpty() {
-        return editDescription.getText().toString().isEmpty() || editStartDate.getText().toString().isEmpty() || editTags.getText().toString().isEmpty() || !radioChoiced;
+        if (StaticMethods.getUser().getStatus()) {
+            return editDescription.getText().toString().isEmpty() || editStartDate.getText().toString().isEmpty() || editTags.getText().toString().isEmpty() || !radioChoiced;
+        } else {
+            return !radioChoiced;
+
+        }
     }
 
     @Override

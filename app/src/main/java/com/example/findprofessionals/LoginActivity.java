@@ -46,40 +46,81 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
     }
 
+
     private void SaveClientData(String uid) {
+
         FirebaseDatabase db = DbHelper.get();
-        DatabaseReference ref = db.getReference("Users");
-        ref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                progressDialog.dismiss();
 
-                if (!snapshot.exists()) {
-                    Toast.makeText(LoginActivity.this, "User profile not found", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+        // Сначала ищем клиента
+        db.getReference("Users/Clients").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                User user = snapshot.getValue(User.class);
+                        if (snapshot.exists()) {
 
-                if (user == null) {
-                    Toast.makeText(LoginActivity.this,"Failed to load user profile", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                            User user = snapshot.getValue(User.class);
 
-                StaticMethods.setUser(user);
+                            if (user != null) {
+                                OpenUserProfile(user);
+                            } else {
+                                ShowProfileError("Failed to load client profile");
+                            }
 
-                startActivity(new Intent(LoginActivity.this, NavActivity.class));
-                finish();
-            }
+                        } else {
+                            FindProfessional(db, uid);
+                        }
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(LoginActivity.this, "Database error: " + error.getMessage(), Toast.LENGTH_LONG).show();
-                progressDialog.dismiss();
-            }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        ShowProfileError("Database error: " + error.getMessage());
+                    }
+                });
+    }
 
-        });
+    private void FindProfessional(FirebaseDatabase db, String uid) {
 
+        db.getReference("Users/Professionals").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        if (!snapshot.exists()) {
+                            ShowProfileError("User profile not found");
+                            return;
+                        }
+
+                        User user = snapshot.getValue(User.class);
+
+                        if (user != null) {
+                            OpenUserProfile(user);
+                        } else {
+                            ShowProfileError("Failed to load professional profile");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        ShowProfileError("Database error: " + error.getMessage());
+                    }
+                });
+    }
+
+    private void OpenUserProfile(User user) {
+
+        progressDialog.dismiss();
+
+        StaticMethods.setUser(user);
+
+        startActivity(new Intent(LoginActivity.this, NavActivity.class));
+        finish();
+    }
+
+    private void ShowProfileError(String message) {
+
+        progressDialog.dismiss();
+
+        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
     }
 
 
@@ -96,8 +137,7 @@ public class LoginActivity extends AppCompatActivity {
 
         progressDialog.show();
 
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnSuccessListener(authResult -> {
+        auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
                 FirebaseUser user = authResult.getUser();
                 if (user != null) {
                     String uid = user.getUid();

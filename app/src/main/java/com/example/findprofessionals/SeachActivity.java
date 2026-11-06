@@ -126,7 +126,7 @@ public class SeachActivity extends AppCompatActivity {
         DatabaseReference ref;
 
         if (isSearchForPro) {
-            ref = FirebaseDatabase.getInstance().getReference("Users").child("Professionals");
+            ref = FirebaseDatabase.getInstance().getReference("Users");
         } else {
             ref = FirebaseDatabase.getInstance().getReference("Requests");
         }
@@ -142,7 +142,7 @@ public class SeachActivity extends AppCompatActivity {
 
                         User user = child.getValue(User.class);
 
-                        if (user != null) {
+                        if (user != null && user.getStatus()) {
                             fullList_Pro.add(user);
                         }
                     }

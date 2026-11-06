@@ -80,7 +80,6 @@ public class RegActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(RegActivity.this, LoginActivity.class));
-
                 finish();
             }
         });
@@ -114,7 +113,7 @@ public class RegActivity extends AppCompatActivity {
                             StaticMethods.setUser(user);
 
                             // Put the new user in firebase
-                            DatabaseReference ref = DbHelper.get().getReference("Users/" + (isProfessional ? "Professionals" : "Clients"));
+                            DatabaseReference ref = DbHelper.get().getReference("Users");
                             ref.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {

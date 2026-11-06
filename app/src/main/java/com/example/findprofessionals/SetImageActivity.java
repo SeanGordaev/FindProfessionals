@@ -124,13 +124,13 @@ public class SetImageActivity extends AppCompatActivity {
             }
         });
 
+
         // Set Tags Adapter
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_dropdown_item_1line,
                 StaticMethods.getTags()
         );
-
         editTags.setAdapter(adapter);
 
         // Show dropdown
@@ -177,7 +177,7 @@ public class SetImageActivity extends AppCompatActivity {
         user.setScore(0);
         user.setScoreTimes(0);
 
-        DbHelper.get().getReference("Users/" + (user.getStatus() ? "Professionals" : "Clients")).child(user.getUID()).setValue(user)
+        DbHelper.get().getReference("Users").child(user.getUID()).setValue(user)
                 .addOnSuccessListener(v -> {
                     progressDialog.dismiss();
                     startActivity(new Intent(this, NavActivity.class));

@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -42,6 +43,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private LinearLayout professionalSection;
 
+    private MaterialButton editProfileButton;
     private void Init() {
         btnNavigation = findViewById(R.id.btnNavigation);
 
@@ -75,6 +77,9 @@ public class UserProfileActivity extends AppCompatActivity {
                 findViewById(R.id.star4),
                 findViewById(R.id.star5)
         };
+
+
+        editProfileButton = findViewById(R.id.editProfileButton);
     }
 
 
@@ -187,5 +192,14 @@ public class UserProfileActivity extends AppCompatActivity {
         Init();
         InitBar();
         setField();
+
+        editProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent backIntent = new Intent(UserProfileActivity.this, UpdateUserInfoActivity.class);
+                backIntent.putExtra("BACK_TO_CLASS", UserProfileActivity.class.getName());
+                startActivity(backIntent);
+            }
+        });
     }
 }

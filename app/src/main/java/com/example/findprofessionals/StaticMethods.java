@@ -1,6 +1,7 @@
 package com.example.findprofessionals;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -170,5 +171,39 @@ public class StaticMethods {
 
     public static void savePageInPS(String activity) {
         ps.SaveActivity(activity);
+    }
+    public static Intent getIntel(Context context) {
+        if (ps == null) {
+            InitPageState(context);
+        }
+
+        String lastActivity = ps.GetActivity();
+        Intent intent = null;
+
+        if (!lastActivity.equals("ThereNoPage")) {
+            switch (lastActivity) {
+                case "SeachActivity":
+                    intent = new Intent(context, SeachActivity.class);
+                    break;
+
+                case "UserProfileActivity":
+                    intent = new Intent(context, UserProfileActivity.class);
+                    break;
+
+                case "RequestActivity":
+                    intent = new Intent(context, RequestActivity.class);
+                    break;
+
+                case "UpdateUserInfoActivity":
+                    intent = new Intent(context, UpdateUserInfoActivity.class);
+                    break;
+
+                default: // NavActivity and default page
+                    intent = new Intent(context, NavActivity.class);
+                    break;
+            }
+        }
+
+        return intent;
     }
 }

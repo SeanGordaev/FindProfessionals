@@ -41,19 +41,16 @@ import java.util.Locale;
 
 public class RegActivity extends AppCompatActivity {
 
-    private EditText editFirstName, editLastName, editEmail, editAddress, editPhone, editPassword;
-
-    private EditText editBirthday;
-
+    // Info field
+    private EditText editFirstName, editLastName, editEmail, editAddress, editPhone, editPassword, editBirthday;
+    private RadioGroup radioGroupRole;
     private boolean isProfessional;
 
+    // Navigation
+    private Button btnContinue, btnBackToLogin;
 
-    private RadioGroup radioGroupRole;
-
-    private Button btnContinue;
+    // Visual
     private ProgressDialog progressDialog;
-
-    private Button btnBackToLogin;
 
     public void Init() {
         editPassword = findViewById(R.id.editPassword);
@@ -64,18 +61,18 @@ public class RegActivity extends AppCompatActivity {
         editFirstName = findViewById(R.id.editFirstName);
         editBirthday = findViewById(R.id.editBirthday);
         radioGroupRole = findViewById(R.id.radioGroupRole);
-        btnContinue = findViewById(R.id.btnContinue);
-        btnBackToLogin = findViewById(R.id.btnBackToLogin);
 
         isProfessional = false;
+
+        btnContinue = findViewById(R.id.btnContinue);
+        btnBackToLogin = findViewById(R.id.btnBackToLogin);
 
         //Create ProgressDialog
         progressDialog = new ProgressDialog(RegActivity.this);
         progressDialog.setMessage("Please Wait...");
         progressDialog.setCancelable(false);
     }
-    private void cameBackToLogin() {
-        // Navigate to login
+    private void InitButtonBackToLogin() {
         btnBackToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,80 +81,7 @@ public class RegActivity extends AppCompatActivity {
             }
         });
     }
-    private void nextStep() {
-
-        // Save the user's data
-        btnContinue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                progressDialog.show();
-
-                String firstName = editFirstName.getText().toString();
-                String lastName = editLastName.getText().toString();
-                String email = editEmail.getText().toString();
-                String address = editAddress.getText().toString();
-                String phone = editPhone.getText().toString();
-                String password = editPassword.getText().toString();
-                String birthday = editBirthday.getText().toString();
-
-                FirebaseAuth auth = FirebaseAuth.getInstance();
-                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressDialog.dismiss();
-                        if(task.isSuccessful())
-                        {
-                            // Create new user
-                            String uid = auth.getCurrentUser().getUid();
-                            User user = new User(email, firstName, lastName, address, isProfessional, phone, birthday, uid);
-                            StaticMethods.setUser(user);
-
-                            // Put the new user in firebase
-                            DatabaseReference ref = DbHelper.get().getReference("Users");
-                            ref.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    progressDialog.dismiss();
-                                    if(task.isSuccessful())
-                                    {
-                                        Toast.makeText(RegActivity.this, "Your data has been saved!!", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(RegActivity.this,SetImageActivity.class));
-                                        finish();
-                                    }
-
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    progressDialog.dismiss();
-
-                                    Toast.makeText(RegActivity.this, "Something goes wrong: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                                }
-                            });
-
-
-
-                        }
-                    }
-                });
-            }
-        });
-    }
-    private void choiceUserType() {
-        // Selected if user is professional or client
-        radioGroupRole.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(@NonNull RadioGroup radioGroup, int i) {
-                if (i == R.id.radioCustomer) {
-                    isProfessional = false;
-                }
-                if (i == R.id.radioProfessional) {
-                    isProfessional = true;
-                }
-            }
-        });
-    }
-    private void setBirthday() {
+    private void initBirthdayField() {
         // Selected user's birthday
         editBirthday.setOnClickListener(v -> {
             Calendar today = Calendar.getInstance();
@@ -176,6 +100,107 @@ public class RegActivity extends AppCompatActivity {
             dialog.show();
         });
     }
+    private void InitRadioGroup() {
+        radioGroupRole.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(@NonNull RadioGroup radioGroup, int i) {
+                if (i == R.id.radioCustomer) {
+                    isProfessional = false;
+                }
+                if (i == R.id.radioProfessional) {
+                    isProfessional = true;
+                }
+            }
+        });
+    }
+    private void initContinueButton() {
+        btnContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isFormComplete()) {
+                    stopAndMessage("Please fill in all fields and select a role");
+                } else {
+                    registerUser();
+                }
+            }
+        });
+    }
+
+    private User createTheUser(String email, String UID) {
+        String firstName = editFirstName.getText().toString();
+        String lastName = editLastName.getText().toString();
+        String address = editAddress.getText().toString();
+        String phone = editPhone.getText().toString();
+        String birthday = editBirthday.getText().toString();
+
+        User user = new User(email, firstName, lastName, address, isProfessional, phone, birthday, UID);
+        StaticMethods.setUser(user);
+
+        return user;
+    }
+    private void registerUser() {
+        progressDialog.show();
+
+        String email = editEmail.getText().toString();
+        String password = editPassword.getText().toString();
+
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful())
+                {
+                    // Create new user
+                    String uid = auth.getCurrentUser().getUid();
+                    User user = createTheUser(email, uid);
+
+                    DbHelper.get_db_firebase("Users").child(uid).setValue(user)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                // Put the new user in firebase
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful())
+                                    {
+                                        Toast.makeText(RegActivity.this, "Your data has been saved!!", Toast.LENGTH_SHORT).show();
+
+                                        startActivity(new Intent(RegActivity.this,SetImageActivity.class));
+                                        finish();
+                                    }
+
+                                    progressDialog.dismiss();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    stopAndMessage("Something goes wrong: " + e.getMessage());
+                                }
+                            });
+
+                } else {
+                    stopAndMessage("This email is already registered");
+                }
+            }
+        });
+    }
+
+    private void stopAndMessage(String message) {
+        progressDialog.dismiss();
+        Toast.makeText(RegActivity.this, message, Toast.LENGTH_SHORT).show();
+    }
+    private boolean isFormComplete() {
+        return !isEmpty(editFirstName)
+                && !isEmpty(editLastName)
+                && !isEmpty(editEmail)
+                && !isEmpty(editAddress)
+                && !isEmpty(editPhone)
+                && !isEmpty(editPassword)
+                && !isEmpty(editBirthday)
+                && radioGroupRole.getCheckedRadioButtonId() != -1;
+    }
+    private boolean isEmpty(EditText field) {
+        return field.getText().toString().trim().isEmpty();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,10 +214,11 @@ public class RegActivity extends AppCompatActivity {
         });
 
         Init(); // initial
+        initBirthdayField(); // now user choice his birthday
+        InitRadioGroup(); // set isProfessional=true if user is professional, if client then isProfessional=false
+        InitButtonBackToLogin(); // now user can come back to Login
+        initContinueButton(); // Save user's data and move the user to next step of creating account
 
-        setBirthday();
-        choiceUserType();
-        nextStep();
-        cameBackToLogin();
+
     }
 }

@@ -45,34 +45,6 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
     }
 
-    private void SaveUserData(String uid) {
-
-        FirebaseDatabase db = DbHelper.get();
-
-        db.getReference("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                if (!snapshot.exists()) {
-                    ShowProfileError("User not found");
-                } else {
-                    User user = snapshot.getValue(User.class);
-
-                    if (user != null) {
-                        EndWithTheLogin(user);
-                    } else {
-                        ShowProfileError("Failed to load client profile");
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                ShowProfileError("Database error: " + error.getMessage());
-            }
-        });
-    }
-
     private void EndWithTheLogin(User user) {
 
         progressDialog.dismiss();
@@ -83,11 +55,29 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-    private void ShowProfileError(String message) {
+    private void SaveUserData(String uid) {
 
-        progressDialog.dismiss();
+        DbHelper.get_db_firebase("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
+                if (!snapshot.exists())
+                    ShowProfileError("User not found");
+                else {
+                    User user = snapshot.getValue(User.class);
+
+                    if (user == null)
+                        ShowProfileError("Failed to load client profile");
+                    else
+                        EndWithTheLogin(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                ShowProfileError("Database error: " + error.getMessage());
+            }
+        });
     }
 
     private void SignIn() {
@@ -104,20 +94,22 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.show();
 
         auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
-                FirebaseUser user = authResult.getUser();
-                if (user != null) {
+                FirebaseUser user = authResult.getUser(); // find the user with the same email and password
+
+                if (user == null)
+                    ShowProfileError("User doesn't exist");
+                else {
                     String uid = user.getUid();
                     SaveUserData(uid);
                 }
-                else {
-                    ShowProfileError("User doesn't exist");
-                }
-            })
-            .addOnFailureListener(e -> {
-                Toast.makeText(LoginActivity.this, "Login failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                progressDialog.dismiss();
-            }
+
+            }).addOnFailureListener(e -> { ShowProfileError("Login failed: " + e.getMessage()); }
         );
+    }
+
+    private void ShowProfileError(String message) {
+        progressDialog.dismiss();
+        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -133,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
 
         init();
         StaticMethods.setUser(null);
+        FirebaseAuth.getInstance().signOut();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override

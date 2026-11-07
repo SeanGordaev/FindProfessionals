@@ -14,20 +14,29 @@ public class MainActivity extends AppCompatActivity {
 
     private Handler handler = new Handler();
 
-    private void initPS() {
-        StaticMethods.InitPageState(this);
-        if (StaticMethods.getPs().GetActivity() != "ThereNoPage") {
+    private void GoToLogin() {
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        finish();
+    }
 
+    private void GoToNextPage() {
+        StaticMethods.InitPageState(this);
+
+        Intent intent = StaticMethods.getIntel(this);
+
+        if (intent != null) {
+            startActivity(intent);
+            finish();
+        } else {
+            GoToLogin();
         }
     }
 
-    public void GoToLogin() {
+    public void GoAnimation() {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-
-                finish();
+                GoToNextPage();
             }
         }, 2000);
     }
@@ -43,6 +52,6 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        GoToLogin();
+        GoAnimation();
     }
 }

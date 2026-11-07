@@ -48,30 +48,52 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SetImageActivity extends AppCompatActivity {
 
+    // Profile image
     private CircleImageView imgProfile;
+    private Uri selectedImageUri;
+    private ActivityResultLauncher<Intent> launcher;
 
-    private MaterialButton btnChooseImage, btnFinisReg;
+    // Buttons
+    private MaterialButton btnChooseImage, btnFinishReg;
 
+    // Gender
     private RadioGroup radioGroupGender;
-    private MaterialRadioButton radioMale, radioFemale;
-
-    private boolean radioChoiced;
     private boolean isMale;
 
-    private ActivityResultLauncher<Intent> launcher;
-    private Uri selectedImageUri;
-
-    private ProgressDialog progressDialog;
-
+    // Professional fields
     private MaterialCardView professionalFields;
-
     private TextInputEditText editDescription;
     private TextInputEditText editStartDate;
     private MaterialAutoCompleteTextView editTags;
-
-
     private final ArrayList<String> selectedTags = new ArrayList<>();
 
+    // Dialogs
+    private ProgressDialog progressDialog;
+
+
+    public void Init() {
+        imgProfile = findViewById(R.id.imgProfile);
+        btnChooseImage = findViewById(R.id.btnChooseImage);
+        btnFinishReg = findViewById(R.id.btnFinishReg);
+        radioGroupGender = findViewById(R.id.radioGroupGender);
+        professionalFields = findViewById(R.id.professionalFields);
+        editDescription = findViewById(R.id.editDescription);
+        editStartDate = findViewById(R.id.editStartDate);
+        editTags = findViewById(R.id.editTags);
+
+        isMale = true;
+
+        // Professional Place only
+        if (!StaticMethods.getUser().getStatus()) {
+            professionalFields.setVisibility(View.GONE);
+        }
+
+        //Create ProgressDialog
+        progressDialog = new ProgressDialog(SetImageActivity.this);
+        progressDialog.setMessage("Please Wait...");
+        progressDialog.setCancelable(false);
+
+    }
     private void initEditStartDate() {
         if (StaticMethods.getUser().getStatus()) {
             professionalFields.setVisibility(View.VISIBLE);
@@ -94,43 +116,9 @@ public class SetImageActivity extends AppCompatActivity {
             dialog.show();
         });
     }
-    public void Init() {
-        imgProfile = findViewById(R.id.imgProfile);
-        btnChooseImage = findViewById(R.id.btnChooseImage);
-        btnFinisReg = findViewById(R.id.btnFinisReg);
-        radioGroupGender = findViewById(R.id.radioGroupGender);
-        professionalFields = findViewById(R.id.professionalFields);
-        editDescription = findViewById(R.id.editDescription);
-        editStartDate = findViewById(R.id.editStartDate);
-        editTags = findViewById(R.id.editTags);
-
-        isMale = true;
-        radioChoiced = false;
-
-        // Professional place
-        if (!StaticMethods.getUser().getStatus()) {
-            professionalFields.setVisibility(View.GONE);
-        }
-
-        initEditStartDate();
-
-        // Update User Image
-        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result ->
-        {
-            if (result.getResultCode() == RESULT_OK)
-            {
-                selectedImageUri = result.getData().getData();
-                imgProfile.setImageURI(selectedImageUri);
-            }
-        });
-
-
+    private void InitAdapter() {
         // Set Tags Adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_dropdown_item_1line,
-                StaticMethods.getTags()
-        );
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, StaticMethods.getTags());
         editTags.setAdapter(adapter);
 
         // Show dropdown
@@ -153,15 +141,21 @@ public class SetImageActivity extends AppCompatActivity {
             editTags.setText(String.join(", ", selectedTags), false);
 
         });
-
-        //Create ProgressDialog
-        progressDialog = new ProgressDialog(SetImageActivity.this);
-        progressDialog.setMessage("Please Wait...");
-        progressDialog.setCancelable(false);
-
     }
+    private void InitLauncher() {
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result ->
+        {
+            if (result.getResultCode() == RESULT_OK)
+            {
+                selectedImageUri = result.getData().getData();
+                imgProfile.setImageURI(selectedImageUri);
+            }
+        });
+    }
+
+
     private void UploadImage(String uid) {
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference("profile_img").child(uid);
+        StorageReference storageRef = DbHelper.get_storage_reference("profile_img").child(uid);
         StorageMetadata metadata = new StorageMetadata.Builder().setContentType(getContentResolver().getType(selectedImageUri)).build();
 
         storageRef.putFile(selectedImageUri, metadata)
@@ -170,14 +164,15 @@ public class SetImageActivity extends AppCompatActivity {
     }
     private void UpdateUserData() {
         User user = StaticMethods.getUser();
+
         user.setGender(isMale);
-        user.setDescription(editDescription.getText().toString());
-        user.setDataStartOfJob(editStartDate.getText().toString());
+        user.setDescription(editDescription.getText().toString().trim());
+        user.setDataStartOfJob(editStartDate.getText().toString().trim());
         user.setTags(editTags.getText().toString().trim());
         user.setScore(0);
         user.setScoreTimes(0);
 
-        DbHelper.get().getReference("Users").child(user.getUID()).setValue(user)
+        DbHelper.get_db_firebase("Users").child(user.getUID()).setValue(user)
                 .addOnSuccessListener(v -> {
                     progressDialog.dismiss();
                     startActivity(new Intent(this, NavActivity.class));
@@ -185,18 +180,27 @@ public class SetImageActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> fail("Something goes wrong: " + e.getMessage()));
     }
+
+
     private void fail(String msg) {
         progressDialog.dismiss();
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
-    private boolean areThereEmpty() {
+    private boolean isFormComplete() {
         if (StaticMethods.getUser().getStatus()) {
-            return editDescription.getText().toString().isEmpty() || editStartDate.getText().toString().isEmpty() || editTags.getText().toString().isEmpty() || !radioChoiced;
+            return !isEmpty(editDescription) ||
+                    !isEmpty(editStartDate) ||
+                    !isEmpty(editTags) ||
+                    radioGroupGender.getCheckedRadioButtonId() != -1;
         } else {
-            return !radioChoiced;
+            return radioGroupGender.getCheckedRadioButtonId() != -1;
 
         }
     }
+    private boolean isEmpty(EditText field) {
+        return field.getText().toString().trim().isEmpty();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -210,6 +214,9 @@ public class SetImageActivity extends AppCompatActivity {
         });
 
         Init();
+        InitAdapter();
+        InitLauncher(); // Update User Image
+        initEditStartDate();
 
 
         btnChooseImage.setOnClickListener(new View.OnClickListener() {
@@ -220,6 +227,7 @@ public class SetImageActivity extends AppCompatActivity {
             }
         });
 
+
         radioGroupGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(@NonNull RadioGroup radioGroup, int i) {
@@ -229,14 +237,14 @@ public class SetImageActivity extends AppCompatActivity {
                 if (i == R.id.radioFemale) {
                     isMale = false;
                 }
-                radioChoiced = true;
             }
         });
 
-        btnFinisReg.setOnClickListener(new View.OnClickListener() {
+
+        btnFinishReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (areThereEmpty()) {
+                if (!isFormComplete()) {
                     Toast.makeText(SetImageActivity.this, "Please complete all required fields!", Toast.LENGTH_SHORT).show();
                 } else {
                     progressDialog.show();

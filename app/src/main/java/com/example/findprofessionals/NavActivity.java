@@ -18,10 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import org.jetbrains.annotations.UnknownNullability;
 
 public class NavActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -33,9 +30,13 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
     private User currentUser;
 
     public  void Init() {
+        StaticMethods.getPs().SaveActivity("NavActivity");
+
         profile_imageNav = findViewById(R.id.profile_imageNav);
         userNameNav = findViewById(R.id.userNameNav);
         bottom_navigation = findViewById(R.id.bottom_navigation);
+
+        userNameNav.setText("Welcome, " + currentUser.getName() + " " + currentUser.getLastName() + "!");
 
         ratingStars = new ImageView[] {
                 findViewById(R.id.star1),
@@ -62,42 +63,40 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
             crd2.setVisibility(View.GONE);
         }
 
-        setRating();
-
-        userNameNav.setText("Welcome, " + currentUser.getName() + " " + currentUser.getLastName() + "!");
 
     }
-    private void setRating() {
 
-        float score;
-        int userScoreTimes = currentUser.getScoreTimes();
-        if (userScoreTimes == 0) {
-            score = 0.0f;
-        } else {
-            score = ((float)currentUser.getScore()) / userScoreTimes;
-        }
+    private void updateRatingStars() {
+        float rating = roundToHalf(calculateAverageScore());
 
-        float rounded = Math.round(score * 2.0) / 2.0f;
-        score = (float) Math.max(0.0, Math.min(5.0, rounded));
+        for (int i = 0; i < ratingStars.length; i++) {
+            float starValue = rating - i;
 
-        for (int i = 0; i < 5; i++) {
-
-            float starValue = score - i;
-
+            int drawable;
             if (starValue >= 1f) {
-                ratingStars[i].setImageResource(R.drawable.ic_star_full);
+                drawable = R.drawable.ic_star_full;
+            } else if (starValue >= 0.5f) {
+                drawable = R.drawable.ic_star_half;
+            } else {
+                drawable = R.drawable.ic_star_empty;
             }
-            else if (starValue >= 0.5f) {
-                ratingStars[i].setImageResource(R.drawable.ic_star_half);
-            }
-            else {
-                ratingStars[i].setImageResource(R.drawable.ic_star_empty);
-            }
+            ratingStars[i].setImageResource(drawable);
         }
     }
+    private float calculateAverageScore() {
+        int times = currentUser.getScoreTimes();
+        if (times == 0) return 0f;
+        return (float) currentUser.getScore() / times;
+    }
+    private float roundToHalf(float value) {
+        float clamped = Math.max(0f, Math.min(5f, value));
+        return Math.round(clamped * 2f) / 2f;
+    }
+
+
     public void GetUserDetails() {
         String imageId = currentUser.getUID();
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference("profile_img").child(imageId);
+        StorageReference storageReference = DbHelper.get_storage_reference("profile_img").child(imageId);
 
         storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -121,7 +120,7 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
                     String className = intent.getStringExtra("BACK_TO_CLASS");
                     try {
                         Class<?> backClass = Class.forName(className);
-                        SavePreviosPageAndToGo((Class<? extends Activity>) backClass);
+                        SavePreviousPageAndGo((Class<? extends Activity>) backClass);
                     } catch (ClassNotFoundException ignored) {
                     }
                 }
@@ -130,7 +129,7 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
             return false;
         });
     }
-    private void SavePreviosPageAndToGo(Class<? extends Activity> nextPage) {
+    private void SavePreviousPageAndGo(Class<? extends Activity> nextPage) {
         Intent intent = new Intent(NavActivity.this, nextPage);
         intent.putExtra("BACK_TO_CLASS", NavActivity.class.getName());
         startActivity(intent);
@@ -149,6 +148,7 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
         });
 
         Init();
+        updateRatingStars();
         GetUserDetails();
         InitBar();
     }
@@ -156,12 +156,12 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         if (view == crd1) {
-            SavePreviosPageAndToGo(UserProfileActivity.class);
+            SavePreviousPageAndGo(UserProfileActivity.class);
         } else if (view == crd3 || view == crd2) {
             StaticMethods.setSearchProfessionals(view == crd3);
-            SavePreviosPageAndToGo(SeachActivity.class);
+            SavePreviousPageAndGo(SeachActivity.class);
         } else if (view == crd4) {
-            SavePreviosPageAndToGo(RequestActivity.class);
+            SavePreviousPageAndGo(RequestActivity.class);
         }
     }
 }

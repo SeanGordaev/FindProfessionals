@@ -361,7 +361,7 @@
             <!-- FINISH BUTTON -->
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnFinisReg"
+                android:id="@+id/btnFinishReg"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginTop="28dp"

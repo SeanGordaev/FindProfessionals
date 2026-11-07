@@ -5,11 +5,11 @@ import android.content.SharedPreferences;
 
 public class PageState {
 
-    private static final String PREF_NAME = "PageState";
-    private static final String LAST_ACTIVITY = "last_activity";
+    private final String LAST_ACTIVITY = "last_activity";
     private final SharedPreferences preferences;
 
     public PageState(Context context) {
+        String PREF_NAME = "PageState";
         preferences = context.getSharedPreferences(
                 PREF_NAME,
                 Context.MODE_PRIVATE
@@ -18,9 +18,7 @@ public class PageState {
 
     // Save last opened Activity
     public void SaveActivity(String activity) {
-        preferences.edit()
-                .putString(LAST_ACTIVITY, activity)
-                .apply();
+        preferences.edit().putString(LAST_ACTIVITY, activity).apply();
     }
 
     public String GetActivity() {

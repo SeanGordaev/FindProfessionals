@@ -1,5 +1,6 @@
 package com.example.findprofessionals;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -11,7 +12,7 @@ public class DbHelper {
         return FirebaseDatabase.getInstance(DB_URL);
     }
 
-    private static DatabaseReference get_db_reference(String tableName) {
+    public static DatabaseReference get_db_firebase(String tableName) {
         FirebaseDatabase db = get();
         return db.getReference(tableName);
     }
@@ -19,4 +20,5 @@ public class DbHelper {
     public static StorageReference get_storage_reference(String path) {
         return FirebaseStorage.getInstance().getReference(path);
     }
+
 }

@@ -1,5 +1,7 @@
 package com.example.findprofessionals;
 
+import android.content.Context;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -9,6 +11,8 @@ public class StaticMethods {
     private static User user;
 
     private static boolean searchProfessionals;
+
+    private static PageState ps = null;
 
     private static final String[] tags = {
             // Construction & Renovation
@@ -152,5 +156,19 @@ public class StaticMethods {
 
     public static void setSearchProfessionals(boolean searchProfessionals) {
         StaticMethods.searchProfessionals = searchProfessionals;
+    }
+
+    public static PageState getPs() {
+        return ps;
+    }
+
+    public static void InitPageState(Context context) {
+        if (ps == null) {
+            ps = new PageState(context.getApplicationContext());
+        }
+    }
+
+    public static void savePageInPS(String activity) {
+        ps.SaveActivity(activity);
     }
 }

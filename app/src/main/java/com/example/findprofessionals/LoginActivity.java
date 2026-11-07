@@ -2,6 +2,7 @@ package com.example.findprofessionals;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -31,8 +32,6 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private ProgressDialog progressDialog;
 
-
-
     private void init() {
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
@@ -46,67 +45,35 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
     }
 
-
-    private void SaveClientData(String uid) {
+    private void SaveUserData(String uid) {
 
         FirebaseDatabase db = DbHelper.get();
 
-        // Сначала ищем клиента
-        db.getReference("Users/Clients").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+        db.getReference("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                        if (snapshot.exists()) {
+                if (!snapshot.exists()) {
+                    ShowProfileError("User not found");
+                } else {
+                    User user = snapshot.getValue(User.class);
 
-                            User user = snapshot.getValue(User.class);
-
-                            if (user != null) {
-                                OpenUserProfile(user);
-                            } else {
-                                ShowProfileError("Failed to load client profile");
-                            }
-
-                        } else {
-                            FindProfessional(db, uid);
-                        }
+                    if (user != null) {
+                        EndWithTheLogin(user);
+                    } else {
+                        ShowProfileError("Failed to load client profile");
                     }
+                }
+            }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        ShowProfileError("Database error: " + error.getMessage());
-                    }
-                });
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                ShowProfileError("Database error: " + error.getMessage());
+            }
+        });
     }
 
-    private void FindProfessional(FirebaseDatabase db, String uid) {
-
-        db.getReference("Users/Professionals").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                        if (!snapshot.exists()) {
-                            ShowProfileError("User profile not found");
-                            return;
-                        }
-
-                        User user = snapshot.getValue(User.class);
-
-                        if (user != null) {
-                            OpenUserProfile(user);
-                        } else {
-                            ShowProfileError("Failed to load professional profile");
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        ShowProfileError("Database error: " + error.getMessage());
-                    }
-                });
-    }
-
-    private void OpenUserProfile(User user) {
+    private void EndWithTheLogin(User user) {
 
         progressDialog.dismiss();
 
@@ -122,7 +89,6 @@ public class LoginActivity extends AppCompatActivity {
 
         Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
     }
-
 
     private void SignIn() {
 
@@ -141,10 +107,10 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser user = authResult.getUser();
                 if (user != null) {
                     String uid = user.getUid();
-                    SaveClientData(uid);
+                    SaveUserData(uid);
                 }
                 else {
-                    progressDialog.dismiss();
+                    ShowProfileError("User doesn't exist");
                 }
             })
             .addOnFailureListener(e -> {

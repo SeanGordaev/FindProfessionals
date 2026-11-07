@@ -14,6 +14,13 @@ public class MainActivity extends AppCompatActivity {
 
     private Handler handler = new Handler();
 
+    private void initPS() {
+        StaticMethods.InitPageState(this);
+        if (StaticMethods.getPs().GetActivity() != "ThereNoPage") {
+
+        }
+    }
+
     public void GoToLogin() {
         handler.postDelayed(new Runnable() {
             @Override

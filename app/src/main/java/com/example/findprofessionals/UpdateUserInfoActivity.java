@@ -46,11 +46,11 @@ public class UpdateUserInfoActivity extends AppCompatActivity {
 
 
     private boolean isMale;
-    private boolean radioChoiced;
 
     private ProgressDialog progressDialog;
 
     private void Init() {
+        StaticMethods.getPs().SaveActivity("UpdateUserInfoActivity");
 
         // Personal information
         editName = findViewById(R.id.editName);
@@ -66,9 +66,7 @@ public class UpdateUserInfoActivity extends AppCompatActivity {
         cancelEditButton = findViewById(R.id.cancelEditButton);
 
 
-        isMale = false;
-        radioChoiced = false;
-
+        isMale = StaticMethods.getUser().getGender();
 
         //Create ProgressDialog
         progressDialog = new ProgressDialog(UpdateUserInfoActivity.this);
@@ -76,36 +74,40 @@ public class UpdateUserInfoActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
     }
 
-    private boolean AllIsFull() {
-        return !radioChoiced &&
-                !editName.getText().toString().isEmpty() &&
-                !editLastName.getText().toString().isEmpty() &&
-                !editPhone.getText().toString().isEmpty() &&
-                editAddress.getText().toString().isEmpty();
+    private String poor(EditText value, String defaultValue) {
+        String newValue = value.getText().toString();
+        return newValue.isEmpty() ? defaultValue : newValue;
+    }
+
+    private User updateUser() {
+        User user = StaticMethods.getUser();
+        user.setName(poor(editName, user.getName()));
+        user.setLastName(poor(editLastName, user.getLastName()));
+        user.setPhone(poor(editPhone, user.getPhone()));
+        user.setAddress(poor(editAddress, user.getAddress()));
+
+        user.setGender(isMale);
+
+        return user;
     }
 
     private void UpdateData() {
         progressDialog.show();
 
-        User user = StaticMethods.getUser();
-        user.setName(editName.getText().toString());
-        user.setLastName(editLastName.getText().toString());
-        user.setPhone(editPhone.getText().toString());
-        user.setAddress(editAddress.getText().toString());
+        User user = updateUser();
 
-        user.setGender(isMale);
-
-        DbHelper.get().getReference("Users").child(user.getUID()).setValue(user)
+        DbHelper.get_db_firebase("Users").child(user.getUID()).setValue(user)
                 .addOnSuccessListener(v -> {
-                    progressDialog.dismiss();
+                    DismissAndToast("Data was saved");
                     startActivity(new Intent(UpdateUserInfoActivity.this, UserProfileActivity.class));
                     finish();
                 })
-                .addOnFailureListener(e -> fail("Something goes wrong: " + e.getMessage()));
+                .addOnFailureListener(e -> DismissAndToast("Something goes wrong: " + e.getMessage()));
+
 
     }
 
-    private void fail(String msg) {
+    private void DismissAndToast(String msg) {
         progressDialog.dismiss();
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
@@ -149,7 +151,6 @@ public class UpdateUserInfoActivity extends AppCompatActivity {
                 if (i == R.id.editFemale) {
                     isMale = false;
                 }
-                radioChoiced = true;
             }
         });
     }

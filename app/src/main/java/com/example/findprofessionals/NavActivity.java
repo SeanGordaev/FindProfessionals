@@ -65,48 +65,7 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
 
 
     }
-
-    private void updateRatingStars() {
-        float rating = roundToHalf(calculateAverageScore());
-
-        for (int i = 0; i < ratingStars.length; i++) {
-            float starValue = rating - i;
-
-            int drawable;
-            if (starValue >= 1f) {
-                drawable = R.drawable.ic_star_full;
-            } else if (starValue >= 0.5f) {
-                drawable = R.drawable.ic_star_half;
-            } else {
-                drawable = R.drawable.ic_star_empty;
-            }
-            ratingStars[i].setImageResource(drawable);
-        }
-    }
-    private float calculateAverageScore() {
-        int times = currentUser.getScoreTimes();
-        if (times == 0) return 0f;
-        return (float) currentUser.getScore() / times;
-    }
-    private float roundToHalf(float value) {
-        float clamped = Math.max(0f, Math.min(5f, value));
-        return Math.round(clamped * 2f) / 2f;
-    }
-
-
-    public void GetUserDetails() {
-        String imageId = currentUser.getUID();
-        StorageReference storageReference = DbHelper.get_storage_reference("profile_img").child(imageId);
-
-        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Glide.with(NavActivity.this).load(uri).into(profile_imageNav);
-            }
-        });
-
-    }
-    private void InitBar() {
+    private void setupNavigationBar() {
         bottom_navigation.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId(); // Получаем ID нажатой иконки
             if (itemId == R.id.navigation_Logout) {
@@ -136,6 +95,47 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
         finish();
     }
 
+
+    private float calculateAverageScore() {
+        int times = currentUser.getScoreTimes();
+        if (times == 0) return 0f;
+        return (float) currentUser.getScore() / times;
+    }
+    private float roundToHalf(float value) {
+        float clamped = Math.max(0f, Math.min(5f, value));
+        return Math.round(clamped * 2f) / 2f;
+    }
+
+    private void updateRatingStars() {
+        float rating = roundToHalf(calculateAverageScore());
+
+        for (int i = 0; i < ratingStars.length; i++) {
+            float starValue = rating - i;
+
+            int drawable;
+            if (starValue >= 1f) {
+                drawable = R.drawable.ic_star_full;
+            } else if (starValue >= 0.5f) {
+                drawable = R.drawable.ic_star_half;
+            } else {
+                drawable = R.drawable.ic_star_empty;
+            }
+            ratingStars[i].setImageResource(drawable);
+        }
+    }
+    public void GetUserDetails() {
+        String imageId = currentUser.getUID();
+        StorageReference storageReference = DbHelper.get_storage_reference("profile_img").child(imageId);
+
+        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(NavActivity.this).load(uri).into(profile_imageNav);
+            }
+        });
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,9 +148,9 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
         });
 
         Init();
-        updateRatingStars();
+        setupNavigationBar();
         GetUserDetails();
-        InitBar();
+        updateRatingStars();
     }
 
     @Override

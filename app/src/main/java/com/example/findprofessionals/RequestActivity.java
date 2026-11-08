@@ -40,6 +40,8 @@ public class RequestActivity extends AppCompatActivity {
 
 
     private void Init() {
+        StaticMethods.getPs().SaveActivity("RequestActivity");
+
         bottom_navigation = findViewById(R.id.bottom_navigation);
         requestTitle = findViewById(R.id.requestTitle);
         requestCategory = findViewById(R.id.requestCategory);

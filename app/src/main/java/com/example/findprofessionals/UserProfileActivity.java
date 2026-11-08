@@ -1,5 +1,6 @@
 package com.example.findprofessionals;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -51,6 +52,10 @@ public class UserProfileActivity extends AppCompatActivity {
     private void Init() {
         StaticMethods.getPs().SaveActivity("UserProfileActivity");
 
+        // Data
+        currentUser = StaticMethods.getUser();
+
+        // Navigation
         btnNavigation = findViewById(R.id.btnNavigation);
 
         // Header
@@ -66,12 +71,12 @@ public class UserProfileActivity extends AppCompatActivity {
         profileGender = findViewById(R.id.profileGender);
 
         // Professional information
+        professionalSection = findViewById(R.id.professionalSection);
+
         profileDescription = findViewById(R.id.profileDescription);
         profileTags = findViewById(R.id.profileTags);
         profileStartDate = findViewById(R.id.profileStartDate);
 
-
-        professionalSection = findViewById(R.id.professionalSection);
 
         profileRatingStars = new ImageView[] {
                 findViewById(R.id.star1),
@@ -81,12 +86,13 @@ public class UserProfileActivity extends AppCompatActivity {
                 findViewById(R.id.star5)
         };
 
+
         editProfileButton = findViewById(R.id.editProfileButton);
 
 
-        currentUser = StaticMethods.getUser();
     }
-    private void initBottomNavigation() {
+
+    private void setupNavigationBar() {
         btnNavigation.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.navigation_Logout) {
@@ -106,18 +112,23 @@ public class UserProfileActivity extends AppCompatActivity {
             String className = intent.getStringExtra("BACK_TO_CLASS");
             try {
                 Class<?> backClass = Class.forName(className);
-                Intent backIntent = new Intent(UserProfileActivity.this, backClass);
-                backIntent.putExtra("BACK_TO_CLASS", UserProfileActivity.class.getName());
-                startActivity(backIntent);
+                SavePreviousPageAndGo((Class<? extends Activity>) backClass);
             } catch (ClassNotFoundException e) {
             }
         }
+        finish();
+    }
+    private void SavePreviousPageAndGo(Class<? extends Activity> nextPage) {
+        Intent intent = new Intent(UserProfileActivity.this, nextPage);
+        intent.putExtra("BACK_TO_CLASS", NavActivity.class.getName());
+        startActivity(intent);
         finish();
     }
     private void logout() {
         startActivity(new Intent(UserProfileActivity.this, LoginActivity.class));
         finish();
     }
+
     private void setField() {
         // Header
         profileName.setText("Welcome, " + currentUser.getName() + " " + currentUser.getLastName() + "!");
@@ -195,7 +206,7 @@ public class UserProfileActivity extends AppCompatActivity {
         });
 
         Init();
-        initBottomNavigation();
+        setupNavigationBar();
 
 
         setField();
@@ -205,11 +216,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent backIntent = new Intent(UserProfileActivity.this, UpdateUserInfoActivity.class);
-                backIntent.putExtra("BACK_TO_CLASS", UserProfileActivity.class.getName());
-                startActivity(backIntent);
-            }
+            public void onClick(View view) { SavePreviousPageAndGo(UpdateUserInfoActivity.class); }
         });
     }
 }

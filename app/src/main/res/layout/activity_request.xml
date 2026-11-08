@@ -108,7 +108,7 @@
                         app:boxStrokeColor="#7865E8"
                         app:hintEnabled="false">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <EditText
                             android:id="@+id/requestTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -176,7 +176,7 @@
                         app:boxStrokeColor="#7865E8"
                         app:hintEnabled="false">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <EditText
                             android:id="@+id/requestDescription"
                             android:layout_width="match_parent"
                             android:layout_height="130dp"
@@ -211,7 +211,7 @@
                         app:boxStrokeColor="#7865E8"
                         app:hintEnabled="false">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <EditText
                             android:id="@+id/requestLocation"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

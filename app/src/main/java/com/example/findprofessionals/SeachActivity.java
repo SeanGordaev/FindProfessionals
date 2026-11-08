@@ -1,5 +1,6 @@
 package com.example.findprofessionals;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -18,7 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.database.DataSnapshot;
@@ -31,50 +31,52 @@ import java.util.ArrayList;
 
 public class SeachActivity extends AppCompatActivity {
 
+    // Navigation
     private BottomNavigationView btnNavigation;
-    private ChipGroup categoryCardGroup;
 
+    // Header and filters
     private TextView subTitle;
-
+    private ChipGroup categoryCardGroup;
     private boolean isSearchForPro;
 
-    private LinearLayout emptyState;
+    // Results display
     private RecyclerView searchResults;
-
+    private LinearLayout emptyState;
     private ProfessionalsAdapter professionalsAdapter;
-    private RequestAdapter postsAdapter;
+    private RequestAdapter requestAdapter;
+
+    // Professionals data
+    private final ArrayList<User> fullList_Pro = new ArrayList<>();
+    private final ArrayList<User> filtered_Pro = new ArrayList<>();
+
+    // Requests data
+    private final ArrayList<Request> fullList_Req = new ArrayList<>();
+    private final ArrayList<Request> filtered_Req = new ArrayList<>();
 
 
-    private ArrayList<User> filltred_Pro = new ArrayList();
-    private ArrayList<Request> filltred_Req = new ArrayList();
+    private void init() {
+        // Navigation
+        btnNavigation = findViewById(R.id.btnNavigation);
 
-    private ArrayList<User> fullList_Pro = new ArrayList<>();
-    private ArrayList<Request> fullList_Req = new ArrayList<>();
-
-
-    private void Init() {
-        categoryCardGroup = findViewById(R.id.categoryCardGroup);
+        // Header and filters
         subTitle = findViewById(R.id.subTitle);
+        categoryCardGroup = findViewById(R.id.categoryCardGroup);
 
         isSearchForPro = StaticMethods.isSearchProfessionals();
-
         subTitle.setText(isSearchForPro ? "Find professionals" : "Find requests");
 
+        // Results display
         emptyState = findViewById(R.id.emptyState);
         searchResults = findViewById(R.id.searchResults);
 
         professionalsAdapter = new ProfessionalsAdapter(new ArrayList<>());
-        postsAdapter = new RequestAdapter(new ArrayList<>());
-
-        searchResults.setAdapter(isSearchForPro ? professionalsAdapter : postsAdapter);
+        requestAdapter = new RequestAdapter(new ArrayList<>());
 
         searchResults.setLayoutManager(new LinearLayoutManager(this));
-
-        btnNavigation = findViewById(R.id.btnNavigation);
+        searchResults.setAdapter(isSearchForPro ? professionalsAdapter : requestAdapter);
 
     }
-
-    private void InitCategories() {
+    private void initCategories() {
 
         categoryCardGroup.removeAllViews();
 
@@ -105,31 +107,8 @@ public class SeachActivity extends AppCompatActivity {
             categoryCardGroup.addView(chip);
         }
     }
-
-    private ArrayList<String> GetCategoryGroup() {
-
-        ArrayList<String> selected = new ArrayList<>();
-
-        for (int i = 0; i < categoryCardGroup.getChildCount(); i++) {
-
-            Chip chip = (Chip) categoryCardGroup.getChildAt(i);
-
-            if (chip.isChecked()) {
-                selected.add(chip.getText().toString());
-            }
-        }
-
-        return selected;
-    }
-
-    private void InitListForFilter() {
-        DatabaseReference ref;
-
-        if (isSearchForPro) {
-            ref = FirebaseDatabase.getInstance().getReference("Users");
-        } else {
-            ref = FirebaseDatabase.getInstance().getReference("Requests");
-        }
+    private void initListForFilter() {
+        DatabaseReference ref = DbHelper.get_db_firebase(isSearchForPro ? "Users" : "Requests");
 
         if (isSearchForPro) {
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -170,12 +149,6 @@ public class SeachActivity extends AppCompatActivity {
                         }
                     }
 
-                    android.util.Log.d("SEARCH_DEBUG",
-                            "Firebase children: " + snapshot.getChildrenCount());
-
-                    android.util.Log.d("SEARCH_DEBUG",
-                            "Loaded professionals: " + fullList_Req.size());
-
                     UpdateResult();
                 }
 
@@ -185,6 +158,117 @@ public class SeachActivity extends AppCompatActivity {
             });
         }
     }
+
+
+    private void setupNavigationBar() {
+        btnNavigation.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.navigation_Logout) {
+                logout();
+                return true;
+            }
+            if (itemId == R.id.navigation_come_back) {
+                goBack();
+                return true;
+            }
+            return false;
+        });
+    }
+    private void goBack() {
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("BACK_TO_CLASS")) {
+            String className = intent.getStringExtra("BACK_TO_CLASS");
+            try {
+                Class<?> backClass = Class.forName(className);
+                SavePreviousPageAndGo((Class<? extends Activity>) backClass);
+            } catch (ClassNotFoundException e) {
+            }
+        }
+
+    }
+    private void SavePreviousPageAndGo(Class<? extends Activity> nextPage) {
+        Intent intent = new Intent(SeachActivity.this, nextPage);
+        intent.putExtra("BACK_TO_CLASS", NavActivity.class.getName());
+        startActivity(intent);
+        finish();
+    }
+    private void logout() {
+        startActivity(new Intent(SeachActivity.this, LoginActivity.class));
+        finish();
+    }
+
+
+    private void UpdateEmptyState(int resultCount) {
+
+        if (resultCount == 0) {
+            emptyState.setVisibility(View.VISIBLE);
+            searchResults.setVisibility(View.GONE);
+        } else {
+            emptyState.setVisibility(View.GONE);
+            searchResults.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private ArrayList<String> getSelectedCategories() {
+
+        ArrayList<String> selected = new ArrayList<>();
+
+        for (int i = 0; i < categoryCardGroup.getChildCount(); i++) {
+
+            Chip chip = (Chip)categoryCardGroup.getChildAt(i);
+
+            if (chip.isChecked()) {
+                selected.add(chip.getText().toString());
+            }
+        }
+
+        return selected;
+    }
+
+
+    private void UpdateResult() {
+
+        ArrayList<String> categories = getSelectedCategories();
+
+        if (isSearchForPro) {
+            filtered_Pro.clear();
+
+            if (categories.isEmpty()) {
+                professionalsAdapter.updateData(new ArrayList<>(fullList_Pro));
+            } else {
+
+                for (User user : fullList_Pro) {
+                    if (user == null) continue;
+                    if (containsSome(user.getTags(), categories))
+                        filtered_Pro.add(user);
+                }
+
+                professionalsAdapter.updateData(new ArrayList<>(filtered_Pro));
+            }
+
+            UpdateEmptyState(categories.isEmpty() ? fullList_Pro.size() : filtered_Pro.size());
+
+        } else {
+
+            filtered_Req.clear();
+
+            if (categories.isEmpty()) {
+                requestAdapter.updateData(new ArrayList<>(fullList_Req));
+            } else {
+
+                for (Request request : fullList_Req) {
+                    if (request == null) continue;
+                    if (containsSome(request.getCategory(), categories))
+                        filtered_Req.add(request);
+                }
+
+                requestAdapter.updateData(new ArrayList<>(filtered_Req));
+            }
+
+            UpdateEmptyState(categories.isEmpty() ? fullList_Req.size() : filtered_Req.size());
+        }
+    }
+
 
     public boolean containsSome(String text, ArrayList<String> subStrings) {
         if (text == null || subStrings == null) {
@@ -201,96 +285,6 @@ public class SeachActivity extends AppCompatActivity {
         return false;
     }
 
-    private void UpdateResult() {
-
-        ArrayList<String> categories = GetCategoryGroup();
-
-        if (isSearchForPro) {
-
-            filltred_Pro.clear();
-
-            if (categories.isEmpty()) {
-                professionalsAdapter.updateData(new ArrayList<>(fullList_Pro));
-            } else {
-
-                for (User user : fullList_Pro) {
-
-                    if (user == null) continue;
-
-                    if (containsSome(user.getTags(), categories)) {
-                        filltred_Pro.add(user);
-                    }
-
-                }
-
-                professionalsAdapter.updateData(new ArrayList<>(filltred_Pro));
-            }
-
-
-            UpdateEmptyState(categories.isEmpty() ? fullList_Pro.size() : filltred_Pro.size());
-
-        } else {
-
-            filltred_Req.clear();
-
-            if (categories.isEmpty()) {
-                postsAdapter.updateData(new ArrayList<>(fullList_Req));
-            } else {
-                for (Request request : fullList_Req) {
-
-                    if (request == null) continue;
-
-                    if (categories.isEmpty() || containsSome(request.getCategory(), categories)) {
-
-                        filltred_Req.add(request);
-                    }
-                }
-                postsAdapter.updateData(new ArrayList<>(filltred_Req));
-            }
-
-            UpdateEmptyState(categories.isEmpty() ? fullList_Req.size() : filltred_Req.size());
-        }
-    }
-
-    private void UpdateEmptyState(int resultCount) {
-
-        if (resultCount == 0) {
-            emptyState.setVisibility(View.VISIBLE);
-            searchResults.setVisibility(View.GONE);
-        } else {
-            emptyState.setVisibility(View.GONE);
-            searchResults.setVisibility(View.VISIBLE);
-        }
-    }
-
-
-    private void InitBar() {
-        btnNavigation.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId(); // Получаем ID нажатой иконки
-            if (itemId == R.id.navigation_Logout) {
-                startActivity(new Intent(SeachActivity.this, LoginActivity.class));
-                finish();
-                return true;
-            }
-            if (itemId == R.id.navigation_come_back) {
-                Intent intent = getIntent();
-                if (intent != null && intent.hasExtra("BACK_TO_CLASS")) {
-                    String className = intent.getStringExtra("BACK_TO_CLASS");
-                    try {
-                        Class<?> backClass = Class.forName(className);
-                        Intent backIntent = new Intent(SeachActivity.this, backClass);
-                        backIntent.putExtra("BACK_TO_CLASS", SeachActivity.class.getName());
-                        startActivity(backIntent);
-                    } catch (ClassNotFoundException e) {
-                    }
-                }
-                finish();
-                return true;
-            }
-            return false;
-        });
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -302,11 +296,11 @@ public class SeachActivity extends AppCompatActivity {
             return insets;
         });
 
-        Init();
-        InitCategories();
+        init();
+        initCategories();
+        setupNavigationBar();
 
-        InitListForFilter();
+        initListForFilter();
 
-        InitBar();
     }
 }

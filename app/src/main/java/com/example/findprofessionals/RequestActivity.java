@@ -1,10 +1,12 @@
 package com.example.findprofessionals;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -30,13 +32,13 @@ public class RequestActivity extends AppCompatActivity {
 
 
     private BottomNavigationView bottom_navigation;
-    private TextInputEditText requestTitle, requestDescription, requestLocation;
+    private EditText requestTitle, requestDescription, requestLocation;
     private MaterialAutoCompleteTextView requestCategory;
     private MaterialButton btnPublishRequest;
-    private ProgressDialog progressDialog;
 
     private final ArrayList<String> selectedTags = new ArrayList<>();
 
+    private ProgressDialog progressDialog;
 
 
     private void Init() {
@@ -86,42 +88,76 @@ public class RequestActivity extends AppCompatActivity {
         progressDialog.setMessage("Please Wait...");
         progressDialog.setCancelable(false);
     }
+    private void initBtnPublish() {
+        btnPublishRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String uniqueID = FirebaseDatabase.getInstance().getReference().push().getKey() + ":" + StaticMethods.getUser().getUID(); // UniqueID:UserID
+                Request request = CreateRequest(uniqueID); // Create request
 
-    private void InitBar() {
+                if (request == null)
+                    Toast.makeText(RequestActivity.this, "Fill All Field!", Toast.LENGTH_SHORT).show();
+                else {
+                    progressDialog.show();
+
+                    DbHelper.get_db_firebase("Requests").child(uniqueID).setValue(request).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            progressDialog.dismiss();
+                            if (task.isSuccessful()) {
+                                Toast.makeText(RequestActivity.this, "Your request was saved", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+
+                            Toast.makeText(RequestActivity.this, "Something goes wrong: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        });
+    }
+    private void setupNavigationBar() {
         bottom_navigation.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId(); // Получаем ID нажатой иконки
+            int itemId = item.getItemId();
             if (itemId == R.id.navigation_Logout) {
-                startActivity(new Intent(RequestActivity.this, LoginActivity.class));
-                finish();
+                logout();
                 return true;
             }
             if (itemId == R.id.navigation_come_back) {
-                Intent intent = getIntent();
-                if (intent != null && intent.hasExtra("BACK_TO_CLASS")) {
-                    String className = intent.getStringExtra("BACK_TO_CLASS");
-                    try {
-                        Class<?> backClass = Class.forName(className);
-                        Intent backIntent = new Intent(RequestActivity.this, backClass);
-                        backIntent.putExtra("BACK_TO_CLASS", RequestActivity.class.getName());
-                        startActivity(backIntent);
-                    } catch (ClassNotFoundException e) {
-                    }
-                }
-                finish();
+                goBack();
                 return true;
             }
             return false;
         });
     }
-
-    private boolean allFieldFull() {
-        return !requestTitle.getText().toString().isEmpty() &&
-                !requestCategory.getText().toString().isEmpty() &&
-                !requestDescription.getText().toString().isEmpty() &&
-                !requestLocation.getText().toString().isEmpty();
+    private void goBack() {
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("BACK_TO_CLASS")) {
+            String className = intent.getStringExtra("BACK_TO_CLASS");
+            try {
+                Class<?> backClass = Class.forName(className);
+                SavePreviousPageAndGo((Class<? extends Activity>) backClass);
+            } catch (ClassNotFoundException e) {
+            }
+        }
     }
+    private void SavePreviousPageAndGo(Class<? extends Activity> nextPage) {
+        Intent intent = new Intent(RequestActivity.this, nextPage);
+        intent.putExtra("BACK_TO_CLASS", NavActivity.class.getName());
+        startActivity(intent);
+        finish();
+    }
+    private void logout() {
+        startActivity(new Intent(RequestActivity.this, LoginActivity.class));
+        finish();
+    }
+
     private Request CreateRequest(String RID) {
-        if (allFieldFull()) {
+        if (isFormComplete()) {
             return new Request(
                     RID,
                     StaticMethods.getUser().getName() + " " + StaticMethods.getUser().getLastName(),
@@ -133,6 +169,13 @@ public class RequestActivity extends AppCompatActivity {
             );
         }
         return null;
+    }
+
+    private boolean isFormComplete() {
+        return !isEmpty(requestTitle) || !isEmpty(requestDescription) || !isEmpty(requestLocation) || !selectedTags.isEmpty();
+    }
+    private boolean isEmpty(EditText field) {
+        return field.getText().toString().trim().isEmpty();
     }
 
     @Override
@@ -147,39 +190,8 @@ public class RequestActivity extends AppCompatActivity {
         });
 
         Init();
-        InitBar();
+        setupNavigationBar();
 
-        btnPublishRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String uniqueID = FirebaseDatabase.getInstance().getReference().push().getKey() + ":" + StaticMethods.getUser().getUID();
-                Request request = CreateRequest(uniqueID);
-
-                if (request == null) {
-                    Toast.makeText(RequestActivity.this, "Fill All Field!", Toast.LENGTH_SHORT).show();
-                } else {
-                    progressDialog.show();
-
-                    DatabaseReference ref = DbHelper.get().getReference("Requests");
-                    ref.child(uniqueID).setValue(request).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            progressDialog.dismiss();
-                            if (task.isSuccessful()) {
-                                Toast.makeText(RequestActivity.this, "Your data has been saved!!", Toast.LENGTH_SHORT).show();
-                            }
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
-
-                            Toast.makeText(RequestActivity.this, "Something goes wrong: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
-            }
-        });
+        initBtnPublish();
     }
 }

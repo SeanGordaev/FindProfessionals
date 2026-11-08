@@ -91,7 +91,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
 
     }
-
     private void setupNavigationBar() {
         btnNavigation.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -116,7 +115,7 @@ public class UserProfileActivity extends AppCompatActivity {
             } catch (ClassNotFoundException e) {
             }
         }
-        finish();
+
     }
     private void SavePreviousPageAndGo(Class<? extends Activity> nextPage) {
         Intent intent = new Intent(UserProfileActivity.this, nextPage);

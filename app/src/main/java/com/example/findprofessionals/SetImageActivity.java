@@ -71,6 +71,8 @@ public class SetImageActivity extends AppCompatActivity {
 
         isMale = true;
 
+        selectedImageUri = null;
+
         // Professional Place only
         if (!StaticMethods.getUser().getStatus()) {
             professionalFields.setVisibility(View.GONE);
@@ -143,12 +145,16 @@ public class SetImageActivity extends AppCompatActivity {
 
 
     private void UploadImage(String uid) {
-        StorageReference storageRef = DbHelper.get_storage_reference("profile_img").child(uid);
-        StorageMetadata metadata = new StorageMetadata.Builder().setContentType(getContentResolver().getType(selectedImageUri)).build();
+        if (selectedImageUri != null) {
+            StorageReference storageRef = DbHelper.get_storage_reference("profile_img").child(uid);
+            StorageMetadata metadata = new StorageMetadata.Builder().setContentType(getContentResolver().getType(selectedImageUri)).build();
 
-        storageRef.putFile(selectedImageUri, metadata)
-                .addOnSuccessListener(snap -> UpdateUserData())
-                .addOnFailureListener(e -> fail("Image upload failed: " + e.getMessage()));
+            storageRef.putFile(selectedImageUri, metadata)
+                    .addOnSuccessListener(snap -> UpdateUserData())
+                    .addOnFailureListener(e -> fail("Image upload failed: " + e.getMessage()));
+        } else {
+            UpdateUserData();
+        }
     }
     private void UpdateUserData() {
         User user = StaticMethods.getUser();

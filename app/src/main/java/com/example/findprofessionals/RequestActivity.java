@@ -29,7 +29,7 @@ public class RequestActivity extends AppCompatActivity {
 
 
     private BottomNavigationView bottom_navigation;
-    private EditText requestTitle, requestDescription, requestLocation;
+    private EditText requestTitle, requestDescription;
     private MaterialAutoCompleteTextView requestCategory;
     private MaterialButton btnPublishRequest;
 
@@ -45,7 +45,6 @@ public class RequestActivity extends AppCompatActivity {
         requestTitle = findViewById(R.id.requestTitle);
         requestCategory = findViewById(R.id.requestCategory);
         requestDescription = findViewById(R.id.requestDescription);
-        requestLocation = findViewById(R.id.requestLocation);
         btnPublishRequest = findViewById(R.id.btnPublishRequest);
 
         // Set Tags Adapter
@@ -158,15 +157,14 @@ public class RequestActivity extends AppCompatActivity {
                     StaticMethods.getUser().getPhone(),
                     requestTitle.getText().toString(),
                     requestCategory.getText().toString(),
-                    requestDescription.getText().toString(),
-                    requestLocation.getText().toString()
+                    requestDescription.getText().toString()
             );
         }
         return null;
     }
 
     private boolean isFormComplete() {
-        return !isEmpty(requestTitle) || !isEmpty(requestDescription) || !isEmpty(requestLocation) || !selectedTags.isEmpty();
+        return !isEmpty(requestTitle) && !isEmpty(requestDescription) && !selectedTags.isEmpty();
     }
     private boolean isEmpty(EditText field) {
         return field.getText().toString().trim().isEmpty();

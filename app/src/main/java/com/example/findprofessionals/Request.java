@@ -12,15 +12,13 @@ public class Request {
 
     private String description;
 
-    private String location;
-    public Request(String RID, String fullName, String phone, String title, String category, String description, String location) {
+    public Request(String RID, String fullName, String phone, String title, String category, String description) {
         this.RID = RID;
         this.fullName = fullName;
         this.phone = phone;
         this.title = title;
         this.category = category;
         this.description = description;
-        this.location = location;
     }
     public Request() {
 
@@ -73,11 +71,4 @@ public class Request {
         this.description = description;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
 }

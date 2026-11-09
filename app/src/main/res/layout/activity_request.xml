@@ -189,38 +189,6 @@
                             android:textSize="14sp"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- LOCATION -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="18dp"
-                        android:text="Location *"
-                        android:textColor="#34275F"
-                        android:textStyle="bold"
-                        android:textSize="14sp"/>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="7dp"
-                        app:boxBackgroundMode="outline"
-                        app:boxCornerRadiusTopStart="12dp"
-                        app:boxCornerRadiusTopEnd="12dp"
-                        app:boxCornerRadiusBottomStart="12dp"
-                        app:boxCornerRadiusBottomEnd="12dp"
-                        app:boxStrokeColor="#7865E8"
-                        app:hintEnabled="false">
-
-                        <EditText
-                            android:id="@+id/requestLocation"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="City or address"
-                            android:inputType="textCapWords"
-                            android:textColor="#211B3A"
-                            android:textSize="14sp"/>
-                    </com.google.android.material.textfield.TextInputLayout>
-
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

@@ -15,31 +15,36 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="@drawable/bg_top_navigation"
-        android:elevation="6dp"
+        android:elevation="10dp"
+        android:outlineSpotShadowColor="#7865E8"
+        app:itemHorizontalTranslationEnabled="false"
         app:itemIconSize="26dp"
         app:itemIconTint="#6C5CE7"
         app:labelVisibilityMode="unlabeled"
-        app:itemHorizontalTranslationEnabled="false"
-        app:menu="@menu/bottom_nav_menu"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
 
     <!-- MAIN CONTENT -->
     <ScrollView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fillViewport="true"
+        android:clipChildren="false"
         android:clipToPadding="false"
+        android:fillViewport="true"
+        android:overScrollMode="never"
         android:paddingBottom="20dp"
-        app:layout_constraintTop_toBottomOf="@id/bottom_navigation"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/bottom_navigation">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:orientation="vertical"
             android:padding="20dp">
 
@@ -50,7 +55,7 @@
                 android:text="Create a Request"
                 android:textColor="#211B3A"
                 android:textSize="25sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -58,57 +63,85 @@
                 android:layout_marginTop="5dp"
                 android:text="Describe what you need and find the right professional."
                 android:textColor="#8886A3"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <!-- REQUEST DETAILS CARD -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
+                android:outlineAmbientShadowColor="#7865E8"
+                android:outlineSpotShadowColor="#7865E8"
                 app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="2dp"
-                app:strokeColor="#ECEAF5"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="12dp"
+                app:strokeColor="#E9E5FA"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="18dp">
+                    android:padding="22dp">
 
-                    <TextView
+                    <!-- Заголовок карточки со значком -->
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Request Details"
-                        android:textColor="#34275F"
-                        android:textSize="18sp"
-                        android:textStyle="bold"/>
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            app:cardBackgroundColor="#EEE9FF"
+                            app:cardCornerRadius="14dp"
+                            app:cardElevation="0dp">
+
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="@null"
+                                android:src="@drawable/ic_card_request" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_weight="1"
+                            android:text="Request Details"
+                            android:textColor="#34275F"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <!-- NAME -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="18dp"
+                        android:layout_marginTop="20dp"
                         android:text="Request Title *"
                         android:textColor="#34275F"
-                        android:textStyle="bold"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
+                        style="?attr/textInputOutlinedStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="7dp"
+                        android:layout_marginTop="8dp"
+                        app:boxBackgroundColor="#F5F7FC"
                         app:boxBackgroundMode="outline"
-                        app:boxBackgroundColor="#FFFFFF"
-                        app:boxCornerRadiusTopStart="12dp"
-                        app:boxCornerRadiusTopEnd="12dp"
-                        app:boxCornerRadiusBottomStart="12dp"
-                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomEnd="16dp"
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
                         app:boxStrokeColor="#7865E8"
                         app:hintEnabled="false">
 
-                        <EditText
+                        <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/requestTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -116,30 +149,33 @@
                             android:inputType="textCapSentences"
                             android:maxLength="80"
                             android:textColor="#211B3A"
-                            android:textSize="14sp"/>
+                            android:textColorHint="#8886A3"
+                            android:textSize="14sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- CATEGORY -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="17dp"
+                        android:layout_marginTop="18dp"
                         android:text="Category *"
                         android:textColor="#34275F"
-                        android:textStyle="bold"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
+                        style="?attr/textInputOutlinedStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="7dp"
+                        android:layout_marginTop="8dp"
+                        app:boxBackgroundColor="#F5F7FC"
                         app:boxBackgroundMode="outline"
-                        app:boxBackgroundColor="#FFFFFF"
-                        app:boxCornerRadiusTopStart="12dp"
-                        app:boxCornerRadiusTopEnd="12dp"
-                        app:boxCornerRadiusBottomStart="12dp"
-                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomEnd="16dp"
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
                         app:boxStrokeColor="#7865E8"
+                        app:endIconTint="#7865E8"
                         app:hintEnabled="false">
 
                         <com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -150,33 +186,37 @@
                             android:inputType="none"
                             android:padding="15dp"
                             android:textColor="#211B3A"
-                            android:textSize="14sp"/>
+                            android:textColorHint="#8886A3"
+                            android:textSize="14sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- DESCRIPTION -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="17dp"
+                        android:layout_marginTop="18dp"
                         android:text="Description *"
                         android:textColor="#34275F"
-                        android:textStyle="bold"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
+                        style="?attr/textInputOutlinedStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="7dp"
+                        android:layout_marginTop="8dp"
+                        app:boxBackgroundColor="#F5F7FC"
                         app:boxBackgroundMode="outline"
-                        app:boxBackgroundColor="#FFFFFF"
-                        app:boxCornerRadiusTopStart="12dp"
-                        app:boxCornerRadiusTopEnd="12dp"
-                        app:boxCornerRadiusBottomStart="12dp"
-                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomEnd="16dp"
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
                         app:boxStrokeColor="#7865E8"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="1500"
                         app:hintEnabled="false">
 
-                        <EditText
+                        <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/requestDescription"
                             android:layout_width="match_parent"
                             android:layout_height="130dp"
@@ -186,7 +226,8 @@
                             android:maxLength="1500"
                             android:padding="12dp"
                             android:textColor="#211B3A"
-                            android:textSize="14sp"/>
+                            android:textColorHint="#8886A3"
+                            android:textSize="14sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
@@ -196,16 +237,17 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnPublishRequest"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginTop="22dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="24dp"
+                android:outlineSpotShadowColor="#6C5CE7"
                 android:text="Publish Request"
                 android:textAllCaps="false"
+                android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"
                 app:backgroundTint="#6C5CE7"
-                app:cornerRadius="14dp"
-                app:elevation="3dp"/>
+                app:cornerRadius="18dp"
+                app:elevation="8dp" />
 
         </LinearLayout>
     </ScrollView>

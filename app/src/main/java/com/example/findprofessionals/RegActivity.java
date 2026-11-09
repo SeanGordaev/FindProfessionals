@@ -28,6 +28,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.Firebase;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,12 +44,12 @@ import java.util.Locale;
 public class RegActivity extends AppCompatActivity {
 
     // Info field
-    private EditText editFirstName, editLastName, editEmail, editAddress, editPhone, editPassword, editBirthday;
+    private TextInputEditText editFirstName, editLastName, editEmail, editAddress, editPhone, editPassword, editBirthday;
     private RadioGroup radioGroupRole;
     private boolean isProfessional;
 
     // Navigation
-    private Button btnContinue, btnBackToLogin;
+    private MaterialButton btnContinue, btnBackToLogin;
 
     // Visual
     private ProgressDialog progressDialog;

@@ -12,50 +12,72 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fillViewport="true"
+        android:clipChildren="false"
         android:clipToPadding="false"
-        app:layout_constraintTop_toTopOf="parent"
+        android:fillViewport="true"
+        android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:gravity="center_horizontal"
+            android:orientation="vertical"
             android:padding="24dp">
 
             <!-- HEADER -->
 
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:layout_marginTop="12dp"
+                android:outlineSpotShadowColor="#536DFE"
+                app:cardBackgroundColor="#536DFE"
+                app:cardCornerRadius="38dp"
+                app:cardElevation="12dp">
+
+                <ImageView
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@null"
+                    android:src="@android:drawable/ic_menu_camera"
+                    app:tint="#FFFFFF" />
+            </com.google.android.material.card.MaterialCardView>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="24dp"
+                android:letterSpacing="0.15"
                 android:text="ONE LAST STEP"
                 android:textColor="#536DFE"
                 android:textSize="12sp"
-                android:textStyle="bold"
-                android:letterSpacing="0.15"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Complete your profile"
-                android:textColor="#17213B"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:gravity="center"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Complete your profile"
+                android:textColor="#17213B"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
                 android:text="Add a photo and tell us a little about yourself."
                 android:textColor="#69758C"
-                android:textSize="14sp"
-                android:gravity="center"/>
+                android:textSize="14sp" />
 
             <!-- PROFILE PHOTO CARD -->
 
@@ -63,34 +85,48 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
+                android:outlineAmbientShadowColor="#536DFE"
+                android:outlineSpotShadowColor="#536DFE"
                 app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="3dp"
-                app:strokeColor="#ECEAF5"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="14dp"
+                app:strokeColor="#E3E8F5"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:gravity="center_horizontal"
+                    android:orientation="vertical"
                     android:padding="24dp">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/imgProfile"
+                    <!-- Обёртка даёт фотографии тень и объём -->
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="126dp"
                         android:layout_height="126dp"
-                        android:src="@drawable/base_img"
-                        android:scaleType="centerCrop"/>
+                        android:outlineSpotShadowColor="#536DFE"
+                        app:cardBackgroundColor="#FFFFFF"
+                        app:cardCornerRadius="63dp"
+                        app:cardElevation="10dp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/imgProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/base_img"
+                            app:civ_border_color="#FFFFFF"
+                            app:civ_border_width="4dp" />
+                    </com.google.android.material.card.MaterialCardView>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="14dp"
+                        android:layout_marginTop="18dp"
                         android:text="Profile picture"
                         android:textColor="#17213B"
                         android:textSize="16sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -98,20 +134,26 @@
                         android:layout_marginTop="4dp"
                         android:text="Choose a photo that represents you."
                         android:textColor="#8792A8"
-                        android:textSize="13sp"/>
+                        android:textSize="13sp" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnChooseImage"
                         android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:layout_marginTop="18dp"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="20dp"
+                        android:outlineSpotShadowColor="#536DFE"
                         android:text="Choose profile picture"
-                        android:textColor="#FFFFFF"
                         android:textAllCaps="false"
+                        android:textColor="#FFFFFF"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         app:backgroundTint="#536DFE"
-                        app:cornerRadius="12dp"/>
+                        app:cornerRadius="16dp"
+                        app:elevation="6dp"
+                        app:icon="@android:drawable/ic_menu_gallery"
+                        app:iconGravity="textStart"
+                        app:iconPadding="10dp"
+                        app:iconTint="#FFFFFF" />
 
                 </LinearLayout>
 
@@ -123,17 +165,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:outlineAmbientShadowColor="#536DFE"
+                android:outlineSpotShadowColor="#536DFE"
                 app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="3dp"
-                app:strokeColor="#ECEAF5"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="14dp"
+                app:strokeColor="#E3E8F5"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    android:padding="22dp">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -141,7 +185,7 @@
                         android:text="Your gender"
                         android:textColor="#17213B"
                         android:textSize="17sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -149,7 +193,7 @@
                         android:layout_marginTop="5dp"
                         android:text="Select your gender."
                         android:textColor="#8792A8"
-                        android:textSize="13sp"/>
+                        android:textSize="13sp" />
 
                     <RadioGroup
                         android:id="@+id/radioGroupGender"
@@ -168,7 +212,7 @@
                             android:paddingEnd="16dp"
                             android:text="Male"
                             android:textColor="#17213B"
-                            android:textSize="15sp"/>
+                            android:textSize="15sp" />
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/radioFemale"
@@ -181,7 +225,7 @@
                             android:paddingEnd="16dp"
                             android:text="Female"
                             android:textColor="#17213B"
-                            android:textSize="15sp"/>
+                            android:textSize="15sp" />
 
                     </RadioGroup>
 
@@ -196,17 +240,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:outlineAmbientShadowColor="#536DFE"
+                android:outlineSpotShadowColor="#536DFE"
                 app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="3dp"
-                app:strokeColor="#ECEAF5"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="14dp"
+                app:strokeColor="#E3E8F5"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    android:padding="22dp">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -214,7 +260,7 @@
                         android:text="Professional details"
                         android:textColor="#17213B"
                         android:textSize="17sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -222,7 +268,7 @@
                         android:layout_marginTop="5dp"
                         android:text="Help potential clients learn more about your work."
                         android:textColor="#8792A8"
-                        android:textSize="13sp"/>
+                        android:textSize="13sp" />
 
                     <!-- PROFESSIONAL TAGS -->
 
@@ -233,7 +279,7 @@
                         android:text="Skills &amp; Tags"
                         android:textColor="#17213B"
                         android:textSize="14sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -241,18 +287,19 @@
                         android:layout_marginTop="5dp"
                         android:text="Add keywords that describe your skills and services. Separate them with commas."
                         android:textColor="#8792A8"
-                        android:textSize="13sp"/>
+                        android:textSize="13sp" />
 
                     <com.google.android.material.textfield.TextInputLayout
+                        style="?attr/textInputOutlinedStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="10dp"
+                        app:boxBackgroundColor="#F5F7FC"
                         app:boxBackgroundMode="outline"
-                        app:boxBackgroundColor="#FFFFFF"
-                        app:boxCornerRadiusTopStart="12dp"
-                        app:boxCornerRadiusTopEnd="12dp"
-                        app:boxCornerRadiusBottomStart="12dp"
-                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomEnd="16dp"
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
                         app:boxStrokeColor="#536DFE"
                         app:hintEnabled="false">
 
@@ -260,14 +307,14 @@
                             android:id="@+id/editTags"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:completionThreshold="0"
                             android:hint="e.g. Plumbing, Electrical, Installation..."
                             android:inputType="textCapWords"
-                            android:completionThreshold="0"
                             android:maxLength="500"
-                            android:padding="12dp"
+                            android:padding="14dp"
                             android:textColor="#17213B"
                             android:textColorHint="#8792A8"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -280,19 +327,22 @@
                         android:text="About your work"
                         android:textColor="#17213B"
                         android:textSize="14sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
+                        style="?attr/textInputOutlinedStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="10dp"
+                        app:boxBackgroundColor="#F5F7FC"
                         app:boxBackgroundMode="outline"
-                        app:boxBackgroundColor="#FFFFFF"
-                        app:boxCornerRadiusTopStart="12dp"
-                        app:boxCornerRadiusTopEnd="12dp"
-                        app:boxCornerRadiusBottomStart="12dp"
-                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomEnd="16dp"
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
                         app:boxStrokeColor="#536DFE"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="1000"
                         app:hintEnabled="false">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -304,10 +354,10 @@
                             android:inputType="textCapSentences|textMultiLine"
                             android:maxLength="1000"
                             android:maxLines="6"
-                            android:padding="12dp"
+                            android:padding="14dp"
                             android:textColor="#17213B"
                             android:textColorHint="#8792A8"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -320,37 +370,39 @@
                         android:text="Professional experience since"
                         android:textColor="#17213B"
                         android:textSize="14sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/startDateLayout"
+                        style="?attr/textInputOutlinedStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="10dp"
+                        app:boxBackgroundColor="#F5F7FC"
                         app:boxBackgroundMode="outline"
-                        app:boxBackgroundColor="#FFFFFF"
-                        app:boxCornerRadiusTopStart="12dp"
-                        app:boxCornerRadiusTopEnd="12dp"
-                        app:boxCornerRadiusBottomStart="12dp"
-                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomEnd="16dp"
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
                         app:boxStrokeColor="#536DFE"
-                        app:hintEnabled="false"
-                        app:endIconMode="custom"
                         app:endIconDrawable="@android:drawable/ic_menu_my_calendar"
-                        app:endIconTint="#536DFE">
+                        app:endIconMode="custom"
+                        app:endIconTint="#536DFE"
+                        app:hintEnabled="false">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editStartDate"
                             android:layout_width="match_parent"
                             android:layout_height="56dp"
-                            android:hint="DD/MM/YYYY"
-                            android:inputType="none"
-                            android:focusable="false"
                             android:clickable="true"
                             android:cursorVisible="false"
-                            android:padding="12dp"
+                            android:focusable="false"
+                            android:hint="DD/MM/YYYY"
+                            android:inputType="none"
+                            android:padding="14dp"
                             android:textColor="#17213B"
                             android:textColorHint="#8792A8"
-                            android:textSize="16sp"/>
+                            android:textSize="16sp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -363,16 +415,18 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFinishReg"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="60dp"
                 android:layout_marginTop="28dp"
                 android:layout_marginBottom="24dp"
+                android:outlineSpotShadowColor="#536DFE"
                 android:text="Complete registration"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:backgroundTint="#536DFE"
-                app:cornerRadius="14dp"/>
+                app:cornerRadius="18dp"
+                app:elevation="8dp" />
 
         </LinearLayout>
 

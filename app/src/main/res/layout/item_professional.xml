@@ -5,10 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="4dp"
-    android:layout_marginVertical="7dp"
+    android:layout_marginVertical="8dp"
+    android:outlineAmbientShadowColor="#536DFE"
+    android:outlineSpotShadowColor="#536DFE"
     app:cardBackgroundColor="#FFFFFF"
-    app:cardCornerRadius="18dp"
-    app:cardElevation="2dp"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="8dp"
     app:strokeColor="#ECEAF5"
     app:strokeWidth="1dp">
 
@@ -16,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="18dp">
 
         <!-- Profile -->
         <LinearLayout
@@ -25,17 +27,29 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/professionalImage"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:src="@drawable/ic_launcher_foreground"
-                android:scaleType="centerCrop"/>
+            <!-- Обёртка даёт аватару тень -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="68dp"
+                android:layout_height="68dp"
+                android:outlineSpotShadowColor="#536DFE"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="34dp"
+                app:cardElevation="8dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/professionalImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_launcher_foreground"
+                    app:civ_border_color="#FFFFFF"
+                    app:civ_border_width="3dp" />
+            </com.google.android.material.card.MaterialCardView>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
+                android:layout_marginStart="16dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -43,21 +57,35 @@
                     android:id="@+id/professionalName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:text="John Smith"
                     android:textColor="#211B3A"
                     android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:maxLines="1"
-                    android:ellipsize="end"/>
+                    android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/professionalRating"
+                <!-- Рейтинг: плашка -->
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="★ 4.8 (12 reviews)"
-                    android:textColor="#D99A00"
-                    android:textSize="13sp"/>
+                    android:layout_marginTop="6dp"
+                    app:cardBackgroundColor="#FFF6DB"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp">
+
+                    <TextView
+                        android:id="@+id/professionalRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="10dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="3dp"
+                        android:text="★ 4.8 (12 reviews)"
+                        android:textColor="#D99A00"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
         </LinearLayout>
@@ -66,11 +94,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="18dp"
             android:text="Categories"
             android:textColor="#8792A8"
             android:textSize="12sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/professionalCategories"
@@ -79,32 +107,41 @@
             android:layout_marginTop="5dp"
             android:text="Plumbing, Installation"
             android:textColor="#211B3A"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <!-- Location -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="14dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="17dp"
-                android:layout_height="17dp"
-                android:src="@android:drawable/ic_menu_mylocation"
-                android:contentDescription="Location"
-                app:tint="#536DFE" />
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                app:cardBackgroundColor="#EEF1FF"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Location"
+                    android:src="@android:drawable/ic_menu_mylocation"
+                    app:tint="#536DFE" />
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/professionalAddress"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="7dp"
+                android:layout_marginStart="10dp"
                 android:layout_weight="1"
                 android:text="Tel Aviv"
                 android:textColor="#8792A8"
-                android:textSize="13sp"/>
+                android:textSize="13sp" />
         </LinearLayout>
 
         <!-- Phone -->
@@ -115,22 +152,31 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="17dp"
-                android:layout_height="17dp"
-                android:src="@android:drawable/ic_menu_call"
-                android:contentDescription="Phone"
-                app:tint="#536DFE"/>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                app:cardBackgroundColor="#EEF1FF"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Phone"
+                    android:src="@android:drawable/ic_menu_call"
+                    app:tint="#536DFE" />
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/professionalPhone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="7dp"
+                android:layout_marginStart="10dp"
                 android:layout_weight="1"
                 android:text="+972 50-123-4567"
                 android:textColor="#8792A8"
-                android:textSize="13sp"/>
+                android:textSize="13sp" />
         </LinearLayout>
 
     </LinearLayout>

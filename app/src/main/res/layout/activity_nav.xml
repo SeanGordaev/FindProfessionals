@@ -15,125 +15,151 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="@drawable/bg_top_navigation"
-        android:elevation="6dp"
+        android:elevation="10dp"
+        android:outlineSpotShadowColor="#7865E8"
+        app:itemHorizontalTranslationEnabled="false"
         app:itemIconSize="26dp"
         app:itemIconTint="#6C5CE7"
         app:labelVisibilityMode="unlabeled"
-        app:itemHorizontalTranslationEnabled="false"
-        app:menu="@menu/bottom_nav_menu"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
 
-    <!-- USER HEADER -->
-    <LinearLayout
+    <!-- USER HEADER (теперь карточка) -->
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/userHeader"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="24dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/bottom_navigation">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_imageNav"
-            android:layout_width="76dp"
-            android:layout_height="76dp"
-            android:src="@drawable/base_img"
-            android:scaleType="centerCrop"
-            app:civ_border_color="#7865E8"
-            app:civ_border_width="2dp"/>
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:outlineAmbientShadowColor="#7865E8"
+        android:outlineSpotShadowColor="#7865E8"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="28dp"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bottom_navigation"
+        app:strokeColor="#E9E5FA"
+        app:strokeWidth="1dp">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="18dp">
 
-            <TextView
-                android:id="@+id/userNameNav"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Welcome, User!"
-                android:textColor="#211B3A"
-                android:textSize="21sp"
-                android:textStyle="bold"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_imageNav"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/base_img"
+                app:civ_border_color="#7865E8"
+                app:civ_border_width="2dp" />
 
-            <!-- 5 stars -->
             <LinearLayout
-                android:id="@+id/ratingStarsContainer"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/star1"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_star_empty"
-                    android:contentDescription="Star 1" />
-                <ImageView
-                    android:id="@+id/star2"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_star_empty"
-                    android:contentDescription="Star 2" />
-                <ImageView
-                    android:id="@+id/star3"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_star_empty"
-                    android:contentDescription="Star 3" />
-                <ImageView
-                    android:id="@+id/star4"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_star_empty"
-                    android:contentDescription="Star 4" />
-                <ImageView
-                    android:id="@+id/star5"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_star_empty"
-                    android:contentDescription="Star 5" />
+                <TextView
+                    android:id="@+id/userNameNav"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Welcome, User!"
+                    android:textColor="#211B3A"
+                    android:textSize="21sp"
+                    android:textStyle="bold" />
+
+                <!-- 5 stars -->
+                <LinearLayout
+                    android:id="@+id/ratingStarsContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/star1"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="Star 1"
+                        android:src="@drawable/ic_star_empty" />
+
+                    <ImageView
+                        android:id="@+id/star2"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="Star 2"
+                        android:src="@drawable/ic_star_empty" />
+
+                    <ImageView
+                        android:id="@+id/star3"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="Star 3"
+                        android:src="@drawable/ic_star_empty" />
+
+                    <ImageView
+                        android:id="@+id/star4"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="Star 4"
+                        android:src="@drawable/ic_star_empty" />
+
+                    <ImageView
+                        android:id="@+id/star5"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="Star 5"
+                        android:src="@drawable/ic_star_empty" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/ratingCaption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Your rating"
+                    android:textColor="#8886A3"
+                    android:textSize="12sp" />
 
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/ratingCaption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="Your rating"
-                android:textColor="#8886A3"
-                android:textSize="12sp"/>
-
         </LinearLayout>
-    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <!-- PAGE CONTENT -->
     <ScrollView
         android:id="@+id/scrollCategories"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="16dp"
+        android:clipChildren="false"
         android:clipToPadding="false"
         android:fillViewport="false"
+        android:overScrollMode="never"
         android:paddingBottom="20dp"
-        app:layout_constraintTop_toBottomOf="@id/userHeader"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/userHeader">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:orientation="vertical"
             android:paddingStart="20dp"
+            android:paddingTop="8dp"
             android:paddingEnd="20dp"
             android:paddingBottom="20dp">
 
@@ -144,7 +170,7 @@
                 android:text="What would you like to do?"
                 android:textColor="#211B3A"
                 android:textSize="21sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -153,39 +179,51 @@
                 android:layout_marginBottom="18dp"
                 android:text="Choose how you want to use FindProfessionals."
                 android:textColor="#8886A3"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <!-- CARD 1: USER PROFILE -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/crd1"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
+                android:minHeight="120dp"
+                android:outlineAmbientShadowColor="#7865E8"
+                android:outlineSpotShadowColor="#7865E8"
                 app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="2dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="8dp"
                 app:strokeColor="#E9E5FA"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:id="@+id/l1"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
+                    android:minHeight="120dp"
                     android:orientation="horizontal"
                     android:padding="18dp">
 
-                    <ImageView
-                        android:id="@+id/img1"
+                    <!-- Плитка иконки: скруглённая подложка -->
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:background="#EEE9FF"
-                        android:padding="12dp"
-                        android:src="@drawable/base_img"
-                        android:scaleType="centerInside"/>
+                        app:cardBackgroundColor="#EEE9FF"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:id="@+id/img1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:contentDescription="@null"
+                            android:padding="14dp"
+                            android:src="@drawable/ic_card_profile" />
+                    </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -201,7 +239,7 @@
                             android:text="User Profile"
                             android:textColor="#34275F"
                             android:textSize="17sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -209,15 +247,26 @@
                             android:layout_marginTop="5dp"
                             android:text="View and manage your personal information."
                             android:textColor="#8886A3"
-                            android:textSize="13sp"/>
+                            android:textSize="13sp" />
 
                     </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:src="@drawable/ic_arrow_forward"
-                        app:tint="#7865E8"/>
+                    <!-- Стрелка в круглой плитке -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        app:cardBackgroundColor="#EEE9FF"
+                        app:cardCornerRadius="18dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_arrow_forward"
+                            app:tint="#7865E8" />
+                    </com.google.android.material.card.MaterialCardView>
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -226,33 +275,44 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/crd2"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
+                android:minHeight="120dp"
+                android:outlineAmbientShadowColor="#5A9A8B"
+                android:outlineSpotShadowColor="#5A9A8B"
                 app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="2dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="8dp"
                 app:strokeColor="#E2F0EC"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:id="@+id/l2"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
+                    android:minHeight="120dp"
                     android:orientation="horizontal"
                     android:padding="18dp">
 
-                    <ImageView
-                        android:id="@+id/img2"
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:background="#E4F5F1"
-                        android:padding="12dp"
-                        android:src="@drawable/base_img"
-                        android:scaleType="centerInside"/>
+                        app:cardBackgroundColor="#E4F5F1"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:id="@+id/img2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:contentDescription="@null"
+                            android:padding="14dp"
+                            android:src="@drawable/ic_card_clients" />
+                    </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -268,7 +328,7 @@
                             android:text="Find Clients"
                             android:textColor="#285D55"
                             android:textSize="17sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -276,15 +336,25 @@
                             android:layout_marginTop="5dp"
                             android:text="Discover people looking for your services."
                             android:textColor="#8886A3"
-                            android:textSize="13sp"/>
+                            android:textSize="13sp" />
 
                     </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:src="@drawable/ic_arrow_forward"
-                        app:tint="#5A9A8B"/>
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        app:cardBackgroundColor="#E4F5F1"
+                        app:cardCornerRadius="18dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_arrow_forward"
+                            app:tint="#5A9A8B" />
+                    </com.google.android.material.card.MaterialCardView>
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -293,33 +363,44 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/crd3"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
+                android:minHeight="120dp"
+                android:outlineAmbientShadowColor="#C28B4E"
+                android:outlineSpotShadowColor="#C28B4E"
                 app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="2dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="8dp"
                 app:strokeColor="#F3E7D8"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:id="@+id/l3"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
+                    android:minHeight="120dp"
                     android:orientation="horizontal"
                     android:padding="18dp">
 
-                    <ImageView
-                        android:id="@+id/img3"
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:background="#FFF0DC"
-                        android:padding="12dp"
-                        android:src="@drawable/base_img"
-                        android:scaleType="centerInside"/>
+                        app:cardBackgroundColor="#FFF0DC"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:id="@+id/img3"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:contentDescription="@null"
+                            android:padding="14dp"
+                            android:src="@drawable/ic_card_search" />
+                    </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -335,7 +416,7 @@
                             android:text="Find Professionals"
                             android:textColor="#78512B"
                             android:textSize="17sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -343,15 +424,25 @@
                             android:layout_marginTop="5dp"
                             android:text="Find skilled people for your needs."
                             android:textColor="#8886A3"
-                            android:textSize="13sp"/>
+                            android:textSize="13sp" />
 
                     </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:src="@drawable/ic_arrow_forward"
-                        app:tint="#C28B4E"/>
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        app:cardBackgroundColor="#FFF0DC"
+                        app:cardCornerRadius="18dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_arrow_forward"
+                            app:tint="#C28B4E" />
+                    </com.google.android.material.card.MaterialCardView>
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -360,32 +451,42 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/crd4"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
+                android:minHeight="120dp"
+                android:outlineAmbientShadowColor="#7865E8"
+                android:outlineSpotShadowColor="#7865E8"
                 app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="2dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="8dp"
                 app:strokeColor="#E9E5FA"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
+                    android:minHeight="120dp"
                     android:orientation="horizontal"
                     android:padding="18dp">
 
-                    <ImageView
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:background="#EEE9FF"
-                        android:padding="12dp"
-                        android:src="@drawable/base_img"
-                        android:scaleType="centerInside"
-                        android:contentDescription="Create request icon"/>
+                        app:cardBackgroundColor="#EEE9FF"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:contentDescription="Create request icon"
+                            android:padding="14dp"
+                            android:src="@drawable/ic_card_request" />
+                    </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -400,7 +501,7 @@
                             android:text="Post a Request"
                             android:textColor="#34275F"
                             android:textSize="17sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -408,15 +509,25 @@
                             android:layout_marginTop="5dp"
                             android:text="Describe what you need and find the right professional."
                             android:textColor="#8886A3"
-                            android:textSize="13sp"/>
+                            android:textSize="13sp" />
 
                     </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:src="@drawable/ic_arrow_forward"
-                        app:tint="#7865E8"/>
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        app:cardBackgroundColor="#EEE9FF"
+                        app:cardCornerRadius="18dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_arrow_forward"
+                            app:tint="#7865E8" />
+                    </com.google.android.material.card.MaterialCardView>
 
                 </LinearLayout>
 

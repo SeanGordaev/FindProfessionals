@@ -43,6 +43,7 @@ public class SearchActivity extends AppCompatActivity {
     private LinearLayout emptyState;
     private ProfessionalsAdapter professionalsAdapter;
     private RequestAdapter requestAdapter;
+    private TextView resultsCount;
 
     // Professionals data
     private final ArrayList<User> fullList_Pro = new ArrayList<>();
@@ -69,6 +70,7 @@ public class SearchActivity extends AppCompatActivity {
         // Results display
         emptyState = findViewById(R.id.emptyState);
         searchResults = findViewById(R.id.searchResults);
+        resultsCount = findViewById(R.id.resultsCount);
 
         professionalsAdapter = new ProfessionalsAdapter(new ArrayList<>());
         requestAdapter = new RequestAdapter(new ArrayList<>());
@@ -240,6 +242,7 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             UpdateEmptyState(categories.isEmpty() ? fullList_Pro.size() : filtered_Pro.size());
+            resultsCount.setText((categories.isEmpty() ? fullList_Pro.size() : filtered_Pro.size()) + " results");
 
         } else {
 
@@ -259,6 +262,7 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             UpdateEmptyState(categories.isEmpty() ? fullList_Req.size() : filtered_Req.size());
+            resultsCount.setText((categories.isEmpty() ? fullList_Req.size() : filtered_Req.size()) + " results");
         }
     }
 

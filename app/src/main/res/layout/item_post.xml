@@ -5,10 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="4dp"
-    android:layout_marginVertical="7dp"
+    android:layout_marginVertical="8dp"
+    android:outlineAmbientShadowColor="#536DFE"
+    android:outlineSpotShadowColor="#536DFE"
     app:cardBackgroundColor="#FFFFFF"
-    app:cardCornerRadius="18dp"
-    app:cardElevation="2dp"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="8dp"
     app:strokeColor="#ECEAF5"
     app:strokeWidth="1dp">
 
@@ -16,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="18dp">
 
         <!-- Client profile -->
         <LinearLayout
@@ -25,23 +27,35 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/postAuthorImage"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_launcher_foreground"
-                android:scaleType="centerCrop"/>
+            <!-- Обёртка даёт аватару тень -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:outlineSpotShadowColor="#536DFE"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="26dp"
+                app:cardElevation="6dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/postAuthorImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_launcher_foreground"
+                    app:civ_border_color="#FFFFFF"
+                    app:civ_border_width="2dp" />
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/postAuthorName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="14dp"
                 android:layout_weight="1"
                 android:text="David Cohen"
                 android:textColor="#211B3A"
                 android:textSize="15sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -49,26 +63,35 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="12dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="17dp"
-                android:layout_height="17dp"
-                android:src="@android:drawable/ic_menu_call"
-                android:contentDescription="Phone"
-                app:tint="#536DFE"/>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                app:cardBackgroundColor="#EEF1FF"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Phone"
+                    android:src="@android:drawable/ic_menu_call"
+                    app:tint="#536DFE" />
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/postAuthorPhone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="7dp"
+                android:layout_marginStart="10dp"
                 android:layout_weight="1"
                 android:text="+972 50-123-4567"
                 android:textColor="#8792A8"
-                android:textSize="13sp"/>
+                android:textSize="13sp" />
         </LinearLayout>
 
         <!-- Post title -->
@@ -80,18 +103,30 @@
             android:text="Looking for a plumber"
             android:textColor="#211B3A"
             android:textSize="17sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
-        <!-- Category -->
-        <TextView
-            android:id="@+id/postCategory"
+        <!-- Category: плашка -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:text="Plumbing"
-            android:textColor="#536DFE"
-            android:textSize="12sp"
-            android:textStyle="bold"/>
+            android:layout_marginTop="8dp"
+            app:cardBackgroundColor="#EEF1FF"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp">
+
+            <TextView
+                android:id="@+id/postCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="12dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="4dp"
+                android:text="Plumbing"
+                android:textColor="#536DFE"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- Full post -->
         <TextView
@@ -99,11 +134,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:breakStrategy="high_quality"
+            android:lineSpacingExtra="4dp"
             android:text="I need someone to repair a leaking pipe in my kitchen. Please contact me if you are available."
             android:textColor="#51566B"
-            android:textSize="14sp"
-            android:lineSpacingExtra="4dp"
-            android:breakStrategy="high_quality"/>
+            android:textSize="14sp" />
 
     </LinearLayout>
 

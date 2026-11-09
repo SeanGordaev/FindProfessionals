@@ -12,307 +12,379 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fillViewport="true"
+        android:clipChildren="false"
         android:clipToPadding="false"
-        app:layout_constraintTop_toTopOf="parent"
+        android:fillViewport="true"
+        android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:gravity="center_horizontal"
+            android:orientation="vertical"
             android:padding="28dp">
+
+            <!-- Круглый значок с цветной тенью (как на странице входа) -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:layout_marginTop="12dp"
+                android:outlineSpotShadowColor="#536DFE"
+                app:cardBackgroundColor="#536DFE"
+                app:cardCornerRadius="38dp"
+                app:cardElevation="12dp">
+
+                <ImageView
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@null"
+                    android:src="@android:drawable/ic_menu_myplaces"
+                    app:tint="#FFFFFF" />
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="24dp"
+                android:letterSpacing="0.18"
                 android:text="JOIN US"
                 android:textColor="#536DFE"
                 android:textSize="12sp"
-                android:textStyle="bold"
-                android:letterSpacing="0.18" />
+                android:textStyle="bold" />
 
             <!-- TITLE -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
                 android:text="Create account"
                 android:textColor="#17213B"
                 android:textSize="32sp"
-                android:textStyle="bold"
-                android:gravity="center" />
+                android:textStyle="bold" />
 
             <!-- SUBTITLE -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:gravity="center"
                 android:text="Let's get to know you who you are and found what you need!"
                 android:textColor="#69758C"
-                android:textSize="13sp"
-                android:gravity="center" />
+                android:textSize="13sp" />
 
-            <!-- USER INTERFACE -->
-            <LinearLayout
+            <!-- USER INTERFACE: основная карточка -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:background="#FFFFFF"
-                android:elevation="3dp"
-                android:orientation="vertical"
-                android:padding="24dp">
+                android:outlineAmbientShadowColor="#536DFE"
+                android:outlineSpotShadowColor="#536DFE"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="14dp"
+                app:strokeColor="#E3E8F5"
+                app:strokeWidth="1dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:labelFor="@+id/editFirstName"
-                    android:text="First name"
-                    android:textColor="#17213B"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/editFirstName"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="6dp"
-                    android:autofillHints="personGivenName"
-                    android:backgroundTint="#CBD3E5"
-                    android:hint="Enter your first name"
-                    android:inputType="textPersonName|textCapWords"
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
-                    android:textColor="#17213B"
-                    android:textColorHint="#8792A8"
-                    android:textSize="16sp" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:labelFor="@+id/editLastName"
-                    android:text="Last name"
-                    android:textColor="#17213B"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/editLastName"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="6dp"
-                    android:autofillHints="personFamilyName"
-                    android:backgroundTint="#CBD3E5"
-                    android:hint="Enter your last name"
-                    android:inputType="textPersonName|textCapWords"
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
-                    android:textColor="#17213B"
-                    android:textColorHint="#8792A8"
-                    android:textSize="16sp" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:labelFor="@+id/editEmail"
-                    android:text="Email address"
-                    android:textColor="#17213B"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/editEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="6dp"
-                    android:autofillHints="emailAddress"
-                    android:backgroundTint="#CBD3E5"
-                    android:hint="you@example.com"
-                    android:inputType="textEmailAddress"
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
-                    android:textColor="#17213B"
-                    android:textColorHint="#8792A8"
-                    android:textSize="16sp" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:labelFor="@+id/editAddress"
-                    android:text="Home address"
-                    android:textColor="#17213B"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/editAddress"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="56dp"
-                    android:layout_marginTop="6dp"
-                    android:autofillHints="postalAddress"
-                    android:backgroundTint="#CBD3E5"
-                    android:hint="Street, house number, city"
-                    android:inputType="textPostalAddress|textMultiLine"
-                    android:gravity="top|start"
-                    android:maxLines="3"
-                    android:textColor="#17213B"
-                    android:textColorHint="#8792A8"
-                    android:textSize="16sp" />
+                    android:orientation="vertical"
+                    android:padding="24dp">
 
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="Date of birth"
-                    android:textColor="#17213B"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/editBirthday"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="6dp"
-                    android:backgroundTint="#CBD3E5"
-                    android:hint="DD/MM/YYYY"
-                    android:inputType="none"
-                    android:focusable="false"
-                    android:clickable="true"
-                    android:cursorVisible="false"
-                    android:drawableEnd="@android:drawable/ic_menu_my_calendar"
-                    android:drawableTint="#536DFE"
-                    android:paddingEnd="12dp"
-                    android:textColor="#17213B"
-                    android:textColorHint="#8792A8"
-                    android:textSize="16sp" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:labelFor="@+id/editPhone"
-                    android:text="Phone number"
-                    android:textColor="#17213B"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/editPhone"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="6dp"
-                    android:autofillHints="phone"
-                    android:backgroundTint="#CBD3E5"
-                    android:hint="Enter your phone number"
-                    android:inputType="phone"
-                    android:imeOptions="actionDone"
-                    android:singleLine="true"
-                    android:textColor="#17213B"
-                    android:textColorHint="#8792A8"
-                    android:textSize="16sp" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:labelFor="@+id/editPassword"
-                    android:text="Enter password"
-                    android:textColor="#17213B"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    />
-
-                <EditText
-                    android:id="@+id/editPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="6dp"
-                    android:autofillHints="password"
-                    android:backgroundTint="#CBD3E5"
-                    android:hint="Enter password here"
-                    android:inputType="textPassword"
-                    android:imeOptions="actionDone"
-                    android:singleLine="true"
-                    android:textColor="#17213B"
-                    android:textColorHint="#8792A8"
-                    android:textSize="16sp" />
-
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginBottom="24dp"
-                    android:background="#E8ECF4" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="What brings you here?"
-                    android:textColor="#17213B"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <RadioGroup
-                    android:id="@+id/radioGroupRole"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="vertical">
-
-                    <RadioButton
-                        android:id="@+id/radioCustomer"
+                    <!-- First name -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="?attr/textInputOutlinedStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:minHeight="48dp"
-                        android:buttonTint="#536DFE"
-                        android:paddingEnd="8dp"
-                        android:text="Looking for a professional"
-                        android:textColor="#17213B"
-                        android:textSize="14sp" />
+                        android:hint="First name"
+                        app:boxBackgroundColor="#F5F7FC"
+                        app:boxCornerRadiusBottomEnd="16dp"
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
+                        app:boxStrokeColor="#536DFE"
+                        app:hintTextColor="#536DFE"
+                        app:placeholderText="Enter your first name"
+                        app:placeholderTextColor="#8792A8">
 
-                    <RadioButton
-                        android:id="@+id/radioProfessional"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editFirstName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autofillHints="personGivenName"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPersonName|textCapWords"
+                            android:singleLine="true"
+                            android:textColor="#17213B"
+                            android:textSize="16sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Last name -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="?attr/textInputOutlinedStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:minHeight="48dp"
-                        android:layout_marginTop="4dp"
-                        android:buttonTint="#536DFE"
-                        android:paddingEnd="8dp"
-                        android:text="I'm a professional"
+                        android:layout_marginTop="16dp"
+                        android:hint="Last name"
+                        app:boxBackgroundColor="#F5F7FC"
+                        app:boxCornerRadiusBottomEnd="16dp"
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
+                        app:boxStrokeColor="#536DFE"
+                        app:hintTextColor="#536DFE"
+                        app:placeholderText="Enter your last name"
+                        app:placeholderTextColor="#8792A8">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editLastName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autofillHints="personFamilyName"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPersonName|textCapWords"
+                            android:singleLine="true"
+                            android:textColor="#17213B"
+                            android:textSize="16sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Email -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="?attr/textInputOutlinedStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:hint="Email address"
+                        app:boxBackgroundColor="#F5F7FC"
+                        app:boxCornerRadiusBottomEnd="16dp"
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
+                        app:boxStrokeColor="#536DFE"
+                        app:hintTextColor="#536DFE"
+                        app:placeholderText="you@example.com"
+                        app:placeholderTextColor="#8792A8">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autofillHints="emailAddress"
+                            android:imeOptions="actionNext"
+                            android:inputType="textEmailAddress"
+                            android:singleLine="true"
+                            android:textColor="#17213B"
+                            android:textSize="16sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Home address -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="?attr/textInputOutlinedStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:hint="Home address"
+                        app:boxBackgroundColor="#F5F7FC"
+                        app:boxCornerRadiusBottomEnd="16dp"
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
+                        app:boxStrokeColor="#536DFE"
+                        app:hintTextColor="#536DFE"
+                        app:placeholderText="Street, house number, city"
+                        app:placeholderTextColor="#8792A8">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autofillHints="postalAddress"
+                            android:gravity="top|start"
+                            android:inputType="textPostalAddress|textMultiLine"
+                            android:maxLines="3"
+                            android:minLines="2"
+                            android:textColor="#17213B"
+                            android:textSize="16sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Date of birth: по нажатию открывайте DatePickerDialog -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/birthdayLayout"
+                        style="?attr/textInputOutlinedStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:hint="Date of birth"
+                        app:boxBackgroundColor="#F5F7FC"
+                        app:boxCornerRadiusBottomEnd="16dp"
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
+                        app:boxStrokeColor="#536DFE"
+                        app:endIconDrawable="@android:drawable/ic_menu_my_calendar"
+                        app:endIconMode="custom"
+                        app:endIconTint="#536DFE"
+                        app:hintTextColor="#536DFE"
+                        app:placeholderText="DD/MM/YYYY"
+                        app:placeholderTextColor="#8792A8">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editBirthday"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:cursorVisible="false"
+                            android:focusable="false"
+                            android:inputType="none"
+                            android:singleLine="true"
+                            android:textColor="#17213B"
+                            android:textSize="16sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Phone -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="?attr/textInputOutlinedStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:hint="Phone number"
+                        app:boxBackgroundColor="#F5F7FC"
+                        app:boxCornerRadiusBottomEnd="16dp"
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
+                        app:boxStrokeColor="#536DFE"
+                        app:hintTextColor="#536DFE"
+                        app:placeholderText="Enter your phone number"
+                        app:placeholderTextColor="#8792A8">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autofillHints="phone"
+                            android:imeOptions="actionNext"
+                            android:inputType="phone"
+                            android:singleLine="true"
+                            android:textColor="#17213B"
+                            android:textSize="16sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Password -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="?attr/textInputOutlinedStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:hint="Enter password"
+                        app:boxBackgroundColor="#F5F7FC"
+                        app:boxCornerRadiusBottomEnd="16dp"
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
+                        app:boxStrokeColor="#536DFE"
+                        app:endIconMode="password_toggle"
+                        app:endIconTint="#69758C"
+                        app:hintTextColor="#536DFE"
+                        app:placeholderText="Enter password here"
+                        app:placeholderTextColor="#8792A8">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autofillHints="password"
+                            android:imeOptions="actionDone"
+                            android:inputType="textPassword"
+                            android:singleLine="true"
+                            android:textColor="#17213B"
+                            android:textSize="16sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginBottom="24dp"
+                        android:background="#E8ECF4" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="What brings you here?"
                         android:textColor="#17213B"
-                        android:textSize="14sp" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                </RadioGroup>
+                    <!-- Выбор роли: вложенная карточка с лёгкой заливкой -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:cardBackgroundColor="#F5F7FC"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="#E3E8F5"
+                        app:strokeWidth="1dp">
 
-                <Button
-                    android:id="@+id/btnContinue"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="24dp"
-                    android:backgroundTint="#536DFE"
-                    android:text="Continue with created"
-                    android:textAllCaps="false"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                        <RadioGroup
+                            android:id="@+id/radioGroupRole"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="8dp">
 
-            </LinearLayout>
+                            <RadioButton
+                                android:id="@+id/radioCustomer"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:buttonTint="#536DFE"
+                                android:minHeight="48dp"
+                                android:paddingEnd="8dp"
+                                android:text="Looking for a professional"
+                                android:textColor="#17213B"
+                                android:textSize="14sp" />
+
+                            <RadioButton
+                                android:id="@+id/radioProfessional"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:buttonTint="#536DFE"
+                                android:minHeight="48dp"
+                                android:paddingEnd="8dp"
+                                android:text="I'm a professional"
+                                android:textColor="#17213B"
+                                android:textSize="14sp" />
+                        </RadioGroup>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Кнопка с тенью и скруглением -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnContinue"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="24dp"
+                        android:outlineSpotShadowColor="#536DFE"
+                        android:text="Continue with created"
+                        android:textAllCaps="false"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="#536DFE"
+                        app:cornerRadius="18dp"
+                        app:elevation="8dp" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -322,9 +394,9 @@
                 android:textColor="#69758C"
                 android:textSize="14sp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnBackToLogin"
-                style="?android:attr/borderlessButtonStyle"
+                style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
@@ -334,7 +406,8 @@
                 android:textAllCaps="false"
                 android:textColor="#536DFE"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:rippleColor="#CBD3E5" />
 
         </LinearLayout>
     </ScrollView>

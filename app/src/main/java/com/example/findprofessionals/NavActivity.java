@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.storage.StorageReference;
 
 public class NavActivity extends AppCompatActivity implements View.OnClickListener {

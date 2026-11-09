@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F7FC"
-    tools:context=".SeachActivity">
+    tools:context=".SearchActivity">
 
     <!-- TOP NAVIGATION -->
     <com.google.android.material.bottomnavigation.BottomNavigationView

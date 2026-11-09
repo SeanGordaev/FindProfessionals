@@ -164,6 +164,8 @@ public class RegActivity extends AppCompatActivity {
                                     {
                                         Toast.makeText(RegActivity.this, "Your data has been saved!!", Toast.LENGTH_SHORT).show();
 
+                                        StaticMethods.getPs().saveUser(user);
+
                                         startActivity(new Intent(RegActivity.this,SetImageActivity.class));
                                         finish();
                                     }
@@ -216,7 +218,7 @@ public class RegActivity extends AppCompatActivity {
         Init(); // initial
         initBirthdayField(); // now user choice his birthday
         InitRadioGroup(); // set isProfessional=true if user is professional, if client then isProfessional=false
-        InitButtonBackToLogin(); // now user can come back to Login
+        InitButtonBackToLogin(); // now user can come back to log in
         initContinueButton(); // Save user's data and move the user to next step of creating account
 
 

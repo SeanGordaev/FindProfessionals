@@ -3,11 +3,6 @@ package com.example.findprofessionals;
 import android.content.Context;
 import android.content.Intent;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
 public class StaticMethods {
     private static User user;
 
@@ -159,31 +154,27 @@ public class StaticMethods {
         StaticMethods.searchProfessionals = searchProfessionals;
     }
 
-    public static PageState getPs() {
-        return ps;
-    }
 
     public static void InitPageState(Context context) {
         if (ps == null) {
             ps = new PageState(context.getApplicationContext());
         }
     }
-
-    public static void savePageInPS(String activity) {
-        ps.SaveActivity(activity);
+    public static PageState getPs() {
+        return ps;
     }
-    public static Intent getIntel(Context context) {
+
+    public static Intent getIntel(Context context, String activity) {
         if (ps == null) {
             InitPageState(context);
         }
 
-        String lastActivity = ps.GetActivity();
         Intent intent = null;
 
-        if (!lastActivity.equals("ThereNoPage")) {
-            switch (lastActivity) {
-                case "SeachActivity":
-                    intent = new Intent(context, SeachActivity.class);
+        if (activity != null) {
+            switch (activity) {
+                case "SearchActivity":
+                    intent = new Intent(context, SearchActivity.class);
                     break;
 
                 case "UserProfileActivity":
@@ -206,4 +197,6 @@ public class StaticMethods {
 
         return intent;
     }
+
+
 }

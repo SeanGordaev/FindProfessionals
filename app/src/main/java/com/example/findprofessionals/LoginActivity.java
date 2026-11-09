@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.dismiss();
 
         StaticMethods.setUser(user);
+        StaticMethods.getPs().saveUser(user);
 
         startActivity(new Intent(LoginActivity.this, NavActivity.class));
         finish();
@@ -125,6 +126,7 @@ public class LoginActivity extends AppCompatActivity {
 
         init();
         StaticMethods.setUser(null);
+        StaticMethods.getPs().clearUser();
         FirebaseAuth.getInstance().signOut();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {

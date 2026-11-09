@@ -56,4 +56,5 @@ dependencies {
     annotationProcessor (libs.compiler)
 
     implementation(libs.material.v1110)
+    implementation(libs.gson)
 }

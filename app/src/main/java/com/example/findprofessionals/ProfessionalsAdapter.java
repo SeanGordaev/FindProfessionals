@@ -16,7 +16,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -46,7 +45,7 @@ public class ProfessionalsAdapter extends RecyclerView.Adapter<ProfessionalsAdap
 
         /// /// ///  Init data of professional on card
         // set image
-        storageReference.child(professional.getUID()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageReference.child(professional.getUid()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Glide.with(holder.itemView.getContext()).load(uri).into(holder.getProfessionalImage());

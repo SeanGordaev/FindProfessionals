@@ -10,44 +10,63 @@
     tools:context=".UpdateUserInfoActivity">
 
     <ScrollView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:clipToPadding="false"
         android:fillViewport="true"
-        android:padding="20dp">
+        android:overScrollMode="never"
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!-- ========== HEADER ========== -->
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Edit Profile"
                 android:textColor="#211B3A"
-                android:textSize="25sp"
-                android:textStyle="bold"/>
+                android:textSize="26sp"
+                android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="20dp"
-                android:text="Update your personal information"
-                android:textColor="#8886A3"
-                android:textSize="14sp"/>
+            <!-- Аватар-заглушка: в коде можно записать инициалы в avatarInitials -->
 
-            <!-- PERSONAL INFORMATION -->
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgProfile"
+                android:src="@drawable/base_img"
+                android:layout_width="126dp"
+                android:layout_height="126dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="24dp"
+
+                android:clickable="true"
+                android:focusable="true"
+
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+
+                app:civ_border_width="2dp"
+                app:civ_border_color="#E9E5FA"
+                app:civ_circle_background_color="#F0EDFF"
+            />
+
+            <!-- ========== COMMON (ALL USERS) ========== -->
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="28dp"
                 android:layout_marginBottom="12dp"
                 android:text="Personal Information"
                 android:textColor="#211B3A"
                 android:textSize="19sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -64,39 +83,124 @@
                     android:orientation="vertical"
                     android:padding="18dp">
 
-                    <EditText
-                        android:id="@+id/editName"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="First Name"
-                        android:inputType="textPersonName"
-                        android:singleLine="true"/>
+                        android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/editLastName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:hint="Last Name"
-                        android:inputType="textPersonName"
-                        android:singleLine="true"/>
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="?attr/textInputOutlinedStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="6dp"
+                            android:layout_weight="1"
+                            android:hint="First name"
+                            app:boxCornerRadiusBottomEnd="12dp"
+                            app:boxCornerRadiusBottomStart="12dp"
+                            app:boxCornerRadiusTopEnd="12dp"
+                            app:boxCornerRadiusTopStart="12dp"
+                            app:boxStrokeColor="#7865E8"
+                            app:hintTextColor="#7865E8">
 
-                    <EditText
-                        android:id="@+id/editPhone"
+                            <EditText
+                                android:id="@+id/editName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName|textCapWords"
+                                android:singleLine="true" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="?attr/textInputOutlinedStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:layout_weight="1"
+                            android:hint="Last name"
+                            app:boxCornerRadiusBottomEnd="12dp"
+                            app:boxCornerRadiusBottomStart="12dp"
+                            app:boxCornerRadiusTopEnd="12dp"
+                            app:boxCornerRadiusTopStart="12dp"
+                            app:boxStrokeColor="#7865E8"
+                            app:hintTextColor="#7865E8">
+
+                            <EditText
+                                android:id="@+id/editLastName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName|textCapWords"
+                                android:singleLine="true" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="?attr/textInputOutlinedStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="12dp"
                         android:hint="Phone"
-                        android:inputType="phone"
-                        android:singleLine="true"/>
+                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxStrokeColor="#7865E8"
+                        app:hintTextColor="#7865E8">
 
-                    <EditText
-                        android:id="@+id/editAddress"
+                        <EditText
+                            android:id="@+id/editPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="phone"
+                            android:singleLine="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="?attr/textInputOutlinedStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="12dp"
                         android:hint="Address"
-                        android:inputType="textPostalAddress"/>
+                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxStrokeColor="#7865E8"
+                        app:hintTextColor="#7865E8">
+
+                        <EditText
+                            android:id="@+id/editAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPostalAddress|textCapWords" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Дата рождения: по нажатию открывайте DatePickerDialog -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="?attr/textInputOutlinedStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="Birthday"
+                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxStrokeColor="#7865E8"
+                        app:endIconDrawable="@android:drawable/ic_menu_my_calendar"
+                        app:endIconMode="custom"
+                        app:endIconTint="#8886A3"
+                        app:hintTextColor="#7865E8">
+
+                        <EditText
+                            android:id="@+id/editBirthday"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:cursorVisible="false"
+                            android:focusable="false"
+                            android:inputType="none"
+                            android:singleLine="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -104,60 +208,201 @@
                         android:layout_marginTop="18dp"
                         android:text="Gender"
                         android:textColor="#8886A3"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
 
                     <RadioGroup
                         android:id="@+id/editGenderGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="5dp">
+                        android:layout_marginTop="4dp"
+                        android:orientation="horizontal">
 
                         <RadioButton
                             android:id="@+id/editMale"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Male"/>
+                            android:text="Male"
+                            android:textColor="#211B3A"
+                            app:buttonTint="#7865E8" />
 
                         <RadioButton
                             android:id="@+id/editFemale"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:text="Female"/>
-
+                            android:layout_marginStart="24dp"
+                            android:text="Female"
+                            android:textColor="#211B3A"
+                            app:buttonTint="#7865E8" />
                     </RadioGroup>
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- ACTION BUTTONS -->
+            <!-- ========== PROFESSIONAL ONLY ========== -->
+
+            <LinearLayout
+                android:id="@+id/professionalSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginBottom="12dp"
+                    android:text="Professional Information"
+                    android:textColor="#211B3A"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="1dp"
+                    app:strokeColor="#E9E5FA"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="18dp">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="?attr/textInputOutlinedStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="About you"
+                            app:boxCornerRadiusBottomEnd="12dp"
+                            app:boxCornerRadiusBottomStart="12dp"
+                            app:boxCornerRadiusTopEnd="12dp"
+                            app:boxCornerRadiusTopStart="12dp"
+                            app:boxStrokeColor="#7865E8"
+                            app:counterEnabled="true"
+                            app:counterMaxLength="300"
+                            app:hintTextColor="#7865E8">
+
+                            <EditText
+                                android:id="@+id/editDescription"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="top|start"
+                                android:inputType="textMultiLine|textCapSentences"
+                                android:maxLines="6"
+                                android:minLines="3" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="?attr/textInputOutlinedStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:hint="Tags"
+                            app:boxCornerRadiusBottomEnd="12dp"
+                            app:boxCornerRadiusBottomStart="12dp"
+                            app:boxCornerRadiusTopEnd="12dp"
+                            app:boxCornerRadiusTopStart="12dp"
+                            app:boxStrokeColor="#7865E8"
+                            app:helperText="Separate with commas, e.g. plumber, electrician"
+                            app:helperTextTextColor="#8886A3"
+                            app:hintTextColor="#7865E8">
+
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/editTags"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textCapWords"
+                                android:completionThreshold="0"
+                                android:maxLength="500"
+                                android:padding="12dp"
+                                android:textColor="#17213B"
+                                android:textColorHint="#8792A8"
+                                android:textSize="14sp"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!-- Дата начала работы: тоже через DatePickerDialog -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="?attr/textInputOutlinedStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:hint="Working since"
+                            app:boxCornerRadiusBottomEnd="12dp"
+                            app:boxCornerRadiusBottomStart="12dp"
+                            app:boxCornerRadiusTopEnd="12dp"
+                            app:boxCornerRadiusTopStart="12dp"
+                            app:boxStrokeColor="#7865E8"
+                            app:endIconDrawable="@android:drawable/ic_menu_my_calendar"
+                            app:endIconMode="custom"
+                            app:endIconTint="#8886A3"
+                            app:hintTextColor="#7865E8">
+
+                            <EditText
+                                android:id="@+id/editStartOfJob"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:clickable="true"
+                                android:cursorVisible="false"
+                                android:focusable="false"
+                                android:inputType="none"
+                                android:singleLine="true" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- ========== STICKY ACTION BAR ========== -->
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/bottomBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancelEditButton"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:textAllCaps="false"
+                android:textColor="#7865E8"
+                app:backgroundTint="#F0EDFF"
+                app:cornerRadius="14dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/saveProfileButton"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="52dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="2"
                 android:text="Save Changes"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:backgroundTint="#7865E8"
-                app:cornerRadius="14dp"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/cancelEditButton"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="20dp"
-                android:text="Cancel"
-                android:textAllCaps="false"
-                android:textColor="#7865E8"
-                app:backgroundTint="#F0EDFF"
-                app:cornerRadius="14dp"/>
-
+                app:cornerRadius="14dp" />
         </LinearLayout>
-    </ScrollView>
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

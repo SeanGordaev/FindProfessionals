@@ -24,12 +24,11 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class SeachActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity {
 
     // Navigation
     private BottomNavigationView btnNavigation;
@@ -55,6 +54,8 @@ public class SeachActivity extends AppCompatActivity {
 
 
     private void init() {
+        StaticMethods.getPs().saveActivity("SearchActivity");
+
         // Navigation
         btnNavigation = findViewById(R.id.btnNavigation);
 
@@ -162,38 +163,30 @@ public class SeachActivity extends AppCompatActivity {
 
     private void setupNavigationBar() {
         btnNavigation.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
+            int itemId = item.getItemId(); // Получаем ID нажатой иконки
             if (itemId == R.id.navigation_Logout) {
                 logout();
                 return true;
             }
             if (itemId == R.id.navigation_come_back) {
-                goBack();
+                String lastActivity = StaticMethods.getPs().getLastActivity();
+                Intent intent = StaticMethods.getIntel(this, lastActivity);
+                goToPage(intent);
                 return true;
             }
             return false;
         });
     }
-    private void goBack() {
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("BACK_TO_CLASS")) {
-            String className = intent.getStringExtra("BACK_TO_CLASS");
-            try {
-                Class<?> backClass = Class.forName(className);
-                SavePreviousPageAndGo((Class<? extends Activity>) backClass);
-            } catch (ClassNotFoundException e) {
-            }
+    private void goToPage(Intent intent) {
+        if (intent != null) {
+            startActivity(intent);
+            finish();
+        } else {
+            logout();
         }
-
-    }
-    private void SavePreviousPageAndGo(Class<? extends Activity> nextPage) {
-        Intent intent = new Intent(SeachActivity.this, nextPage);
-        intent.putExtra("BACK_TO_CLASS", NavActivity.class.getName());
-        startActivity(intent);
-        finish();
     }
     private void logout() {
-        startActivity(new Intent(SeachActivity.this, LoginActivity.class));
+        startActivity(new Intent(SearchActivity.this, LoginActivity.class));
         finish();
     }
 
@@ -289,7 +282,7 @@ public class SeachActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_seach);
+        setContentView(R.layout.activity_search);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

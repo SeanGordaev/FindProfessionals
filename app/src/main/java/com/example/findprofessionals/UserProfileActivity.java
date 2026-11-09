@@ -1,6 +1,5 @@
 package com.example.findprofessionals;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -50,7 +48,9 @@ public class UserProfileActivity extends AppCompatActivity {
 
 
     private void Init() {
-        StaticMethods.getPs().SaveActivity("UserProfileActivity");
+        StaticMethods.getPs().saveActivity("UserProfileActivity");
+        StaticMethods.getPs().saveLastActivity("NavActivity");
+
 
         // Data
         currentUser = StaticMethods.getUser();
@@ -93,35 +93,27 @@ public class UserProfileActivity extends AppCompatActivity {
     }
     private void setupNavigationBar() {
         btnNavigation.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
+            int itemId = item.getItemId(); // Получаем ID нажатой иконки
             if (itemId == R.id.navigation_Logout) {
                 logout();
                 return true;
             }
             if (itemId == R.id.navigation_come_back) {
-                goBack();
+                String lastActivity = StaticMethods.getPs().getLastActivity();
+                Intent intent = StaticMethods.getIntel(this, lastActivity);
+                goToPage(intent);
                 return true;
             }
             return false;
         });
     }
-    private void goBack() {
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("BACK_TO_CLASS")) {
-            String className = intent.getStringExtra("BACK_TO_CLASS");
-            try {
-                Class<?> backClass = Class.forName(className);
-                SavePreviousPageAndGo((Class<? extends Activity>) backClass);
-            } catch (ClassNotFoundException e) {
-            }
+    private void goToPage(Intent intent) {
+        if (intent != null) {
+            startActivity(intent);
+            finish();
+        } else {
+            logout();
         }
-
-    }
-    private void SavePreviousPageAndGo(Class<? extends Activity> nextPage) {
-        Intent intent = new Intent(UserProfileActivity.this, nextPage);
-        intent.putExtra("BACK_TO_CLASS", NavActivity.class.getName());
-        startActivity(intent);
-        finish();
     }
     private void logout() {
         startActivity(new Intent(UserProfileActivity.this, LoginActivity.class));
@@ -153,7 +145,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
 
     private void setUserImg() {
-        String imageId = currentUser.getUID();
+        String imageId = currentUser.getUid();
         StorageReference storageReference = FirebaseStorage.getInstance().getReference("profile_img").child(imageId);
 
         storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -163,7 +155,6 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
     }
-
     private void setRating() {
 
         float score;
@@ -215,7 +206,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { SavePreviousPageAndGo(UpdateUserInfoActivity.class); }
+            public void onClick(View view) {
+                StaticMethods.getPs().saveLastActivity("UserProfileActivity");
+                goToPage(new Intent(UserProfileActivity.this, UpdateUserInfoActivity.class));
+            }
         });
     }
 }

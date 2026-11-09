@@ -1,47 +1,40 @@
 package com.example.findprofessionals;
 
-import android.media.Image;
-import android.net.Uri;
-
 public class User {
+    private String uid;
+
     private String email;
     private String name;
     private String lastName;
     private String address;
-    private String picture;
     private boolean status;
     private boolean gender;
     private String phone;
     private String birthday;
-    private String UID;
     private String description;
     private int score;
-
     private int scoreTimes;
+    private String tags;
+    private String dataStartOfJob;
 
     public int getScoreTimes() {
         return scoreTimes;
     }
-
     public void setScoreTimes(int scoreTimes) {
         this.scoreTimes = scoreTimes;
     }
-    private String dataStartOfJob;
+
 
     public String getTags() {
         return tags;
     }
-
     public void setTags(String tags) {
         this.tags = tags;
     }
 
-    private String tags;
-
     public String getDataStartOfJob() {
         return dataStartOfJob;
     }
-
     public void setDataStartOfJob(String dataStartOfJob) {
         this.dataStartOfJob = dataStartOfJob;
     }
@@ -78,20 +71,15 @@ public class User {
         this.birthday = birthday;
     }
 
-    public String getUID() {
-        return UID;
+    public String getUid() {
+        return uid;
     }
-
-    public void setUID(String uid) {
-        this.UID = uid;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public boolean getGender() {
@@ -125,14 +113,6 @@ public class User {
         this.phone = phone;
     }
 
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
     public boolean getStatus() {
         return status;
     }
@@ -154,6 +134,6 @@ public class User {
         this.status = status;
         this.phone = phone;
         this.birthday = birthday;
-        this.UID = UID;
+        this.uid = UID;
     }
 }

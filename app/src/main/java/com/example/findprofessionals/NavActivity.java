@@ -1,8 +1,6 @@
 package com.example.findprofessionals;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,7 +14,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.storage.StorageReference;
 
@@ -27,16 +24,17 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
     private ImageView[] ratingStars;
     private CardView crd1, crd2, crd3, crd4;
     private BottomNavigationView bottom_navigation;
-    private User currentUser;
+    private final User USER = StaticMethods.getUser();
 
     public  void Init() {
-        StaticMethods.getPs().SaveActivity("NavActivity");
+        StaticMethods.getPs().saveActivity("NavActivity");
+        StaticMethods.getPs().saveLastActivity("NavActivity");
 
         profile_imageNav = findViewById(R.id.profile_imageNav);
         userNameNav = findViewById(R.id.userNameNav);
         bottom_navigation = findViewById(R.id.bottom_navigation);
 
-        userNameNav.setText("Welcome, " + currentUser.getName() + " " + currentUser.getLastName() + "!");
+        userNameNav.setText("Welcome, " + USER.getName() + " " + USER.getLastName() + "!"); // line 39
 
         ratingStars = new ImageView[] {
                 findViewById(R.id.star1),
@@ -57,9 +55,8 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
         crd3.setOnClickListener(this);
         crd4.setOnClickListener(this);
 
-        currentUser = StaticMethods.getUser();
 
-        if (!currentUser.getStatus()) {
+        if (!USER.getStatus()) {
             crd2.setVisibility(View.GONE);
         }
 
@@ -69,37 +66,31 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
         bottom_navigation.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId(); // Получаем ID нажатой иконки
             if (itemId == R.id.navigation_Logout) {
-                startActivity(new Intent(NavActivity.this, LoginActivity.class));
-                finish();
-                return true;
-            }
-            if (itemId == R.id.navigation_come_back) {
-                Intent intent = getIntent();
-                if (intent != null && intent.hasExtra("BACK_TO_CLASS")) {
-                    String className = intent.getStringExtra("BACK_TO_CLASS");
-                    try {
-                        Class<?> backClass = Class.forName(className);
-                        SavePreviousPageAndGo((Class<? extends Activity>) backClass);
-                    } catch (ClassNotFoundException ignored) {
-                    }
-                }
+                logout();
                 return true;
             }
             return false;
         });
     }
-    private void SavePreviousPageAndGo(Class<? extends Activity> nextPage) {
-        Intent intent = new Intent(NavActivity.this, nextPage);
-        intent.putExtra("BACK_TO_CLASS", NavActivity.class.getName());
-        startActivity(intent);
+    private void goToPage(Intent intent) {
+        if (intent != null) {
+            startActivity(intent);
+            finish();
+        } else {
+            logout();
+        }
+    }
+    private void logout() {
+        startActivity(new Intent(NavActivity.this, LoginActivity.class));
         finish();
     }
 
 
+
     private float calculateAverageScore() {
-        int times = currentUser.getScoreTimes();
+        int times = USER.getScoreTimes();
         if (times == 0) return 0f;
-        return (float) currentUser.getScore() / times;
+        return (float) USER.getScore() / times;
     }
     private float roundToHalf(float value) {
         float clamped = Math.max(0f, Math.min(5f, value));
@@ -124,16 +115,27 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
         }
     }
     public void GetUserDetails() {
-        String imageId = currentUser.getUID();
-        StorageReference storageReference = DbHelper.get_storage_reference("profile_img").child(imageId);
 
-        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Glide.with(NavActivity.this).load(uri).into(profile_imageNav);
-            }
-        });
+        if (USER == null) {
+            return;
+        }
 
+        String imageId = USER.getUid();
+
+
+        if (imageId == null || imageId.trim().isEmpty()) {
+            return;
+        }
+
+        StorageReference storageReference =
+                DbHelper.get_storage_reference("profile_img").child(imageId);
+
+        storageReference.getDownloadUrl()
+                .addOnSuccessListener(uri ->
+                        Glide.with(NavActivity.this)
+                                .load(uri)
+                                .into(profile_imageNav)
+                );
     }
 
     @Override
@@ -156,12 +158,15 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         if (view == crd1) {
-            SavePreviousPageAndGo(UserProfileActivity.class);
+            Intent intent = new Intent(this, UserProfileActivity.class);
+            goToPage(intent);
         } else if (view == crd3 || view == crd2) {
             StaticMethods.setSearchProfessionals(view == crd3);
-            SavePreviousPageAndGo(SeachActivity.class);
+            Intent intent = new Intent(this, SearchActivity.class);
+            goToPage(intent);
         } else if (view == crd4) {
-            SavePreviousPageAndGo(RequestActivity.class);
+            Intent intent = new Intent(this, RequestActivity.class);
+            goToPage(intent);
         }
     }
 }

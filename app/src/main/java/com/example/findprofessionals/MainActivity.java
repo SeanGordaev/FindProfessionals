@@ -22,9 +22,16 @@ public class MainActivity extends AppCompatActivity {
     private void GoToNextPage() {
         StaticMethods.InitPageState(this);
 
-        Intent intent = StaticMethods.getIntel(this);
+        String lastActivity = StaticMethods.getPs().getActivity();
+        if (lastActivity == null) {
+            GoToLogin();
+            return;
+        }
+
+        Intent intent = StaticMethods.getIntel(this, lastActivity);
 
         if (intent != null) {
+            StaticMethods.setUser(StaticMethods.getPs().getUser());
             startActivity(intent);
             finish();
         } else {

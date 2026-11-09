@@ -3,17 +3,12 @@ package com.example.findprofessionals;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -26,17 +21,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.radiobutton.MaterialRadioButton;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 
@@ -172,7 +160,7 @@ public class SetImageActivity extends AppCompatActivity {
         user.setScore(0);
         user.setScoreTimes(0);
 
-        DbHelper.get_db_firebase("Users").child(user.getUID()).setValue(user)
+        DbHelper.get_db_firebase("Users").child(user.getUid()).setValue(user)
                 .addOnSuccessListener(v -> {
                     progressDialog.dismiss();
                     startActivity(new Intent(this, NavActivity.class));
@@ -248,7 +236,7 @@ public class SetImageActivity extends AppCompatActivity {
                     Toast.makeText(SetImageActivity.this, "Please complete all required fields!", Toast.LENGTH_SHORT).show();
                 } else {
                     progressDialog.show();
-                    UploadImage(StaticMethods.getUser().getUID());
+                    UploadImage(StaticMethods.getUser().getUid());
                 }
             }
         });

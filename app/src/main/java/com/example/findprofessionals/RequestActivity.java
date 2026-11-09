@@ -1,6 +1,5 @@
 package com.example.findprofessionals;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,8 +21,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
@@ -42,7 +39,7 @@ public class RequestActivity extends AppCompatActivity {
 
 
     private void Init() {
-        StaticMethods.getPs().SaveActivity("RequestActivity");
+        StaticMethods.getPs().saveActivity("RequestActivity");
 
         bottom_navigation = findViewById(R.id.bottom_navigation);
         requestTitle = findViewById(R.id.requestTitle);
@@ -92,7 +89,7 @@ public class RequestActivity extends AppCompatActivity {
         btnPublishRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String uniqueID = FirebaseDatabase.getInstance().getReference().push().getKey() + ":" + StaticMethods.getUser().getUID(); // UniqueID:UserID
+                String uniqueID = FirebaseDatabase.getInstance().getReference().push().getKey() + ":" + StaticMethods.getUser().getUid(); // UniqueID:UserID
                 Request request = CreateRequest(uniqueID); // Create request
 
                 if (request == null)
@@ -120,41 +117,38 @@ public class RequestActivity extends AppCompatActivity {
             }
         });
     }
+
+
     private void setupNavigationBar() {
         bottom_navigation.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
+            int itemId = item.getItemId(); // Получаем ID нажатой иконки
             if (itemId == R.id.navigation_Logout) {
                 logout();
                 return true;
             }
             if (itemId == R.id.navigation_come_back) {
-                goBack();
+                String lastActivity = StaticMethods.getPs().getLastActivity();
+                Intent intent = StaticMethods.getIntel(this, lastActivity);
+                goToPage(intent);
                 return true;
             }
             return false;
         });
     }
-    private void goBack() {
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("BACK_TO_CLASS")) {
-            String className = intent.getStringExtra("BACK_TO_CLASS");
-            try {
-                Class<?> backClass = Class.forName(className);
-                SavePreviousPageAndGo((Class<? extends Activity>) backClass);
-            } catch (ClassNotFoundException e) {
-            }
+    private void goToPage(Intent intent) {
+        if (intent != null) {
+            startActivity(intent);
+            finish();
+        } else {
+            logout();
         }
-    }
-    private void SavePreviousPageAndGo(Class<? extends Activity> nextPage) {
-        Intent intent = new Intent(RequestActivity.this, nextPage);
-        intent.putExtra("BACK_TO_CLASS", NavActivity.class.getName());
-        startActivity(intent);
-        finish();
     }
     private void logout() {
         startActivity(new Intent(RequestActivity.this, LoginActivity.class));
         finish();
     }
+
+
 
     private Request CreateRequest(String RID) {
         if (isFormComplete()) {

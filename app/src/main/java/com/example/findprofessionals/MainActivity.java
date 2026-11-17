@@ -3,6 +3,7 @@ package com.example.findprofessionals;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.FrameLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,12 +14,29 @@ import androidx.core.view.WindowInsetsCompat;
 public class MainActivity extends AppCompatActivity {
 
     private Handler handler = new Handler();
+    private AnimationClass myAnimation;
+    private FrameLayout container;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        myAnimation.Cancel_Animation(); // stop animation
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        myAnimation.Start_Animation(); // start animation
+        new Thread(this.myAnimation).start(); // create new thread for animation
+    }
+
+
 
     private void GoToLogin() {
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
         finish();
     }
-
     private void GoToNextPage() {
         StaticMethods.InitPageState(this);
 
@@ -38,14 +56,13 @@ public class MainActivity extends AppCompatActivity {
             GoToLogin();
         }
     }
-
     public void GoAnimation() {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 GoToNextPage();
             }
-        }, 2000);
+        }, 9000);
     }
 
     @Override
@@ -59,6 +76,12 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        container = findViewById(R.id.main);
+
+        myAnimation = new AnimationClass(this); // create new instance of animation class
+        container.addView(myAnimation); // add animation class to FrameLayout
+
         GoAnimation();
+
     }
 }

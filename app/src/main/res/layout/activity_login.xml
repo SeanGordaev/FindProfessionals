@@ -144,6 +144,14 @@
                             android:textColor="#17213B"
                             android:textSize="16sp" />
                     </com.google.android.material.textfield.TextInputLayout>
+                    
+                    <TextView
+                        android:id="@+id/textTimeCountTimer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="20"
+                        android:layout_marginTop="28dp"
+                        android:textSize="32sp"/>
 
                     <!-- Кнопка с тенью и скруглением -->
                     <com.google.android.material.button.MaterialButton

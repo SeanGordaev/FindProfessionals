@@ -3,7 +3,9 @@ package com.example.findprofessionals;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -28,6 +30,11 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private ProgressDialog progressDialog;
 
+
+    private TextView textTimeCountTimer;
+    private CountDownTimer countDown;
+    private int soundTicking, IdSound, counting;
+
     private void init() {
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
@@ -35,6 +42,9 @@ public class LoginActivity extends AppCompatActivity {
         btnRegister = findViewById(R.id.btnRegister);
 
         auth = FirebaseAuth.getInstance();
+
+        textTimeCountTimer = findViewById(R.id.textTimeCountTimer); // learn how to do. In future move this to change passwor
+        counting = 20;
 
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setMessage("Please Wait...");
@@ -44,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     private void EndWithTheLogin(User user) {
 
         progressDialog.dismiss();
+        countDown.cancel();
 
         StaticMethods.setUser(user);
         StaticMethods.getPs().saveUser(user);
@@ -109,6 +120,24 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
     }
 
+
+    public void CountingMe() {
+        countDown = new CountDownTimer(5000, 1000) {
+            @Override
+            public void onFinish() {
+                Toast.makeText(LoginActivity.this, "Goodbye", Toast.LENGTH_SHORT).show();
+                finishAffinity();
+            }
+
+            @Override
+            public void onTick(long l) {
+                counting--;
+                textTimeCountTimer.setText(String.valueOf(counting));
+            }
+        };
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,6 +153,7 @@ public class LoginActivity extends AppCompatActivity {
         StaticMethods.setUser(null);
         StaticMethods.getPs().clearUser();
         FirebaseAuth.getInstance().signOut();
+        CountingMe();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
